@@ -1,9 +1,6 @@
 export default class Sorcerer {
-	constructor() {
-		this.position = {
-			x: 360, 
-			y: 0
-		}
+	constructor(position) {
+		this.position = position
 	}
 
 	draw(ctx) {

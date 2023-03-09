@@ -1,29 +1,24 @@
+import Sorcerer from './scripts/sorcerer';
+
 document.addEventListener("DOMContentLoaded", () => {
-	console.log("Hello World")
-	const main = document.getElementById("main");
-	console.log("testing2")
-	new Example(main);
-});
 
-import Example from "../scripts/example.js";
-
-
-import Sorcerer from './sorcerer';
 // Game
-document.body.style.backgroundColor = "white";
+document.body.style.backgroundColor = "black";
 const title = document.getElementById("title");
 title.style.color = "white";
 title.style.textAlign = "center";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-canvas.height = 576;
+canvas.height = 576; // height and width are this to fit most browsers. 
 canvas.width = 1024;
-
 ctx.fillStyle = "white";
 ctx.fillRect(10, 10, canvas.width, canvas.height);
 
-const sorcerer = new Sorcerer
+const sorcerer = new Sorcerer({
+	x: 360, 
+	y: 0
+})
 sorcerer.draw(ctx);
 
 function animate() { // Call this to animate anything inside. 
@@ -33,6 +28,7 @@ function animate() { // Call this to animate anything inside.
 	requestAnimationFrame(animate);
 	
 }
+});
 
 
 //const background = new Image();
