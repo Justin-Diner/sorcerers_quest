@@ -31,7 +31,7 @@ Friday Afternoon & Weekend - Friday will be spent researching canvas and getting
 Monday - Monday will be spent getting the player to move appropriately, loading arrows onto the screen, figuring out flight projetions and collision. Should also consider the start/music button, Github links/personal links, instructions, and general CSS.  
 Tuesday - Tuesday I will complete collision detection to ensure that when the arrows his the Sorcerer his health decreases. Ensure he dies as 0 health and you have to restart. Work on the anmation and boss battle with the castle. 
 Wednesday - Final adjustments, any additional features, cleanup, music, and sound. 
-Thursday Morning - CSS Cleanup. 
+Thursday Morning - CSS Cleanup/Deployment. Present. 
 
 Checklist
 
