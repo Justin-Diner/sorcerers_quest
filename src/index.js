@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 	console.log("Hello World")
 	const main = document.getElementById("main");
+	console.log("testing2")
 	new Example(main);
 });
 

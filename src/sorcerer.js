@@ -15,3 +15,4 @@ export default class Sorcerer {
 		this.position.y++
 	}
 }
+
