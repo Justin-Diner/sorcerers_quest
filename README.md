@@ -10,13 +10,13 @@ The project will use vanilla JavaScript, HTML, and CSS. It will utilize the Canv
 
 ## User Controls
 
-Step 1 - Accept(Start) Your Quest
-Step 2 - Move the character left and right by using A-D. (Jump functionality may also be added if time permitted)
-Step 3 - Dogde, Duck, Dive, Dip, Dive, and Dodge. 
-Step 4 - Reach the castle.
-Step 5 - Battle by casting your spell by using C.  
-Step 6 - Deat the castle.
-Step 7 - Profit! (Credits)
+1 - Accept(Start) Your Quest
+2 - Move the character left and right by using A-D. (Jump functionality may also be added if time permitted)
+3 - Dogde, Duck, Dive, Dip, Dive, and Dodge. 
+4 - Reach the castle.
+5 - Battle by casting your spell by using C.  
+6 - Deat the castle.
+7 - Profit! (Credits)
 
 In Sorcerer's Quest, users will be able to:
 
