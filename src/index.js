@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	ctx.fillRect(10, 10, canvas.width, canvas.height);
 
 	const sorcerer = new Sorcerer({
-		x: 360, 
-		y: 40
+		x: 180, 
+		y: 340
 	})
 	sorcerer.draw(ctx);
 
