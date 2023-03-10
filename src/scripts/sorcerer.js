@@ -8,8 +8,13 @@ export default class Sorcerer {
 		ctx.fillRect(this.position.y, this.position.x, 100, 100)
 	}
 
-	move() {
-		this.position.y++
+	// Velocity 
+	moveRight() {
+		this.position.y +=3
+	}
+
+	moveLeft() {
+		this.position.y--
 	}
 }
 
