@@ -47,12 +47,9 @@ export default class Sorcerer {
 		if (this.direction === "right") {
 			frame = Math.floor(gameFrame/slowDownAnimationRate) % 5;
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
-		
 		} else if (this.direction === "left") {
 			let currentFrame = Math.floor(gameFrame/slowDownAnimationRate) % 5;
-			console.log(`Current Frame: ${currentFrame}`)
 			frame = slowDownAnimationRate - currentFrame; 
-			console.log(`Frame: ${frame}`);
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
 		}
 		gameFrame++;
