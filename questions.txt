@@ -1,0 +1,81 @@
+Index – 
+•	Const Game
+•	Const Game View
+•	Document.addEvent Listener (“DOMContentLoaded, 
+o	Const canvas
+o	Const ctx
+o	Const Game
+•	New GameView(game,etc).start()
+
+Game –
+•	Imports – [Asteroid, Bullet, Ship, Util] 
+•	Constructor [asteroids, bullets, ships], this.addAsteroids();
+•	Add(object)
+•	addAsteroids();
+•	addShip()
+•	allObject()
+•	checkCollisions()
+•	draw(ctx)
+•	isOutofBounds(pos)
+•	moveObjects(delta)
+•	randomPosition()
+•	remove(object)
+•	step(delta)
+•	wrap(pos)
+
+Asteroid extends MovingObject
+•	Imports – [Util, MovingOBject, Ship, Bullet]
+•	Constructor(options = {}) { color, pos, radius, vel) Super(options)
+•	collideWith(otherObject)
+
+Util 
+•	const Util
+•	dir (vec)
+•	dist(pos1, pos2)
+•	norm(vec)
+•	randomVec(length)
+•	scale(vec, m)
+•	wrap(coord, max)
+
+class MovingObject
+•	constructor(options) = [pos, vel, radius, color, game, isWrappable]
+•	collideWith(otherObject) – empty
+•	draw(ctx)
+•	isCollidedWith(otherObject)
+•	move(timeDelta)
+•	remove()
+class Ship extends MovingObject
+•	constructor(options) = [radius, vel, color] super(options)
+•	fireBUllet()
+•	power(impulse)
+•	relocate()
+
+class Bullet extends MovingObject 
+	constructor(options) = [radius, super, this.isWrappable] = false
+
+class GameView 
+	constructor(game, ctx) = [this.ctx, this.game, this.ship]
+•	bindKeyHandlers()
+•	start()
+•	animate(time) 
+•	GameView.MOVES 
+
+Questions:
+1.	What is a vector? 
+Vectors are the fundamental mathematical objects that are used in every 3D game and game engine. Vectors define a direction in virtual space, but they can also be used to define points called vertices (plural of vertex), orientations, or even surface normals, which are the directions surfaces face.
+
+2.	What is velocity? 
+Velocity is simply put, something with speed and a direction. You can use velocity for hundreds of game related tasks, firing a bullet, flying a spaceship, etc.
+
+3. drawImage (takes in 3, 5, or 9 arguments)
+Arguments:
+	1. image - takes in an image source. 
+	2. sx (optional) - The x-axis of the top left corner of the sub recatangle of the source image to draw into the destination context. 
+	3. sy (optional) - The y-axis coordinate of the top left corner of the sub rectangle of the source image to draw into the destinatino context. 
+	4. sWidth - The width of the sub-rectangle of the source image to draw into the destination context. If not specified, the entire rectangle from the coordinates specified by the sx and sy to the bottom-right corner of the image is used. 
+	5. sHeight - The height of the sub-rectangle of the source image to draw into the destination context. 
+	6. dx - The x-axis coordinate in teh desination canvas at which to place to the top-left corner of the source image. 
+	7. dy - The y-axis coordinate in the destination canvas at which to place the top left corner of the image. 
+	8. dWidth - The width to draw the image in the destination canvas. 
+	9. dHeight - the height to draw the image in the destination canvas. 
+Sorcerer Height - 1848  x 190
