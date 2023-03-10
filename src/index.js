@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	ctx.fillRect(10, 10, canvas.width, canvas.height);
 
 	const sorcerer = new Sorcerer({
-		x: 360, 
-		y: 40
+		x: 180, 
+		y: 340
 	})
 	sorcerer.draw(ctx);
 
@@ -24,19 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		ctx.fillStyle = "white";
 		ctx.fillRect(10, 10, canvas.width, canvas.height);
 		sorcerer.draw(ctx);	
-		console.log("hello")
 		requestAnimationFrame(animate);
 	}
 
 	window.addEventListener("keydown", (e) => {
 		if (e.key === "d") {
-			console.log("Hitting d")
 			sorcerer.moveRight();
 		} else if (e.key === "a") {
 			sorcerer.moveLeft();
+		} else {
+			sorcerer.idle();
 		}
 	})
-	
+
+	window.addEventListener("keyup", (e) => {
+		sorcerer.idle();
+	})
+
+
 	animate();
 });
 
