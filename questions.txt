@@ -1,0 +1,68 @@
+Index – 
+•	Const Game
+•	Const Game View
+•	Document.addEvent Listener (“DOMContentLoaded, 
+o	Const canvas
+o	Const ctx
+o	Const Game
+•	New GameView(game,etc).start()
+
+Game –
+•	Imports – [Asteroid, Bullet, Ship, Util] 
+•	Constructor [asteroids, bullets, ships], this.addAsteroids();
+•	Add(object)
+•	addAsteroids();
+•	addShip()
+•	allObject()
+•	checkCollisions()
+•	draw(ctx)
+•	isOutofBounds(pos)
+•	moveObjects(delta)
+•	randomPosition()
+•	remove(object)
+•	step(delta)
+•	wrap(pos)
+
+Asteroid extends MovingObject
+•	Imports – [Util, MovingOBject, Ship, Bullet]
+•	Constructor(options = {}) { color, pos, radius, vel) Super(options)
+•	collideWith(otherObject)
+
+Util 
+•	const Util
+•	dir (vec)
+•	dist(pos1, pos2)
+•	norm(vec)
+•	randomVec(length)
+•	scale(vec, m)
+•	wrap(coord, max)
+
+class MovingObject
+•	constructor(options) = [pos, vel, radius, color, game, isWrappable]
+•	collideWith(otherObject) – empty
+•	draw(ctx)
+•	isCollidedWith(otherObject)
+•	move(timeDelta)
+•	remove()
+class Ship extends MovingObject
+•	constructor(options) = [radius, vel, color] super(options)
+•	fireBUllet()
+•	power(impulse)
+•	relocate()
+
+class Bullet extends MovingObject 
+	constructor(options) = [radius, super, this.isWrappable = false
+
+class GameView 
+	constructor(game, ctx) = [this.ctx, this.game, this.ship]
+•	bindKeyHandlers()
+•	start()
+•	animate(time) 
+•	GameView.MOVES 
+
+Questions:
+1.	What is a vector? 
+Vectors are the fundamental mathematical objects that are used in every 3D game and game engine. Vectors define a direction in virtual space, but they can also be used to define points called vertices (plural of vertex), orientations, or even surface normals, which are the directions surfaces face.
+
+2.	What is velocity? 
+Velocity is simply put, something with speed and a direction. You can use velocity for hundreds of game related tasks, firing a bullet, flying a spaceship, etc.
