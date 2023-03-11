@@ -10,7 +10,7 @@ export default class AnimatedObject {
 		this.amountOfFrames = options.amountOfFrames
 	}
 
-	draw(ctx, width, height) {
+	animate(ctx, width, height) {
 		// ctx.drawImage(image, sx,sy,sw, sh, dx, dy, dw, dh)
 		frame = Math.floor(animationFrame/slowDownAnimationRate) % this.amountOfFrames;
 		ctx.drawImage(this.image, frame * width, 0, width, height, this.position.x, this.position.y, width, height)

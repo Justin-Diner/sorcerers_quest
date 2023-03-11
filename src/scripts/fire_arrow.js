@@ -12,5 +12,28 @@ export default class FireArrow extends AnimatedObject {
 		this.height = ARROW_HEIGHT;
 	}
 
+	draw(ctx) {
+
+		// Creates Arrow Shaft
+		ctx.beginPath();
+		ctx.strokeStyle = '#964B00';
+		ctx.lineWidth = 3;
+		ctx.moveTo(this.position.x + 50, this.position.y + 60)
+		ctx.lineTo(this.position.x + 100, this.position.y + 60);
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.fillStyle = "#5A5A5A"
+		ctx.moveTo(this.position.x + 97, this.position.y + 60);
+    ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
+    ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
+    ctx.fill();
 	
+		this.animate(ctx, this.width, this.height);
+		this.move();
+	}
+
+	move() {
+		this.position.y += 1
+	}
 }

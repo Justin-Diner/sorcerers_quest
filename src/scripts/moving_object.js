@@ -1,6 +1,10 @@
 export default class MovingObject {
-	constructor(obj) {
-		this.pos = obj[pos], 
-		this.vel = obj[vel]
+	constructor(options) {
+		this.position = options.position;
+		this.velocity = {
+			x: -1, 
+			y: 0
+		}
+		this.target = options.target;
 	}
 }

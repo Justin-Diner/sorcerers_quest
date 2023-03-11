@@ -59,8 +59,8 @@ export default class Game {
 
 	start(ctx) {
 		let arrow = new FireArrow({position: {
-			x: 100, 
-			y: 100
+			x: 900, 
+			y: 40
 		}})
 		ctx.fillStyle = "white"; // canvas is white
 		ctx.fillRect(10, 10, canvas.width, canvas.height); // filling the canvas background
@@ -74,7 +74,7 @@ export default class Game {
 		
 		this.sorcerer.draw(ctx);
 
-		arrow.draw(ctx, arrow.width, arrow.height);
+		arrow.draw(ctx);
 
 
 
