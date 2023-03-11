@@ -1,5 +1,6 @@
 import Sorcerer from './sorcerer';
 import StillObject from './still_object'
+import FireArrow from './fire_arrow';
 
 let background = new StillObject({
 	position : { x: 2, y: 2 },
@@ -57,6 +58,10 @@ export default class Game {
 	}
 
 	start(ctx) {
+		let arrow = new FireArrow({position: {
+			x: 100, 
+			y: 100
+		}})
 		ctx.fillStyle = "white"; // canvas is white
 		ctx.fillRect(10, 10, canvas.width, canvas.height); // filling the canvas background
 		// Background (scaled to bottom left)
@@ -68,6 +73,9 @@ export default class Game {
 		ctx.restore();
 		
 		this.sorcerer.draw(ctx);
+
+		arrow.draw(ctx, arrow.width, arrow.height);
+
 
 
 		// Initial velocity = 0 
