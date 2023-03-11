@@ -1,4 +1,5 @@
 import Sorcerer from './scripts/sorcerer';
+import Game from './scripts/game'
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -13,38 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
 	canvas.height = 576; // height and width are this to fit most browsers. 
 	canvas.width = 1024;
 
-	const sorcerer = new Sorcerer({x: 180, y: 340})
+	const sorcerer = new Sorcerer({x: 180, y: 280})
+	const game = new Game(sorcerer);
 
 	function animate() { // Call this to animate anything inside. 
-		ctx.fillStyle = "white";
-		ctx.fillRect(10, 10, canvas.width, canvas.height);
-		sorcerer.draw(ctx);	
+		game.start(ctx);
 		requestAnimationFrame(animate);
 	}
 
 	animate();
-
-	window.addEventListener("keydown", (e) => {
-		if (e.key === "d") {
-			sorcerer.moveRight();
-		} else if (e.key === "a") {
-			sorcerer.moveLeft();
-		} 
-	})
-
-	window.addEventListener("keyup", (e) => {
-		sorcerer.idle();
-	})
 });
-
-
-
-//const background = new Image();
-//background.src = "./assets/background/castlebackground.jpg"
-//ctx.drawImage(background, 0, 0)
-//background.onload = function(){
-//    ctx.drawImage(background,0,0);   
-//}
 
 
 
