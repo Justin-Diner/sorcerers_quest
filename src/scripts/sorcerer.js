@@ -10,14 +10,16 @@ sorcererRunRight.src = '../assets/sorcerer/Run.png'
 const sorcererRunLeft = new Image(); 
 sorcererRunLeft.src = '../assets/sorcerer/sorcerer_run_left.png'
 
-const SORCERER_WIDTH = 231
-const SORCERER_HEIGHT = 190
-
 // Animation Variables 
 let frame = 0;
 let gameFrame = 0;
 const slowDownAnimationRate = 5;
+let idleFrameSize = 5;
+let runFrameSize = 7;
+let frameSize = 0;
 
+const SORCERER_WIDTH = 231
+const SORCERER_HEIGHT = 190
 
 export default class Sorcerer {
 	constructor(position) {
@@ -27,16 +29,24 @@ export default class Sorcerer {
 	}
 
 	draw(ctx) {
+		ctx.beginPath();
+		ctx.arc(this.position.x, this.position.y, 50, 0, 2 * Math.PI);
+		ctx.stroke();
+
 		let currentAnimation = sorcererRightIdle;
 
 		if (this.direction === "right" && this.status == "idle") {
 			currentAnimation = sorcererRightIdle;
+			frameSize = idleFrameSize;
 		} else if (this.direction === "left" && this.status === "idle") {
 			currentAnimation = sorcererLeftIdle;
+			frameSize = idleFrameSize;
 		} else if (this.direction === "left" && this.status === "moving") {
 			currentAnimation = sorcererRunLeft;
+			runFrameSize;
 		} else if (this.direction === "right" && this.status === "moving") {
 			currentAnimation = sorcererRunRight;
+			runFrameSize;
 		} else {
 			currentAnimation = sorcererRightIdle;
 		}
@@ -45,14 +55,11 @@ export default class Sorcerer {
 		// Draws the Sorcerer with the above frame in line 2
 		// ctx.drawImage(image, sx,sy,sw, sh, dx, dy, dw, dh)
 		if (this.direction === "right") {
-			frame = Math.floor(gameFrame/slowDownAnimationRate) % 5;
+			frame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
-		
 		} else if (this.direction === "left") {
-			let currentFrame = Math.floor(gameFrame/slowDownAnimationRate) % 5;
-			console.log(`Current Frame: ${currentFrame}`)
+			let currentFrame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
 			frame = slowDownAnimationRate - currentFrame; 
-			console.log(`Frame: ${frame}`);
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
 		}
 		gameFrame++;
@@ -64,15 +71,16 @@ export default class Sorcerer {
   
 	// Velocity 
 	moveRight() {
+		this.position.x += 8;
 		this.status = "moving";
 		this.direction = "right";
-		this.position.x += 6;
 	}
 
 	moveLeft() {
+		this.position.x -= 8;
 		this.status = "moving";
 		this.direction = "left";
-		this.position.x -= 6;
+		
 	}
 }
 

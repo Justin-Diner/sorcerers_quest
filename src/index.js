@@ -12,13 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const ctx = canvas.getContext("2d");
 	canvas.height = 576; // height and width are this to fit most browsers. 
 	canvas.width = 1024;
-	ctx.fillRect(10, 10, canvas.width, canvas.height);
 
-	const sorcerer = new Sorcerer({
-		x: 180, 
-		y: 340
-	})
-	sorcerer.draw(ctx);
+	const sorcerer = new Sorcerer({x: 180, y: 340})
 
 	function animate() { // Call this to animate anything inside. 
 		ctx.fillStyle = "white";
@@ -27,22 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		requestAnimationFrame(animate);
 	}
 
+	animate();
+
 	window.addEventListener("keydown", (e) => {
 		if (e.key === "d") {
 			sorcerer.moveRight();
 		} else if (e.key === "a") {
 			sorcerer.moveLeft();
-		} else {
-			sorcerer.idle();
-		}
+		} 
 	})
 
 	window.addEventListener("keyup", (e) => {
 		sorcerer.idle();
 	})
-
-
-	animate();
 });
 
 
