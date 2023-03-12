@@ -1,0 +1,50 @@
+// #999600, #FFFB19, #E5E100, #440099, #6600E6
+
+body {
+	background-color: rgb(133, 216, 251) ;
+	width: 100%;
+	height: 100%;
+
+}
+#main-container {
+	
+}
+#title {
+	color: black;
+	text-align: center;
+	font-family: 'Cinzel Decorative', cursive;
+	font-size: 46px;
+	position: relative;
+	top: 80px;
+}
+
+#main-content {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	padding-top: 80px;
+}
+
+
+#left-column {
+	width: 140px;
+	border: black;
+	background-color: gray;
+	border-style: solid;
+}
+
+#right-column {
+	width: 140px;
+	border: black;
+	background-color: gray;
+	border-style: solid;
+}
+
+#bottom {
+	position: relative;
+	bottom: 2px;
+	padding-bottom: 2px;
+	height: 400px;
+	background-color: gray;
+}
+

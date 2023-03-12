@@ -64,7 +64,7 @@ export default class Game {
 
 	start(ctx) {
 		ctx.fillStyle = "white"; // canvas is white
-		ctx.fillRect(10, 10, canvas.width, canvas.height); // filling the canvas background
+		ctx.fillRect(0, 30, canvas.width, canvas.height); // filling the canvas background
 		// Background (scaled to bottom left)
 		
 		ctx.save(); // image is 688 x 432

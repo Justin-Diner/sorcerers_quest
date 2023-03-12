@@ -8,7 +8,7 @@ sorcererLeftIdle.src = '../assets/sorcerer/idle_left.png'
 const sorcererRunRight = new Image();
 sorcererRunRight.src = '../assets/sorcerer/Run.png'
 const sorcererRunLeft = new Image(); 
-sorcererRunLeft.src = '../assets/sorcerer/sorcerer_run_left.png'
+sorcererRunLeft.src = './assets/sorcerer/sorcerer_run_left.png'
 
 // Jumping Animations
 const sorcererJump = new Image();
