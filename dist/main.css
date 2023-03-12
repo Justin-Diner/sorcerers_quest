@@ -91,10 +91,28 @@ body {
   border-style: solid;
 }
 
+.spire {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  border-bottom: 110px solid darkblue;
+  bottom: 90px;
+  right: 40px;
+}
+
 #bottom {
   position: relative;
   bottom: 2px;
   padding-bottom: 2px;
   height: 400px;
   background-color: gray;
+}
+
+#bottom-text-area {
+  position: relative;
+  top: 50px;
+  height: 200px;
+  background-color: darkgrey;
 }
