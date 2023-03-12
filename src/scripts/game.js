@@ -24,6 +24,11 @@ const acceptableKeys = {
 	}
 }
 
+let arrow = new FireArrow({position: {
+	x: 900, 
+	y: 40
+}})
+
 export default class Game {
 	
 	constructor(sorcerer) {
@@ -58,10 +63,6 @@ export default class Game {
 	}
 
 	start(ctx) {
-		let arrow = new FireArrow({position: {
-			x: 900, 
-			y: 40
-		}})
 		ctx.fillStyle = "white"; // canvas is white
 		ctx.fillRect(10, 10, canvas.width, canvas.height); // filling the canvas background
 		// Background (scaled to bottom left)
@@ -71,11 +72,10 @@ export default class Game {
 		ctx.translate(0, -background.image.height + scaledCanvas.height)
 		background.draw(ctx);
 		ctx.restore();
-		
+
 		this.sorcerer.draw(ctx);
 		arrow.draw(ctx);
 	
-
 		// Initial velocity = 0 
 		this.sorcerer.velocity.x = 0; 
 		// Increase velocity based on what's pressed

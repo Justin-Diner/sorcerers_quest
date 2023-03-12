@@ -10,6 +10,9 @@ sorcererRunRight.src = '../assets/sorcerer/Run.png'
 const sorcererRunLeft = new Image(); 
 sorcererRunLeft.src = '../assets/sorcerer/sorcerer_run_left.png'
 
+// Jumping Animations
+
+
 // Animation Variables 
 let frame = 0;
 let gameFrame = 0;
