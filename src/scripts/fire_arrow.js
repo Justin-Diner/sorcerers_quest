@@ -7,9 +7,13 @@ export default class FireArrow extends AnimatedObject {
 	constructor(options) {
 		options.imageSrc = '../assets/fire_arrow/fire.png'
 		options.amountOfFrames = 29;
-		super(options)
+		super(options) // position
 		this.width = ARROW_WIDTH;
 		this.height = ARROW_HEIGHT;
+		this.velocity = {
+			x: 0, 
+			y: 1, 
+		}
 	}
 
 	draw(ctx) {
@@ -18,22 +22,23 @@ export default class FireArrow extends AnimatedObject {
 		ctx.beginPath();
 		ctx.strokeStyle = '#964B00';
 		ctx.lineWidth = 3;
-		ctx.moveTo(this.position.x + 50, this.position.y + 60)
+		ctx.moveTo(this.position.x + 50, this.position.y + 60);
 		ctx.lineTo(this.position.x + 100, this.position.y + 60);
 		ctx.stroke();
 
+		// Creates end of Arrow
 		ctx.beginPath();
 		ctx.fillStyle = "#5A5A5A"
-		ctx.moveTo(this.position.x + 97, this.position.y + 60);
+		ctx.moveTo(this.position.x + 96, this.position.y + 60);
     ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
     ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
     ctx.fill();
-	
+		
 		this.animate(ctx, this.width, this.height);
-		this.move();
 	}
 
 	move() {
-		this.position.y += 1
+		this.position.y += this.velocity.y;
+		console.log(this);
 	}
 }

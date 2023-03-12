@@ -73,10 +73,8 @@ export default class Game {
 		ctx.restore();
 		
 		this.sorcerer.draw(ctx);
-
 		arrow.draw(ctx);
-
-
+	
 
 		// Initial velocity = 0 
 		this.sorcerer.velocity.x = 0; 
