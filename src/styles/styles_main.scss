@@ -67,6 +67,7 @@ body {
 	padding-bottom: 2px;
 	height: 400px;
 	background-color: gray;
+	border-top: 3px solid black;
 }
 
 
@@ -77,3 +78,8 @@ body {
 	background-color: darkgrey;
 }
 
+#linkedin {
+ position: relative;
+ top: 100px;
+ left: 60px;
+}

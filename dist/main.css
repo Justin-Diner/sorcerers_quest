@@ -119,6 +119,7 @@ body {
   padding-bottom: 2px;
   height: 400px;
   background-color: gray;
+  border-top: 3px solid black;
 }
 
 #bottom-text-area {
@@ -126,4 +127,10 @@ body {
   top: 50px;
   height: 200px;
   background-color: darkgrey;
+}
+
+#linkedin {
+  position: relative;
+  top: 100px;
+  left: 60px;
 }
