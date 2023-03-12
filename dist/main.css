@@ -95,11 +95,22 @@ body {
   position: relative;
   width: 0;
   height: 0;
-  border-left: 110px solid transparent;
-  border-right: 110px solid transparent;
-  border-bottom: 110px solid darkblue;
+  border-left: 111px solid transparent;
+  border-right: 111px solid transparent;
+  border-bottom: 111px solid black;
   bottom: 90px;
   right: 40px;
+}
+
+.inner-spire {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 100px solid grey;
+  right: 100px;
+  top: 6px;
 }
 
 #bottom {
