@@ -12,14 +12,21 @@ export default class FireArrow extends AnimatedObject {
 		this.width = ARROW_WIDTH;
 		this.height = ARROW_HEIGHT;
 		this.velocity = {
-			x: -4, 
+			x: -3, 
 			y: 2, 
+		}
+		this.hitbox = {
+			position: {
+				x: this.position.x, 
+				y: this.position.y
+			}, 
+			width: 10, 
+			height: 10
 		}
 		this.target = options.target;
 	}
 
 	draw(ctx) {
-
 		// Creates Arrow Shaft
 		ctx.beginPath();
 		ctx.strokeStyle = '#964B00';
@@ -32,16 +39,46 @@ export default class FireArrow extends AnimatedObject {
 		ctx.beginPath();
 		ctx.fillStyle = "#5A5A5A"
 		ctx.moveTo(this.position.x + 96, this.position.y + 60);
-    ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
-    ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
-    ctx.fill();
+   		ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
+    	ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
+    	ctx.fill();
+
+		//ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+		//ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+		this.updateHitBox();
 
 		this.move()
 		this.animate(ctx, this.width, this.height);
+
 	}
 
 	move() {
 		this.position.x += this.velocity.x;
 		this.position.y += this.velocity.y;
 	}
+
+	reset() {
+		if (this.position.x < 0) {
+			this.position.x = 10;
+			this.velocity.x = 3;
+		} else if (this.position.x > 0) {
+			this.position.x = 900;
+			this.velocity.x = -3;
+		}
+		this.position.y = 40; 
+	}
+
+	updateHitBox() {
+		this.hitbox = {
+			position: {
+				x: this.position.x + 37, 
+				y: this.position.y + 57
+			}, 
+			width: 63, 
+			height: 6
+		}
+	}
+
 }

@@ -12,8 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	const sorcerer = new Sorcerer({x: 180, y: 280})
 	const game = new Game(sorcerer);
 
+	game.start(ctx);
+
 	function animate() { // Call this to animate anything inside. 
-		game.start(ctx);
+		game.animate(ctx);
 		requestAnimationFrame(animate);
 	}
 

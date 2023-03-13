@@ -17,7 +17,7 @@ sorcererJump.src = './assets/sorcerer/Jump.png'
 // Animation Variables 
 let frame = 0;
 let gameFrame = 0;
-const slowDownAnimationRate = 10;
+const slowDownAnimationRate = 5;
 let idleFrameSize = 5;
 let runFrameSize = 7;
 let jumpingFrameSize = 1;
@@ -43,10 +43,22 @@ export default class Sorcerer {
 				x: this.position.x, 
 				y: this.position.y
 			}, 
-			width: 10, 
-			height: 10
+			width: 69, 
+			height: 100
 		}
+		this.health = 100;
+		
 	}
+
+	hitboxDims() {
+		return {
+			topLeft: [this.hitbox.position.x, this.hitbox.position.y],
+			topRight: [this.hitbox.position.x + this.hitbox.width, this.hitbox.position.y],
+			bottomLeft: [this.hitbox.position.x, this.hitbox.position.y + this.hitbox.height],
+			bottomRight: [this.hitbox.position.x + this.hitbox.width, this.hitbox.position.y + this.hitbox.height]
+		}	
+	}
+
 
 	draw(ctx) {
 	
@@ -83,12 +95,13 @@ export default class Sorcerer {
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
+		
 
-		ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
-		ctx.fillRect(this.position.x, this.position.y, sorcererRightIdle.width, sorcererRightIdle.height)
+		//ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+		//ctx.fillRect(this.position.x, this.position.y, sorcererRightIdle.width, sorcererRightIdle.height)
 
-		ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		gameFrame++;
 	}
 
@@ -96,7 +109,7 @@ export default class Sorcerer {
 		// Gravity (continuously adds over time)
 		this.position.x += this.velocity.x;
 		this.position.y += this.velocity.y;
-		
+
 		// Ensuring he does not go past bottom of screen
 		//  	y position 			 190								y = 1 
 		if (this.position.y + SORCERER_HEIGHT + this.velocity.y < 576) {
@@ -123,7 +136,6 @@ export default class Sorcerer {
   
 	// Velocity 
 	moveRight() {
-		this.velocity.x += 1
 		this.status = "moving";
 		this.direction = "right";
 	}
