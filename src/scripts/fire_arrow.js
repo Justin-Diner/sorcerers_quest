@@ -43,14 +43,16 @@ export default class FireArrow extends AnimatedObject {
     	ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
     	ctx.fill();
 
-		//ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
-		//ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
-		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		this.updateHitBox();
 
 		this.move()
 		this.animate(ctx, this.width, this.height);
+
+		// Hitbox Representations 
+		//ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+		//ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 
 	}
 
@@ -79,6 +81,10 @@ export default class FireArrow extends AnimatedObject {
 			width: 63, 
 			height: 6
 		}
+	}
+
+	ifHit() {
+		
 	}
 
 }

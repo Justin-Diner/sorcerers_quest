@@ -2,11 +2,20 @@ import Sorcerer from './sorcerer';
 import StillObject from './still_object'
 import FireArrow from './fire_arrow';
 import { Util } from './dist';
+import HealthBar from './health_bar'
 
 let background = new StillObject({
 	position : { x: 0, y: 0 },
 	imageSrc: './assets/background/sunnybackground.jpg'}
 );
+
+//let arrow = new FireArrow({position: {
+//	x: 900,
+//	y: 80
+//	}
+//})
+
+let healthBar = new HealthBar();
 
 const scaledCanvas = {
 	width:  1024 / 4,
@@ -33,14 +42,9 @@ function randomShootingPosition() {
 		y: width * Math.random()
 		}
 	}
-
 }
 
-let arrow = new FireArrow({position: {
-	x: 900,
-	y: 80
-	}
-})
+
 
 export default class Game {
 	
@@ -92,9 +96,16 @@ export default class Game {
 		background.draw(ctx);
 		ctx.restore();
 		setInterval(() => {
-			arrow.reset();
+			this.arrow[0].reset();
+			console.log("Start Timer")
 		}, 4000)
+		let arrow = new FireArrow({position: {
+			x: 900,
+			y: 80
+			}
+		})
 		this.arrow.push(arrow);
+		
 		
 	}
 
@@ -110,7 +121,7 @@ export default class Game {
 		ctx.restore();
 
 		this.sorcerer.draw(ctx);
-		arrow.draw(ctx);
+		this.arrow[0].draw(ctx);
 
 		// Initial velocity = 0 
 		this.sorcerer.velocity.x = 0; 
@@ -121,6 +132,7 @@ export default class Game {
 			this.sorcerer.velocity.x = -5
 		}
 		this.isCollided();
+		healthBar.draw(ctx);
 	}
 
 	isOutOfBounds(pos) {
@@ -133,25 +145,31 @@ export default class Game {
 	isCollided() {
 		let arrow = this.arrow[0]
 		let sorcerer = this.sorcerer
-
 		let sorcererHitBox = sorcerer.hitboxDims();
 		let topLeft = sorcererHitBox.topLeft;
-		//console.log(`TopLeft: ${topLeft}`)
 		let topRight = sorcererHitBox.topRight;
-		//console.log(`TopRight: ${topRight}`)
-		let bottomLeft = sorcererHitBox.bottomLeft;
-		//console.log(`BottomLeft: ${bottomLeft}`)
 		let bottomRight = sorcererHitBox.bottomRight;
-		let topDist = Util.dist(topLeft, topRight);
 
-		
 		if ((arrow.hitbox.position.x > topLeft[0] && arrow.hitbox.position.x < topRight[0]) && (arrow.hitbox.position.y < bottomRight[1] && arrow.hitbox.position.y > topRight[1])) {
+			this.hit();
 			sorcerer.health -= 10;
+			healthBar.decrease();
 		}
 	}
 
-}
+	hit() {
+		let newArrow = new FireArrow({position: {
+			x: 900,
+			y: 80
+			}
+		})
+	
+		this.arrow.splice(0, 1);
+		this.arrow.push(newArrow);
+		setInterval(() => {
+			this.arrow[0].reset();
+			console.log("Hit Interval")
+		}, 5000)
+	}
 
-// if arrow x is between top left x and top right x 
-// AND 
-// if arrow y is between top right and bottom right y position (HIT)
+}
