@@ -1,7 +1,7 @@
 // #999600, #FFFB19, #E5E100, #440099, #6600E6
 
 body {
-	background-color: rgb(133, 216, 251) ;
+	background-color: rgb(98, 231, 245) ;
 	width: 100%;
 	height: 100%;
 
@@ -31,6 +31,24 @@ body {
 	border: black;
 	background-color: gray;
 	border-style: solid;
+}
+
+#left-shadow {
+	position: relative;
+	left: 54px;
+	top: 104px;
+	height: 554px;
+	width: 15px;
+	background-color: dimgray;
+}
+
+#right-shadow {
+	position: relative;
+	left: 54px;
+	top: 104px;
+	height: 554px;
+	width: 15px;
+	background-color: dimgray;
 }
 
 #right-column {
@@ -91,6 +109,11 @@ body {
 	background-color: #654321;
 }
 
+#moss {
+	height: 4px;
+	background-color: darkgreen;
+}
+
 #right-tree {
 	position: absolute;
 	height: 300px;
@@ -120,7 +143,7 @@ body {
 }
 
 #walkway {
-	border-bottom: 100px solid black;
+	border-bottom: 200px solid black;
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	height: 0;
@@ -129,10 +152,12 @@ body {
 
 #walkway-border {
 	position: relative;
-	border-bottom: 100px solid #555;
+	border-bottom: 200px solid #555;
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	height: 0;
 	width: 594px;
   right: 46px;
 }
+
+
