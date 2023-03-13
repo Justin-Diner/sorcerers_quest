@@ -63,6 +63,11 @@ export default class Game {
 	}
 
 	start(ctx) {
+		window.addEventListener('keydown', function(e) {
+			if(e.key == " " && e.target == document.body) {
+				e.preventDefault();
+			}
+		});
 		ctx.fillStyle = "white"; // canvas is white
 		ctx.fillRect(0, 30, canvas.width, canvas.height); // filling the canvas background
 		// Background (scaled to bottom left)
