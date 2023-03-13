@@ -1,18 +1,19 @@
 // Idle Animations 
 const sorcererRightIdle = new Image();
-sorcererRightIdle.src = '../assets/sorcerer/Idle.png'
+sorcererRightIdle.src = './assets/sorcerer/Idle.png'
+
 const sorcererLeftIdle = new Image();
-sorcererLeftIdle.src = '../assets/sorcerer/idle_left.png'
+sorcererLeftIdle.src = './assets/sorcerer/idle_left.png'
 
 // Run Animations
 const sorcererRunRight = new Image();
-sorcererRunRight.src = '../assets/sorcerer/Run.png'
+sorcererRunRight.src = './assets/sorcerer/Run.png'
 const sorcererRunLeft = new Image(); 
-sorcererRunLeft.src = '../assets/sorcerer/sorcerer_run_left.png'
+sorcererRunLeft.src = './assets/sorcerer/sorcerer_run_left.png'
 
 // Jumping Animations
 const sorcererJump = new Image();
-sorcererJump.src = '../assets/sorcerer/Jump.png'
+sorcererJump.src = './assets/sorcerer/Jump.png'
 
 // Animation Variables 
 let frame = 0;
@@ -26,8 +27,6 @@ let frameSize = 0;
 const SORCERER_WIDTH = 231
 const SORCERER_HEIGHT = 164
 const GRAVITY = 0.4;
-
-
 
 export default class Sorcerer {
 	constructor(position) {
@@ -48,8 +47,8 @@ export default class Sorcerer {
 		}
 	}
 
+
 	draw(ctx) {
-	
 		let currentAnimation = sorcererRightIdle;
 
 		if (this.direction === "right" && this.status == "idle") {
@@ -60,10 +59,10 @@ export default class Sorcerer {
 			frameSize = idleFrameSize;
 		} else if (this.direction === "left" && this.status === "moving") {
 			currentAnimation = sorcererRunLeft;
-			runFrameSize;
+			frameSize = runFrameSize;
 		} else if (this.direction === "right" && this.status === "moving") {
 			currentAnimation = sorcererRunRight;
-			runFrameSize;
+			frameSize = runFrameSize;
 		} else if (this.status === "jumping") {
 			currentAnimation = sorcererJump;
 			frameSize = jumpingFrameSize;
@@ -74,19 +73,37 @@ export default class Sorcerer {
 		// ctx.drawImage(image, sx,sy,sw, sh, dx, dy, dw, dh)
 		if (this.direction === "right") {
 			frame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
-			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
+				ctx.drawImage(
+					currentAnimation, 
+					frame * SORCERER_WIDTH, 
+					56, 
+					SORCERER_WIDTH, 
+					SORCERER_HEIGHT, 
+					this.position.x, 
+					this.position.y, 
+					231, 
+					190)
 		} else if (this.direction === "left") {
-			let currentFrame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
-			frame = slowDownAnimationRate - currentFrame; 
-			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
-		}
+				let currentFrame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
+				frame = slowDownAnimationRate - currentFrame; 
+				ctx.drawImage(
+					currentAnimation, 
+					frame * SORCERER_WIDTH, 
+					56, 
+					SORCERER_WIDTH, 
+					SORCERER_HEIGHT, 
+					this.position.x, 
+					this.position.y, 
+					231, 
+					190
+				)}
+
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
 
-		ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+		//ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
 		//ctx.fillRect(this.position.x, this.position.y, sorcererRightIdle.width, sorcererRightIdle.height)
-
 		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
 		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		gameFrame++;

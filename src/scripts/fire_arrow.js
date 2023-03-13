@@ -5,7 +5,7 @@ const ARROW_WIDTH = 100;
 
 export default class FireArrow extends AnimatedObject {
 	constructor(options) {
-		options.imageSrc = '../assets/fire_arrow/fire.png'
+		options.imageSrc = './assets/fire_arrow/fire.png'
 		options.amountOfFrames = 29;
 		super(options) // position
 		this.position = options.position
