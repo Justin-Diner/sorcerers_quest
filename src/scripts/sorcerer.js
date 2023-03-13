@@ -17,7 +17,7 @@ sorcererJump.src = './assets/sorcerer/Jump.png'
 // Animation Variables 
 let frame = 0;
 let gameFrame = 0;
-const slowDownAnimationRate = 5;
+const slowDownAnimationRate = 10;
 let idleFrameSize = 5;
 let runFrameSize = 7;
 let jumpingFrameSize = 1;
@@ -85,10 +85,10 @@ export default class Sorcerer {
 		this.updateHitBox();
 
 		ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
-		//ctx.fillRect(this.position.x, this.position.y, sorcererRightIdle.width, sorcererRightIdle.height)
+		ctx.fillRect(this.position.x, this.position.y, sorcererRightIdle.width, sorcererRightIdle.height)
 
-		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+		ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		gameFrame++;
 	}
 
@@ -109,7 +109,7 @@ export default class Sorcerer {
 	updateHitBox() {
 		this.hitbox = {
 			position: {
-				x: this.position.x +81, 
+				x: this.position.x + 81, 
 				y: this.position.y
 			}, 
 			width: 69, 

@@ -91,8 +91,8 @@ body {
 #left-shadow {
   position: relative;
   left: 54px;
-  top: 104px;
-  height: 554px;
+  top: 105px;
+  height: 553px;
   width: 15px;
   background-color: dimgray;
 }
@@ -100,8 +100,8 @@ body {
 #right-shadow {
   position: relative;
   left: 54px;
-  top: 104px;
-  height: 554px;
+  top: 105px;
+  height: 553px;
   width: 15px;
   background-color: dimgray;
 }
@@ -142,6 +142,7 @@ body {
   height: 320px;
   background-color: gray;
   border-top: 3px solid black;
+  bottom: 10px;
 }
 
 #linkedin {
