@@ -7,7 +7,7 @@ body {
 
 }
 #main-container {
-	
+	position: relative;
 }
 #title {
 	color: black;
@@ -71,15 +71,68 @@ body {
 }
 
 
-#bottom-text-area {
-	position: relative;
-	top: 50px;
-	height: 200px;
-	background-color: darkgrey;
-}
-
 #linkedin {
  position: relative;
  top: 100px;
  left: 60px;
+}
+
+#topgrass {
+	height: 4px;
+	background-color: darkgreen;
+}
+#grass {
+	height: 40px;
+	background-color: green;
+}
+
+#dirt {
+	height: 20px;
+	background-color: #654321;
+}
+
+#right-tree {
+	position: absolute;
+	height: 300px;
+	bottom: 340px;
+	left: 10px;
+	z-index: 1;
+}
+#left-tree {
+	position: absolute;
+	height: 300px;
+	bottom: 340px;
+	left: 60px;
+	z-index: 2;
+}
+
+#bottom-text-area {
+	position: relative;
+	top: 50px;
+	height: 300px;
+	background-color: green;
+}
+
+#walkway-parent {
+	display: flex;
+	justify-content: center;
+	background-color: blue;
+}
+
+#walkway {
+	border-bottom: 100px solid black;
+	border-left: 50px solid transparent;
+	border-right: 50px solid transparent;
+	height: 0;
+	width: 125px;
+}
+
+#walkway-border {
+	position: relative;
+	border-bottom: 100px solid #555;
+	border-left: 50px solid transparent;
+	border-right: 50px solid transparent;
+	height: 0;
+	width: 118px;
+  right: 46px;
 }
