@@ -196,7 +196,7 @@ body {
 #walkway-parent {
   display: flex;
   justify-content: center;
-  background-color: blue;
+  background-image: linear-gradient(to right, darkblue, blue, darkblue, darkblue);
 }
 
 #walkway {
