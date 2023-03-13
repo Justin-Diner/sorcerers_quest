@@ -24,6 +24,7 @@ export default class FireArrow extends AnimatedObject {
 			height: 10
 		}
 		this.target = options.target;
+		this.hit = false; 
 	}
 
 	draw(ctx) {
@@ -84,7 +85,9 @@ export default class FireArrow extends AnimatedObject {
 	}
 
 	ifHit() {
-		
+		setTimeout( () => {
+			this.hit = false
+		}, 1000)
 	}
 
 }

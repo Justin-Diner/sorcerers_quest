@@ -150,26 +150,18 @@ export default class Game {
 		let topRight = sorcererHitBox.topRight;
 		let bottomRight = sorcererHitBox.bottomRight;
 
-		if ((arrow.hitbox.position.x > topLeft[0] && arrow.hitbox.position.x < topRight[0]) && (arrow.hitbox.position.y < bottomRight[1] && arrow.hitbox.position.y > topRight[1])) {
-			this.hit();
-			sorcerer.health -= 10;
-			healthBar.decrease();
+		if (this.arrow[0].hit === false) {
+			if ((arrow.hitbox.position.x > topLeft[0] && arrow.hitbox.position.x < topRight[0]) && (arrow.hitbox.position.y < bottomRight[1] && arrow.hitbox.position.y > topRight[1])) {
+				this.hit();
+				this.arrow[0].ifHit();
+				sorcerer.health -= 10;
+				healthBar.decrease();
+			}
 		}
 	}
 
 	hit() {
-		let newArrow = new FireArrow({position: {
-			x: 900,
-			y: 80
-			}
-		})
-	
-		this.arrow.splice(0, 1);
-		this.arrow.push(newArrow);
-		setInterval(() => {
-			this.arrow[0].reset();
-			console.log("Hit Interval")
-		}, 5000)
+		this.arrow[0].hit = true; 
 	}
 
 }

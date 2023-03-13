@@ -6,14 +6,19 @@ export default class HealthBar {
 
 	draw(ctx) {
 		ctx.beginPath();
-		ctx.strokeStyle = "black"
 		ctx.rect(50, 14, 250, 20);
+		
+		// Inner Rect 
+		ctx.rect(50, 14, 250, 20);
+		ctx.strokeStyle = "black";
 		ctx.fillStyle = this.backgroundColor;
 		ctx.fill()
-		ctx.stroke();
+	
+		// Text
 		ctx.fillStyle = "white";
 		ctx.fillText(`${this.value} / 100`, 155, 28)
 		ctx.stroke();
+		
 	
 		
 	}
