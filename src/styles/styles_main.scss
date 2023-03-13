@@ -15,7 +15,7 @@ body {
 	font-family: 'Cinzel Decorative', cursive;
 	font-size: 46px;
 	position: relative;
-	top: 80px;
+	top: 68px;
 }
 
 #main-content {
@@ -65,7 +65,7 @@ body {
 	position: relative;
 	bottom: 2px;
 	padding-bottom: 2px;
-	height: 400px;
+	height: 320px;
 	background-color: gray;
 	border-top: 3px solid black;
 }
@@ -94,14 +94,14 @@ body {
 #right-tree {
 	position: absolute;
 	height: 300px;
-	bottom: 340px;
+	bottom: 290px;
 	left: 10px;
 	z-index: 1;
 }
 #left-tree {
 	position: absolute;
 	height: 300px;
-	bottom: 340px;
+	bottom: 280px;
 	left: 60px;
 	z-index: 2;
 }
@@ -109,7 +109,7 @@ body {
 #bottom-text-area {
 	position: relative;
 	top: 50px;
-	height: 300px;
+	height: 220px;
 	background-color: green;
 }
 
@@ -124,7 +124,7 @@ body {
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	height: 0;
-	width: 125px;
+	width: 600px;
 }
 
 #walkway-border {
@@ -133,6 +133,6 @@ body {
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	height: 0;
-	width: 118px;
+	width: 594px;
   right: 46px;
 }
