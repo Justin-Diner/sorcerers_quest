@@ -1,18 +1,18 @@
 // Idle Animations 
 const sorcererRightIdle = new Image();
-sorcererRightIdle.src = '../assets/sorcerer/Idle.png'
+sorcererRightIdle.src = './assets/sorcerer/Idle.png'
 const sorcererLeftIdle = new Image();
-sorcererLeftIdle.src = '../assets/sorcerer/idle_left.png'
+sorcererLeftIdle.src = './assets/sorcerer/idle_left.png'
 
 // Run Animations
 const sorcererRunRight = new Image();
-sorcererRunRight.src = '../assets/sorcerer/Run.png'
+sorcererRunRight.src = './assets/sorcerer/Run.png'
 const sorcererRunLeft = new Image(); 
-sorcererRunLeft.src = '../assets/sorcerer/sorcerer_run_left.png'
+sorcererRunLeft.src = './assets/sorcerer/sorcerer_run_left.png'
 
 // Jumping Animations
 const sorcererJump = new Image();
-sorcererJump.src = '../assets/sorcerer/Jump.png'
+sorcererJump.src = './assets/sorcerer/Jump.png'
 
 // Animation Variables 
 let frame = 0;

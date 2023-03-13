@@ -4,7 +4,7 @@ import FireArrow from './fire_arrow';
 
 let background = new StillObject({
 	position : { x: 2, y: 2 },
-	imageSrc: '../assets/background/sunnybackground.jpg'}
+	imageSrc: './assets/background/sunnybackground.jpg'}
 );
 
 const scaledCanvas = {
