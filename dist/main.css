@@ -54,3 +54,142 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+body {
+  background-color: rgb(133, 216, 251);
+  width: 100%;
+  height: 100%;
+}
+
+#main-container {
+  position: relative;
+}
+
+#title {
+  color: black;
+  text-align: center;
+  font-family: "Cinzel Decorative", cursive;
+  font-size: 46px;
+  position: relative;
+  top: 80px;
+}
+
+#main-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding-top: 80px;
+}
+
+#left-column {
+  width: 140px;
+  border: black;
+  background-color: gray;
+  border-style: solid;
+}
+
+#right-column {
+  width: 140px;
+  border: black;
+  background-color: gray;
+  border-style: solid;
+}
+
+.spire {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 111px solid transparent;
+  border-right: 111px solid transparent;
+  border-bottom: 111px solid black;
+  bottom: 90px;
+  right: 40px;
+}
+
+.inner-spire {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 100px solid grey;
+  right: 100px;
+  top: 6px;
+}
+
+#bottom {
+  position: relative;
+  bottom: 2px;
+  padding-bottom: 2px;
+  height: 400px;
+  background-color: gray;
+  border-top: 3px solid black;
+}
+
+#linkedin {
+  position: relative;
+  top: 100px;
+  left: 60px;
+}
+
+#topgrass {
+  height: 4px;
+  background-color: darkgreen;
+}
+
+#grass {
+  height: 40px;
+  background-color: green;
+}
+
+#dirt {
+  height: 20px;
+  background-color: #654321;
+}
+
+#right-tree {
+  position: absolute;
+  height: 300px;
+  bottom: 340px;
+  left: 10px;
+  z-index: 1;
+}
+
+#left-tree {
+  position: absolute;
+  height: 300px;
+  bottom: 340px;
+  left: 60px;
+  z-index: 2;
+}
+
+#bottom-text-area {
+  position: relative;
+  top: 50px;
+  height: 300px;
+  background-color: green;
+}
+
+#walkway-parent {
+  display: flex;
+  justify-content: center;
+  background-color: blue;
+}
+
+#walkway {
+  border-bottom: 100px solid black;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  height: 0;
+  width: 125px;
+}
+
+#walkway-border {
+  position: relative;
+  border-bottom: 100px solid #555;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  height: 0;
+  width: 118px;
+  right: 46px;
+}
