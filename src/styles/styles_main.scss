@@ -31,6 +31,7 @@ body {
 	border: black;
 	background-color: gray;
 	border-style: solid;
+	box-shadow: 8px 3px 11px black;
 }
 
 #left-shadow {
@@ -41,6 +42,7 @@ body {
 	width: 15px;
 	background-color: dimgray;
 }
+
 
 #right-shadow {
 	position: relative;
@@ -56,6 +58,15 @@ body {
 	border: black;
 	background-color: gray;
 	border-style: solid;
+	box-shadow: 8px 3px 11px black;
+}
+
+#right-window {
+	position: relative;
+	right: 94px;
+	top: 16px;
+	-webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
 }
 
 .spire {
@@ -67,6 +78,7 @@ body {
 	border-bottom: 111px solid black;
 	bottom: 90px;
 	right: 40px;
+
 }
 .inner-spire {
 	position: relative;
@@ -79,6 +91,19 @@ body {
 	top: 6px;
 }
 
+.window {
+	height: 90px;
+	width: 90px;
+}
+
+#left-window {
+	position: absolute;
+	right: -50px;
+	top: 120px;
+	-webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
+}
+
 #bottom {
 	position: relative;
 	bottom: 2px;
@@ -89,6 +114,12 @@ body {
 	bottom: 10px;
 }
 
+#castle-door {
+	position: relative;
+	height: 150px;
+	top: 510px;
+	right: 140px;
+}
 
 #linkedin {
  position: relative;
@@ -121,6 +152,9 @@ body {
 	bottom: 290px;
 	left: 10px;
 	z-index: 1;
+
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
 }
 #left-tree {
 	position: absolute;
@@ -128,6 +162,8 @@ body {
 	bottom: 280px;
 	left: 60px;
 	z-index: 2;
+	-webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
 }
 
 #bottom-text-area {

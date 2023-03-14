@@ -32,8 +32,6 @@ const SORCERER_WIDTH = 231
 const SORCERER_HEIGHT = 164
 const GRAVITY = 0.4;
 
-
-
 export default class Sorcerer {
 	constructor(position) {
 		this.position = position;
@@ -52,7 +50,14 @@ export default class Sorcerer {
 			height: 100
 		}
 		this.health = 100;
-		
+		this.camerabox = {
+			position: {
+				x: this.position.x, 
+				y: this.position.y
+			},
+			width: 150, 
+			height: 100
+		}
 	}
 
 	hitboxDims() {
@@ -124,10 +129,15 @@ export default class Sorcerer {
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
+		this.updateCameraBox();
 		
 
-		//ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
-		//ctx.fillRect(this.position.x, this.position.y, sorcererRightIdle.width, sorcererRightIdle.height)
+		ctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+		ctx.fillRect(
+			this.camerabox.position.x, 
+			this.camerabox.position.y, 
+			this.camerabox.width + 60, 
+			this.camerabox.height)
 
 		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
 		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
@@ -155,6 +165,17 @@ export default class Sorcerer {
 				y: this.position.y
 			}, 
 			width: 69, 
+			height: 100
+		}
+	}
+
+	updateCameraBox() {
+		this.camerabox = {
+			position: {
+				x: this.position.x - 25, 
+				y: this.position.y
+			},
+			width: 250, 
 			height: 100
 		}
 	}

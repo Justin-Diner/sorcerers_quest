@@ -3,6 +3,7 @@ import StillObject from './still_object'
 import FireArrow from './fire_arrow';
 import { Util } from './dist';
 import HealthBar from './health_bar'
+import Camera from './camera'
 
 let background = new StillObject({
 	position : { x: 0, y: 0 },
@@ -44,13 +45,17 @@ function randomShootingPosition() {
 	}
 }
 
-
-
 export default class Game {
 	
 	constructor(sorcerer) {
 		this.sorcerer = sorcerer;
 		this.arrow = [];
+		this.camera = new Camera({
+			position: {
+				x: this.sorcerer.position.x, 
+				y: this.sorcerer.position.y
+			}}
+		)
 
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "d") {
@@ -90,8 +95,8 @@ export default class Game {
 
 		// Background (scaled to bottom left)
 		ctx.save(); // image is 688 x 432
-		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
-		ctx.translate(0, -background.image.height + scaledCanvas.height)
+		ctx.scale(4, 4) // Enlarges by 4 times odn x and y axis
+		ctx.translate(this.camera.position.x, -background.image.height + scaledCanvas.height)
 		background.draw(ctx);
 		ctx.restore();
 		let arrow = new FireArrow({position: {
@@ -104,7 +109,12 @@ export default class Game {
 			this.arrow[0].reset();
 			console.log("Start Timer")
 		}, 5000)
-		
+		this.camera = new Camera({
+			position: {
+				x: 0, 
+				y: 0
+			}
+		})
 		
 	}
 
@@ -115,7 +125,7 @@ export default class Game {
 		// Background (scaled to bottom left)
 		ctx.save(); // image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
-		ctx.translate(0, -background.image.height + scaledCanvas.height)
+		ctx.translate(-this.camera.position.x, -background.image.height + scaledCanvas.height)
 		background.draw(ctx);
 		ctx.restore();
 
@@ -132,6 +142,7 @@ export default class Game {
 		}
 		this.isCollided();
 		healthBar.draw(ctx);
+		this.shouldPanCameraToTheRight();
 	}
 
 	isOutOfBounds(pos) {
@@ -156,6 +167,15 @@ export default class Game {
 				sorcerer.health -= 10;
 				healthBar.decrease();
 			}
+		}
+	}
+
+	shouldPanCameraToTheRight() {
+		const cameraboxRightSide = this.sorcerer.camerabox.position.x + this.sorcerer.camerabox.width;
+
+		if (cameraboxRightSide >= 1024) {
+			console.log("panning")
+			this.camera.position.x += this.sorcerer.velocity.x
 		}
 	}
 
