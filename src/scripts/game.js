@@ -4,19 +4,12 @@ import FireArrow from './fire_arrow';
 import { Util } from './dist';
 import HealthBar from './health_bar'
 import Camera from './camera'
+import Castle from './castle';
 
 let background = new StillObject({
 	position : { x: 0, y: 0 },
 	imageSrc: './assets/background/sunnybackground.jpg'}
 );
-
-//let arrow = new FireArrow({position: {
-//	x: 900,
-//	y: 80
-//	}
-//})
-
-let healthBar = new HealthBar();
 
 const scaledCanvas = {
 	width:  1024 / 4,
@@ -32,23 +25,19 @@ const acceptableKeys = {
 	}, 
 	space: {
 		pressed: false
+	}, 
+	c: {
+		pressed: false
 	}
 }
 
-function randomShootingPosition() {
-	let height = Math.floor(576 / 2.5)
-	let width = 1024
-	return { position: {
-		x: height * Math.random(),
-		y: width * Math.random()
-		}
-	}
-}
+let cLocked = false;
 
 export default class Game {
 	
-	constructor(sorcerer) {
+	constructor(sorcerer, castle) {
 		this.sorcerer = sorcerer;
+		this.castle = castle;
 		this.arrow = [];
 		this.camera = new Camera({
 			position: {
@@ -67,6 +56,12 @@ export default class Game {
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = true; 
 				sorcerer.jump();
+			} else if (e.key === "c" && !(cLocked)) {
+				this.lockC();
+				sorcerer.cast();
+				
+				this.castle.health -=10
+				this.castle.healthbar.decrease();
 			}
 		})
 
@@ -79,6 +74,8 @@ export default class Game {
 				this.sorcerer.status = "idle";
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = false; 
+			} else if (e.key === "c") {
+				acceptableKeys.c.pressed = false;
 			}
 		})
 
@@ -108,7 +105,7 @@ export default class Game {
 		setInterval(() => {
 			this.arrow[0].reset();
 			console.log("Start Timer")
-		}, 5000)
+		}, 2000)
 		this.camera = new Camera({
 			position: {
 				x: 0, 
@@ -129,6 +126,11 @@ export default class Game {
 		background.draw(ctx);
 		ctx.restore();
 
+		// HEALTH BAR
+		this.sorcerer.healthBar.draw(ctx);
+		this.castle.draw(ctx);
+		this.castle.healthbar.draw(ctx);
+
 		this.sorcerer.draw(ctx);
 		this.arrow[0].draw(ctx);
 
@@ -141,8 +143,10 @@ export default class Game {
 			this.sorcerer.velocity.x = -5
 		}
 		this.isCollided();
-		healthBar.draw(ctx);
-		this.shouldPanCameraToTheRight();
+		this.isVictory();
+		
+
+		//this.shouldPanCameraToTheRight();
 	}
 
 	isOutOfBounds(pos) {
@@ -165,7 +169,7 @@ export default class Game {
 				this.hit();
 				this.arrow[0].ifHit();
 				sorcerer.health -= 10;
-				healthBar.decrease();
+				this.sorcerer.healthBar.decrease();
 			}
 		}
 	}
@@ -193,4 +197,37 @@ export default class Game {
 		}
 	}
 
+	isVictory() {
+		if (this.castle.health === 0) {
+			return true; 
+		}
+		else {
+			return false;
+		}
+	}
+
+	lockC() {
+		if (!cLocked) {
+			cLocked = true; 
+			setTimeout(this.unlockC, 3000);
+		} 
+	}
+
+	unlockC() {
+		cLocked = false;
+	}
+
+
+}
+
+
+
+function randomShootingPosition() {
+	let height = Math.floor(576 / 2.5)
+	let width = 1024
+	return { position: {
+		x: height * Math.random(),
+		y: width * Math.random()
+		}
+	}
 }

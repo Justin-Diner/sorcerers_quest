@@ -1,5 +1,6 @@
 import Sorcerer from './scripts/sorcerer';
 import Game from './scripts/game'
+import Castle from './scripts/castle';
 
 document.addEventListener("DOMContentLoaded", () => {
 	// Game
@@ -8,9 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	const ctx = canvas.getContext("2d");
 	canvas.height = 576; // height and width are this to fit most browsers. 
 	canvas.width = 1024;
-
+	const castle = new Castle({position: {x: 680, y: 480}})
 	const sorcerer = new Sorcerer({x: 180, y: 280})
-	const game = new Game(sorcerer);
+;
+	const game = new Game(sorcerer, castle);
+	
 
 	game.start(ctx);
 

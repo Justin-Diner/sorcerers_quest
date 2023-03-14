@@ -1,14 +1,15 @@
 export default class HealthBar {
-	constructor() {
+	constructor(options) {
+	this.position = options.position
  	this.value = 100;
 	this.backgroundColor = "green";
 	this.innerSize = 254;
+	this.textPosition = options.textPosition;
 	}
 
 	draw(ctx) {
-
 		ctx.beginPath();
-		ctx.rect(50, 14, 254, 24);
+		ctx.rect(this.position.x, this.position.y, 254, 24);
 		ctx.fillStyle = "red";
 		ctx.strokeStyle = "black";
 		ctx.stroke();
@@ -16,26 +17,23 @@ export default class HealthBar {
 	
 		// Inner Rect 
 		ctx.beginPath();
-		ctx.rect(50, 14, this.innerSize, 24);
+		ctx.rect(this.position.x, this.position.y, this.innerSize, 24);
 		ctx.strokeStyle = "transparent";
 		ctx.fillStyle = this.backgroundColor;
 		ctx.fill()
 	
 		// Text
 		ctx.fillStyle = "white";
-		ctx.fillText(`${this.value} / 100`, 155, 29)
+		ctx.fillText(`${this.value} / 100`, this.textPosition, 29)
 		ctx.stroke();
-		
-	
 		
 	}
 
 	decrease() {
-		let hits = 10;
-
+		if (this.value >= 1) {
 		this.value -= 10;
 		this.innerSize -= 25.4;
-
+		}
 	}
 
 }
