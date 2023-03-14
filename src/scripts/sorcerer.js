@@ -9,10 +9,15 @@ const sorcererRunRight = new Image();
 sorcererRunRight.src = './assets/sorcerer/Run.png'
 const sorcererRunLeft = new Image(); 
 sorcererRunLeft.src = './assets/sorcerer/sorcerer_run_left.png'
+let leftFrames = {}
 
 // Jumping Animations
 const sorcererJump = new Image();
 sorcererJump.src = './assets/sorcerer/Jump.png'
+
+//Jumping Left 
+const leftSorcererJump = new Image();
+leftSorcererJump.src = './assets/sorcerer/leftJump.png'
 
 // Animation Variables 
 let frame = 0;
@@ -70,15 +75,40 @@ export default class Sorcerer {
 		} else if (this.direction === "left" && this.status === "idle") {
 			currentAnimation = sorcererLeftIdle;
 			frameSize = idleFrameSize;
+			leftFrames = {
+				0: 5, 
+				1: 4, 
+				2: 3,
+				3: 2, 
+				4: 1, 
+				5: 0 
+			}
 		} else if (this.direction === "left" && this.status === "moving") {
 			currentAnimation = sorcererRunLeft;
 			runFrameSize;
+			leftFrames = {
+				0: 7, 
+				1: 6, 
+				2: 5, 
+				3: 4,
+				4: 3, 
+				5: 2,
+				6: 1, 
+				7: 0
+			}
 		} else if (this.direction === "right" && this.status === "moving") {
 			currentAnimation = sorcererRunRight;
 			runFrameSize;
-		} else if (this.status === "jumping") {
+		} else if (this.direction === "right" && this.status === "jumping") {
 			currentAnimation = sorcererJump;
 			frameSize = jumpingFrameSize;
+		} else if (this.direction === "left" && this.status === "jumping") {
+			currentAnimation = leftSorcererJump;
+			frameSize = jumpingFrameSize;
+			leftFrames = {
+				0:1, 
+				1:0
+			}
 		}
 		
 		// Chooses the frame based on cycles of the animation loop. Increases every 5 frames. Once Math.floor hits 1, it increments. Example (0.2, 0.4, 0.6, 0.8, 1.0, etc.)
@@ -88,8 +118,7 @@ export default class Sorcerer {
 			frame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
 		} else if (this.direction === "left") {
-			let currentFrame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
-			frame = slowDownAnimationRate - currentFrame; 
+			frame = leftFrames[Math.floor(gameFrame/slowDownAnimationRate) % frameSize];
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
 		}
 		// Gravity 
@@ -137,18 +166,34 @@ export default class Sorcerer {
 	// Velocity 
 	moveRight() {
 		this.status = "moving";
+		if (this.status !== "jumping") {
+			this.status = "moving"
+			this.direction = "right"
+		} else {
 		this.direction = "right";
+		}
 	}
 
 	moveLeft() {
 		this.velocity.x -= 1
-		this.status = "moving";
-		this.direction = "left";
+		if (this.status !== "jumping") {
+			this.status = "moving";
+			this.direction = "left";
+		} else {
+			this.direction = "left";
+		}
 	}
 
 	jump() {
 		this.velocity.y = -10
 		this.status = "jumping"
+		setTimeout( () => {
+			this.status = "idle"
+		}, 900);
+	}
+
+	death() {
+
 	}
 }
 

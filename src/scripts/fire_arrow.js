@@ -25,24 +25,43 @@ export default class FireArrow extends AnimatedObject {
 		}
 		this.target = options.target;
 		this.hit = false; 
+		this.direction = "right";
 	}
 
 	draw(ctx) {
-		// Creates Arrow Shaft
-		ctx.beginPath();
-		ctx.strokeStyle = '#964B00';
-		ctx.lineWidth = 3;
-		ctx.moveTo(this.position.x + 50, this.position.y + 60);
-		ctx.lineTo(this.position.x + 100, this.position.y + 60);
-		ctx.stroke();
 
-		// Creates end of Arrow
-		ctx.beginPath();
-		ctx.fillStyle = "#5A5A5A"
-		ctx.moveTo(this.position.x + 96, this.position.y + 60);
-   		ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
-    	ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
-    	ctx.fill();
+		if (this.direction === "right") {
+			// Creates Arrow Shaft
+			ctx.beginPath();
+			ctx.strokeStyle = '#964B00';
+			ctx.lineWidth = 3;
+			ctx.moveTo(this.position.x + 50, this.position.y + 60);
+			ctx.lineTo(this.position.x + 100, this.position.y + 60);
+			ctx.stroke();
+
+			// Creates end of Arrow
+			ctx.beginPath();
+			ctx.fillStyle = "#5A5A5A"
+			ctx.moveTo(this.position.x + 96, this.position.y + 60);
+			ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
+			ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
+			ctx.fill();
+		} else {
+			ctx.beginPath();
+			ctx.strokeStyle = '#964B00';
+			ctx.lineWidth = 3;
+			ctx.moveTo(this.position.x + 50, this.position.y + 60);
+			ctx.lineTo(this.position.x -12, this.position.y + 60);
+			ctx.stroke();
+
+			// Creates end of Arrow
+			ctx.beginPath();
+			ctx.fillStyle = "#5A5A5A"
+			ctx.moveTo(this.position.x, this.position.y + 60);
+			ctx.lineTo(this.position.x - 12, this.position.y + 60 + 4);
+			ctx.lineTo(this.position.x - 12, this.position.y + 60 - 4);
+			ctx.fill();
+		}
 
 		this.updateHitBox();
 
@@ -63,12 +82,15 @@ export default class FireArrow extends AnimatedObject {
 	}
 
 	reset() {
-		if (this.position.x < 0) {
+		if (this.direction === "right") {
+			this.direction = "left";
 			this.position.x = 10;
 			this.velocity.x = 3;
-		} else if (this.position.x > 0) {
+		} else {
+			this.direction = "right";
 			this.position.x = 900;
 			this.velocity.x = -3;
+			
 		}
 		this.position.y = 40; 
 	}

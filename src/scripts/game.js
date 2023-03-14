@@ -73,7 +73,6 @@ export default class Game {
 				acceptableKeys.a.pressed = false; 
 				this.sorcerer.status = "idle";
 			} else if (e.key === " ") {
-				this.sorcerer.status = "idle";
 				acceptableKeys.space.pressed = false; 
 			}
 		})
@@ -95,16 +94,16 @@ export default class Game {
 		ctx.translate(0, -background.image.height + scaledCanvas.height)
 		background.draw(ctx);
 		ctx.restore();
-		setInterval(() => {
-			this.arrow[0].reset();
-			console.log("Start Timer")
-		}, 4000)
 		let arrow = new FireArrow({position: {
 			x: 900,
 			y: 80
 			}
 		})
 		this.arrow.push(arrow);
+		setInterval(() => {
+			this.arrow[0].reset();
+			console.log("Start Timer")
+		}, 5000)
 		
 		
 	}
@@ -162,6 +161,15 @@ export default class Game {
 
 	hit() {
 		this.arrow[0].hit = true; 
+		this.arrow.slice(0, 1)
+	}
+
+	isGameOver() {
+		if (this.sorcerer.health === 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
