@@ -136,9 +136,9 @@ export default class Game {
 		this.sorcerer.velocity.x = 0; 
 		// Increase velocity based on what's pressed
 		if (acceptableKeys.d.pressed) {
-			this.sorcerer.velocity.x = 5;
+			this.sorcerer.velocity.x = 3;
 		} else if (acceptableKeys.a.pressed) {
-			this.sorcerer.velocity.x = -5
+			this.sorcerer.velocity.x = -3
 		}
 		this.isCollided();
 		healthBar.draw(ctx);
@@ -173,8 +173,9 @@ export default class Game {
 	shouldPanCameraToTheRight() {
 		const cameraboxRightSide = this.sorcerer.camerabox.position.x + this.sorcerer.camerabox.width;
 
-		if (cameraboxRightSide >= 1024) {
-			console.log("panning")
+		if (cameraboxRightSide >= 1026) {
+			console.log(`Socerer Vel: ${this.sorcerer.velocity.x} Camera Vel: ${this.camera.position.x}`)
+			console.log(this.camera)
 			this.camera.position.x += this.sorcerer.velocity.x
 		}
 	}
