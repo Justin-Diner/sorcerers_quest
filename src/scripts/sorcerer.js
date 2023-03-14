@@ -257,12 +257,13 @@ export default class Sorcerer {
 
 	
 	oneCast(ctx, image) {
-		if (castLoopCounter <= 58) {
-		frame = Math.floor(oneLoopFrame/8) % 8;
+		if (castLoopCounter <= 54) {
+		frame = Math.floor(oneLoopFrame/7) % 7;
 		ctx.drawImage(image, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190)
 		castLoopCounter++
 		oneLoopFrame++
 		} else {
+			oneLoopFrame = 0;
 			castLoopCounter = 0;
 			this.idle();
 		}
@@ -271,9 +272,8 @@ export default class Sorcerer {
 	explosion(ctx, image) {
 		if (explosionLoopCounter <= 150) {
 			frame = Math.floor(oneLoopFrame/8) % 15;
-			ctx.drawImage(image, frame * (image.width / 16), 0, image.width / 14, image.height, 680, 200, 240, 190)
+			ctx.drawImage(image, frame * (image.width / 16), 0, image.width / 14, image.height, 680, 200, 400, 300)
 			explosionLoopCounter++
-			console.log(explosionLoopCounter)
 			} else {
 				explosionLoopCounter = 0;
 			}

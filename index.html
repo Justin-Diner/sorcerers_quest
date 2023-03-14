@@ -9,6 +9,9 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=EB+Garamond:wght@400;500&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Roboto&display=swap" rel="stylesheet">
+
 	<title>Sorcerer's Quest</title>
 	<link rel="icon" type="image/x-icon" href="./assets/favicon/castle.png">
 </head>
@@ -19,6 +22,16 @@
 		</div>
 
 	<div id="main-content">
+	
+		<div id="starting-instructions-container">
+			<div id="starting-instructions">
+				<div id="starting-modal" class="modal">
+					<div id="instructions-text">"Sorcerer! <br><br>The King Castletown is evil and holding the villagers hostage. <br> <br> Please click to accept our quest and help! Use your powers!" 
+					</div>
+					<div id="start_button">Accept Quest!</div>
+				</div>
+			</div>
+		</div>
 
 		<div id="left-column">
 			<div class = "spire">
@@ -31,8 +44,6 @@
 				</div>
 			</div>
 		</div>
-
-
 
 		<div style = "text-align:center;">
 			<canvas id="canvas"></canvas>

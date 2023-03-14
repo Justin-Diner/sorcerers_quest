@@ -14,8 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
 ;
 	const game = new Game(sorcerer, castle);
 	
-
+	let started = false;
 	game.start(ctx);
+
 
 	function animate() { // Call this to animate anything inside. 
 		game.animate(ctx);

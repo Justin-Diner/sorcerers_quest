@@ -26,6 +26,45 @@ body {
 }
 
 
+.modal {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+	top: 140px;
+	height: 700px;
+	width: 800px;
+	left: calc(50% - 400px);
+	background-image: url(../../assets/parchment/parchment.png);
+	background-size: 800px 700px;
+}
+
+#instructions-text {
+	font-family: 'Kaushan Script', cursive;
+	font-size: 36px;
+	width: 420px;
+
+	
+}
+
+#start_button {
+	align-self: center;
+	font-family: 'Kaushan Script', cursive;
+	margin-top: 20px;
+	font-size: 40px;
+	margin-left: 60px;
+	padding: 14px;
+	background-color: darkbeige;
+}
+
+#start_button:hover {
+	color: red;
+}
+
+
+
 #left-column {
 	width: 140px;
 	border: black;
@@ -34,10 +73,12 @@ body {
 	box-shadow: 8px 3px 11px black;
 }
 
+
+
 #left-shadow {
 	position: relative;
-	left: 59px;
-	top: 105px;
+	left: 60px;
+	top: 104px;
 	height: 553px;
 	width: 10px;
 	background-color: dimgray;
@@ -47,7 +88,7 @@ body {
 #right-shadow {
 	position: relative;
 	left: 60px;
-	top: 105px;
+	top: 104px;
 	height: 553px;
 	width: 10px;
 	background-color: dimgray;
@@ -131,6 +172,7 @@ body {
 	height: 4px;
 	background-color: darkgreen;
 }
+
 #grass {
 	height: 40px;
 	background-color: green;

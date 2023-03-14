@@ -51,11 +51,7 @@ class Ship extends MovingObject
 •	relocate()
 
 class Bullet extends MovingObject 
-<<<<<<< HEAD
-	constructor(options) = [radius, super, this.isWrappable = false
-=======
 	constructor(options) = [radius, super, this.isWrappable] = false
->>>>>>> sorcerer
 
 class GameView 
 	constructor(game, ctx) = [this.ctx, this.game, this.ship]
@@ -70,8 +66,6 @@ Vectors are the fundamental mathematical objects that are used in every 3D game 
 
 2.	What is velocity? 
 Velocity is simply put, something with speed and a direction. You can use velocity for hundreds of game related tasks, firing a bullet, flying a spaceship, etc.
-<<<<<<< HEAD
-=======
 
 3. drawImage (takes in 3, 5, or 9 arguments)
 Arguments:
@@ -85,4 +79,3 @@ Arguments:
 	8. dWidth - The width to draw the image in the destination canvas. 
 	9. dHeight - the height to draw the image in the destination canvas. 
 Sorcerer Height - 1848  x 190
->>>>>>> sorcerer
