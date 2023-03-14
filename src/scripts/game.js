@@ -136,9 +136,9 @@ export default class Game {
 		this.sorcerer.velocity.x = 0; 
 		// Increase velocity based on what's pressed
 		if (acceptableKeys.d.pressed) {
-			this.sorcerer.velocity.x = 3;
+			this.sorcerer.velocity.x = 5;
 		} else if (acceptableKeys.a.pressed) {
-			this.sorcerer.velocity.x = -3
+			this.sorcerer.velocity.x = -5
 		}
 		this.isCollided();
 		healthBar.draw(ctx);
