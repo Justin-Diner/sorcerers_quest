@@ -19,8 +19,8 @@ let background = new StillObject({
 let healthBar = new HealthBar();
 
 const scaledCanvas = {
-	width:  1024 / 4,
-	height: 576 / 4
+	width:  688 / 4,
+	height: 432 / 4
 }
 
 const acceptableKeys = {
@@ -95,10 +95,14 @@ export default class Game {
 
 		// Background (scaled to bottom left)
 		ctx.save(); // image is 688 x 432
-		ctx.scale(4, 4) // Enlarges by 4 times odn x and y axis
+		ctx.scale(4, 4) 
+		ctx.drawImage(background.image, background.position.x, background.position.y)
 		ctx.translate(this.camera.position.x, -background.image.height + scaledCanvas.height)
-		background.draw(ctx);
+
+		console.log(background.image.height);
 		ctx.restore();
+
+
 		let arrow = new FireArrow({position: {
 			x: 900,
 			y: 80
@@ -126,6 +130,7 @@ export default class Game {
 		ctx.save(); // image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
 		ctx.translate(-this.camera.position.x, -background.image.height + scaledCanvas.height)
+		console.log(`Height: ${background.image.height}, Width: ${background.image.width}`)
 		background.draw(ctx);
 		ctx.restore();
 
@@ -143,6 +148,8 @@ export default class Game {
 		this.isCollided();
 		healthBar.draw(ctx);
 		this.shouldPanCameraToTheRight();
+		this.shouldPanCameraToTheLeft()
+		this.isGameOver();
 	}
 
 	isOutOfBounds(pos) {
@@ -174,9 +181,17 @@ export default class Game {
 		const cameraboxRightSide = this.sorcerer.camerabox.position.x + this.sorcerer.camerabox.width;
 
 		if (cameraboxRightSide >= 1026) {
-			console.log(`Socerer Vel: ${this.sorcerer.velocity.x} Camera Vel: ${this.camera.position.x}`)
-			console.log(this.camera)
+			console.log(`Socerer Vel: ${this.sorcerer.velocity.x} Socerer Pos: ${this.sorcerer.position.x}`)
 			this.camera.position.x += this.sorcerer.velocity.x
+			this.sorcerer.velocity.x = 0;
+		}
+	}
+
+	shouldPanCameraToTheLeft() {
+		const cameraboxLeftSide = this.sorcerer.camerabox.position.x 
+		if (cameraboxLeftSide <= 0) {
+			this.camera.position.x -= this.sorcerer.velocity.x
+			this.sorcerer.velocity.x -= 0;
 		}
 	}
 
@@ -187,6 +202,7 @@ export default class Game {
 
 	isGameOver() {
 		if (this.sorcerer.health === 0) {
+			console.log("Game Over!")
 			return true;
 		} else {
 			return false;
