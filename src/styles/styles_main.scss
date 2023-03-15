@@ -42,9 +42,22 @@ body {
 	bottom: 40px;
 }
 
+#winning-text {
+	position: absolute;
+	top: 420px;
+
+}
+
+#winning_button {
+	position: absolute;
+	right: 330px;
+}
+
 #kings-crown {
+	position: absolute;
 	height: 180px;
 	width: 200px;
+	top: 130px;
 }
 
 
@@ -57,6 +70,8 @@ body {
 	position: fixed; 
 	display: none; 
 }
+
+
 
 #blood_splat {
 	position: absolute;
@@ -179,7 +194,7 @@ body {
 	background-size: 50px 50px;
 	height: 50px; 
 	width: 50px; 
-	right: 36px;
+	right: 33px;
 	top: 74px;
 }
 
@@ -196,8 +211,6 @@ body {
 #clickable-github-box:hover {
 	cursor: pointer;
 }
-
-
 
 #jump_text {
 	position: relative;
@@ -226,7 +239,7 @@ body {
 
 #space_text {
 	position: relative; 
-	bottom: 43px;
+	bottom: 46px;
 	left: 20px;
 	color: black;
 	font-family: Arial, Helvetica, sans-serif;
@@ -340,13 +353,12 @@ body {
 	position: relative;
 	height: 150px;
 	top: 510px;
-	right: 140px;
+	right: 143px;
 }
 
-#linkedin {
+#linkedIn {
  position: relative;
- top: 100px;
- left: 60px;
+ left: 27px;
 }
 
 #topgrass {
@@ -396,8 +408,8 @@ body {
 
 #bottom-text-area {
 	position: relative;
-	top: 40px;
-	height: 220px;
+	top: 25px;
+	height: 240px;
 	background-color: grey;
 }
 
@@ -412,7 +424,7 @@ body {
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	height: 0;
-	width: 600px;
+	width: 700px;
 }
 
 #walkway-border {
@@ -421,9 +433,24 @@ body {
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	height: 0;
-	width: 594px;
+	width: 694px;
   right: 46px;
 }
 
+#instructions-title {
+	display: flex; 
+	justify-content: center;
+	color: white; 
+	text-decoration: underline;
+	font-family: 'Cinzel Decorative', cursive;
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+#instructions-list li {
+	font-size: 15px;
+	color: white; 
+	font-family: 'Cinzel Decorative', cursive;
+	line-height: 180%;
 
+}
 

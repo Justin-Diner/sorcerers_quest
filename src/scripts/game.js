@@ -209,13 +209,16 @@ export default class Game {
 		if (this.castle.health < 1) {
 			let winningModal = document.getElementById("winning-modal")
 			let winning_button = document.getElementById("winning_button")
+			
 			winning_button.addEventListener("click", () => {
 				winningModal.style.display = "none";
 				location.reload();
 			})
+			
+			setTimeout(() => {
 			winningModal.style.display = "flex";
 			return true; 
-		}
+		}, 500)}
 	}
 
 	lockC() {
