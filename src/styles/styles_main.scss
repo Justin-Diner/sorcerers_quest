@@ -45,8 +45,6 @@ body {
 	font-family: 'Kaushan Script', cursive;
 	font-size: 36px;
 	width: 420px;
-
-	
 }
 
 #start_button {
@@ -213,6 +211,15 @@ body {
 	top: 6px;
 }
 
+#castle_door {
+	position: relative;
+	background-image: url(./../assets/door/castle_door.png);
+	height: 170px; 
+	width: 200px; 
+	background-size: 200px 170px;
+	right: 264px;
+	top: 420px;
+}
 .window {
 	height: 90px;
 	width: 90px;
