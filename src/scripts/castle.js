@@ -13,6 +13,7 @@ export default class Castle {
 			x: 700, 
 			y: 14
 		},
+		value: 100,
 		textPosition: 810})
 	}
 

@@ -6,10 +6,6 @@ import HealthBar from './health_bar'
 import Camera from './camera'
 import Castle from './castle';
 
-
-const castle = new Castle({position: {x: 680, y: 480}})
-const sorcerer = new Sorcerer({x: 180, y: 280});
-
 let background = new StillObject({
 	position : { x: 0, y: 0 },
 	imageSrc: './assets/background/sunnybackground.jpg'}

@@ -1,7 +1,8 @@
 export default class HealthBar {
 	constructor(options) {
 	this.position = options.position
- 	this.value = 100;
+ 	this.value = options.value;
+	this.maxHealth = options.value;
 	this.backgroundColor = "green";
 	this.innerSize = 254;
 	this.textPosition = options.textPosition;
@@ -24,15 +25,16 @@ export default class HealthBar {
 	
 		// Text
 		ctx.fillStyle = "white";
-		ctx.fillText(`${this.value} / 100`, this.textPosition, 29)
+		ctx.fillText(`${this.value} / ${this.maxHealth}`, this.textPosition, 29)
 		ctx.stroke();
 		
 	}
 
 	decrease() {
+		let maxInnerSize = 254;
 		if (this.value >= 1) {
 		this.value -= 10;
-		this.innerSize -= 25.4;
+		this.innerSize -= 254 / (this.maxHealth / 10);
 		}
 	}
 

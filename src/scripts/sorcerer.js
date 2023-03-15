@@ -65,12 +65,13 @@ export default class Sorcerer {
 		}
 
 		// Sorcerer Health
-		this.health = 100;
+		this.health = 30;
 		this.healthBar = new HealthBar({position: 
 			{
 			x: 54, 
 			y: 14
 			},
+			value: 30,
 			textPosition: 160
 		})
 
