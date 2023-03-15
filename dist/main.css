@@ -130,8 +130,8 @@ body {
 #left-shadow {
   position: relative;
   left: 60px;
-  top: 104px;
-  height: 553px;
+  top: 105px;
+  height: 548px;
   width: 10px;
   background-color: dimgray;
 }
@@ -220,7 +220,7 @@ body {
 #right-shadow {
   position: relative;
   left: 60px;
-  top: 104px;
+  top: 105px;
   height: 553px;
   width: 10px;
   background-color: dimgray;
