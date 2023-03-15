@@ -2,7 +2,7 @@
 
 ## Description
 
-Sorcerer's Quest is a vanilla javaScript fantasy adventure game! You begin as a Sorcerer whose quest is simple, defeat his enemies hiding in Castlevania. It not a simple quest, as the enemies will be defending their Castle with fire arrows. 
+Sorcerer's Quest is a vanilla JavaScript fantasy adventure game! You begin as a Sorcerer whose quest is simple, defeat the King hiding in Castlevania. It's not a simple quest, as the King's men will be defending the Castle with fire arrows. 
 
 ## Technologies 
 
@@ -10,13 +10,13 @@ The project will use vanilla JavaScript, HTML, and CSS. It will utilize the Canv
 
 ## User Controls
 
-1 - Accept(Start) Your Quest
-2 - Move the character left and right by using A-D. (Jump functionality may also be added if time permitted)
-3 - Dogde, Duck, Dive, Dip, Dive, and Dodge. 
-4 - Reach the castle.
-5 - Battle by casting your spell by using C.  
-6 - Deat the castle.
-7 - Profit! (Credits)
+ 1 - Accept(Start) Your Quest
+ 2 - Move the character left and right by using A-D. (Jump functionality may also be added if time permitted)
+ 3 - Dogde, Duck, Dive, Dip, Dive, and Dodge. 
+ 4 - Reach the castle.
+ 5 - Battle by casting your spell by using C.  
+ 6 - Defat the castle.
+ 7 - Profit! (Credits)
 
 In Sorcerer's Quest, users will be able to:
 
