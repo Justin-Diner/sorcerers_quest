@@ -21,7 +21,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let startingModal = document.getElementById("starting-modal")
 	let start_buttons = document.getElementsByClassName("start_button")
-	console.log(startingModal);
+
+	let muteButton = document.getElementById("soundbackground");
+	let muteButtonImage = document.getElementById("sound_button")
+	
+	let startingAudio = document.createElement("AUDIO");
+	startingAudio.src = "./assets/music/intro_music.mp3"
+	startingAudio.loop = true; 
+	startingAudio.autoplay = true; 
+	startingAudio.muted = true;
+	muteButton.appendChild(startingAudio);
+
+	muteButton.addEventListener("click", () => {
+		if (startingAudio.muted === false) {
+			startingAudio.muted = true;
+			muteButtonImage.style.backgroundImage = "url('./assets/mute/mute.png')"
+		} else {
+			startingAudio.muted = false;
+			startingAudio.play();
+			muteButtonImage.style.backgroundImage = "url('./assets/mute/sound_on.png')"
+		}
+		muteButton.appendChild(startingAudio);
+	})
+
 
 	for (let i = 0; i < start_buttons.length; i++) {
 		start_buttons[i].addEventListener("click", () => {
