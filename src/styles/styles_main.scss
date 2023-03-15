@@ -148,6 +148,21 @@ body {
 	top: 74px;
 }
 
+#clickable-github-box {
+	position: absolute;
+	height: 50px; 
+	width: 50px; 
+	left: 22px;
+	top: 74px;
+	opacity: 0;
+	z-index: 1;
+}
+
+#clickable-github-box:hover {
+	cursor: pointer;
+}
+
+
 
 #jump_text {
 	position: relative;
