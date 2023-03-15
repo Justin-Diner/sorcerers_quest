@@ -88,7 +88,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 10;
-  top: 140px;
+  top: 60px;
   height: 700px;
   width: 800px;
   left: calc(50% - 400px);
@@ -170,6 +170,8 @@ body {
   background-color: gray;
   border-style: solid;
   box-shadow: 8px 3px 11px black;
+  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-size: 100px;
 }
 
 #left-column-left-shadow {
@@ -180,6 +182,8 @@ body {
   width: 8px;
   background-color: dimgray;
   box-shadow: -5px -2px 8px 0px black;
+  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-size: 100px;
 }
 
 #left-column-right-shadow {
@@ -189,6 +193,8 @@ body {
   height: 548px;
   width: 8px;
   background-color: dimgray;
+  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-size: 100px;
 }
 
 #letter_a {
@@ -220,13 +226,13 @@ body {
   height: 50px;
   width: 50px;
   top: 168px;
-  right: 96px;
+  right: 100px;
   background-color: grey;
 }
 
 #linkedIn {
   position: relative;
-  background-image: url(./../assets/socials/linkedIn.png);
+  background-image: url(./../assets/socials/linkedin.png);
   background-size: 50px 50px;
   height: 50px;
   width: 50px;
@@ -267,6 +273,7 @@ body {
   bottom: 22px;
   left: 32px;
   font-family: "Kaushan Script", cursive;
+  color: white;
 }
 
 #spacebar {
@@ -281,9 +288,10 @@ body {
 
 #attack_text {
   position: relative;
-  right: 142px;
+  right: 146px;
   top: 150px;
   font-family: "Kaushan Script", cursive;
+  color: white;
 }
 
 #space_text {
@@ -301,6 +309,7 @@ body {
   bottom: 20px;
   font-family: "Kaushan Script", cursive;
   left: 9px;
+  color: white;
 }
 
 #right_text {
@@ -308,6 +317,7 @@ body {
   bottom: 35px;
   font-family: "Kaushan Script", cursive;
   left: 63px;
+  color: white;
 }
 
 #right-column-right-shadow {
@@ -316,7 +326,8 @@ body {
   top: 105px;
   height: 553px;
   width: 8px;
-  background-color: dimgray;
+  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-size: 100px;
 }
 
 #right-column-left-shadow {
@@ -324,15 +335,17 @@ body {
   right: 134px;
   height: 553px;
   width: 8px;
-  background-color: dimgray;
+  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-size: 100px;
 }
 
 #right-column {
   width: 140px;
   border: black;
-  background-color: gray;
   border-style: solid;
   box-shadow: 8px 3px 11px black;
+  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-size: 100px;
 }
 
 #right-window {
