@@ -6,6 +6,10 @@ import HealthBar from './health_bar'
 import Camera from './camera'
 import Castle from './castle';
 
+
+const castle = new Castle({position: {x: 680, y: 480}})
+const sorcerer = new Sorcerer({x: 180, y: 280});
+
 let background = new StillObject({
 	position : { x: 0, y: 0 },
 	imageSrc: './assets/background/sunnybackground.jpg'}
@@ -112,7 +116,6 @@ export default class Game {
 				y: 0
 			}
 		})
-		
 	}
 
 	animate(ctx) {
@@ -143,9 +146,13 @@ export default class Game {
 			this.sorcerer.velocity.x = -5
 		}
 		this.isCollided();
-		this.isVictory();
+		if (this.isVictory() === true) {
+			return true;
+		}
 		
-
+		if (this.isGameOver(ctx) === true) {
+			return true; 
+		}
 		//this.shouldPanCameraToTheRight();
 	}
 
@@ -189,20 +196,29 @@ export default class Game {
 		this.arrow.slice(0, 1)
 	}
 
-	isGameOver() {
-		if (this.sorcerer.health === 0) {
+	isGameOver(ctx) {
+		if (this.sorcerer.health < 1) {
+			let losingModal = document.getElementById("losing-modal")
+			let losing_button = document.getElementById("losing_button")
+			losing_button.addEventListener("click", () => {
+				losingModal.style.display = "none";
+				location.reload();
+			})
+			losingModal.style.display = "flex";
 			return true;
-		} else {
-			return false;
-		}
+		} 
 	}
 
 	isVictory() {
-		if (this.castle.health === 0) {
+		if (this.castle.health < 1) {
+			let winningModal = document.getElementById("winning-modal")
+			let winning_button = document.getElementById("winning_button")
+			winning_button.addEventListener("click", () => {
+				winningModal.style.display = "none";
+				location.reload();
+			})
+			winningModal.style.display = "flex";
 			return true; 
-		}
-		else {
-			return false;
 		}
 	}
 

@@ -20,16 +20,23 @@ document.addEventListener("DOMContentLoaded", () => {
 	game.start(ctx);
 
 	let startingModal = document.getElementById("starting-modal")
-	let start_button = document.getElementById("start_button")
+	let start_buttons = document.getElementsByClassName("start_button")
+	console.log(startingModal);
 
-	start_button.addEventListener("click", () => {
+	for (let i = 0; i < start_buttons.length; i++) {
+		start_buttons[i].addEventListener("click", () => {
 		started = true;
-	})
+		startingModal.style.display = "none";
+	})}
+
 
 	function animate() { // Call this to animate anything inside. 
 		if (started) {
-			game.animate(ctx);
+			let endingFlag = game.animate(ctx);
 			startingModal.style.display = "none"
+			if (endingFlag === true) {
+				return
+			}
 		}
 		requestAnimationFrame(animate);
 	}

@@ -71,7 +71,7 @@ body {
   font-family: "Cinzel Decorative", cursive;
   font-size: 46px;
   position: relative;
-  top: 68px;
+  top: 64px;
 }
 
 #main-content {
@@ -94,15 +94,48 @@ body {
   left: calc(50% - 400px);
   background-image: url(../assets/parchment/parchment.png);
   background-size: 800px 700px;
+  bottom: 40px;
 }
 
-#instructions-text {
+#kings-crown {
+  height: 180px;
+  width: 200px;
+}
+
+#losing-modal {
+  position: fixed;
+  display: none;
+}
+
+#winning-modal {
+  position: fixed;
+  display: none;
+}
+
+#blood_splat {
+  position: absolute;
+  height: 200px;
+  width: 200px;
+  right: 100px;
+  top: 100px;
+}
+
+#archer {
+  position: absolute;
+  height: 200px;
+  width: 180px;
+  bottom: 150px;
+  left: 110px;
+}
+
+.instructions-text {
+  z-index: 4;
   font-family: "Kaushan Script", cursive;
   font-size: 36px;
   width: 420px;
 }
 
-#start_button {
+.start_button {
   align-self: center;
   font-family: "Kaushan Script", cursive;
   margin-top: 20px;
@@ -112,7 +145,7 @@ body {
   background-color: darkbeige;
 }
 
-#start_button:hover {
+.start_button:hover {
   color: red;
   cursor: pointer;
 }

@@ -87,7 +87,6 @@ export default class FireArrow extends AnimatedObject {
 			this.position.x = 10;
 			this.position.y = this.generateRandomNumber(0, 501)
 			this.velocity.x = this.generateRandomNumber(2, 6);
-			console.log(this.velocity.x)
 		} else {
 			this.direction = "right";
 			this.position.x = 900;
