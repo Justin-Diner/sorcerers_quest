@@ -87,7 +87,7 @@ export default class Game {
 	}
 
 	start(ctx) {
-		ctx.fillStyle = "white"; // canvas is white
+		ctx.fillStyle = "gray"; // canvas is white
 		ctx.fillRect(0, 30, canvas.width, canvas.height); // filling the canvas background
 
 		// Background (scaled to bottom left)

@@ -83,7 +83,7 @@ body {
 
 .modal {
   position: fixed;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -92,7 +92,7 @@ body {
   height: 700px;
   width: 800px;
   left: calc(50% - 400px);
-  background-image: url(../../assets/parchment/parchment.png);
+  background-image: url(../assets/parchment/parchment.png);
   background-size: 800px 700px;
 }
 
@@ -114,9 +114,12 @@ body {
 
 #start_button:hover {
   color: red;
+  cursor: pointer;
 }
 
 #left-column {
+  display: flex;
+  align-items: row;
   width: 140px;
   border: black;
   background-color: gray;
@@ -131,6 +134,42 @@ body {
   height: 553px;
   width: 10px;
   background-color: dimgray;
+}
+
+#letter_a {
+  position: relative;
+  background-image: url(./../assets/wasd/letter_a-removebg.png);
+  background-size: 50px 50px;
+  height: 50px;
+  width: 50px;
+  top: 170px;
+  right: 210px;
+  background-color: grey;
+}
+
+#letter_d {
+  position: relative;
+  background-image: url(./../assets/wasd/letter_d_removebg.png);
+  background-size: 50px 50px;
+  height: 50px;
+  width: 50px;
+  left: 58px;
+  bottom: 32px;
+  background-color: grey;
+}
+
+#left_text {
+  position: relative;
+  bottom: 20px;
+  font-family: "Kaushan Script", cursive;
+  left: 9px;
+}
+
+#right_text {
+  position: relative;
+  bottom: 35px;
+  font-family: "Kaushan Script", cursive;
+  left: 63px;
 }
 
 #right-shadow {

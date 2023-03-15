@@ -85,10 +85,14 @@ export default class FireArrow extends AnimatedObject {
 		if (this.direction === "right") {
 			this.direction = "left";
 			this.position.x = 10;
-			this.velocity.x = 3;
+			this.position.y = this.generateRandomNumber(0, 501)
+			this.velocity.x = this.generateRandomNumber(2, 6);
+			console.log(this.velocity.x)
 		} else {
 			this.direction = "right";
 			this.position.x = 900;
+			this.position.y = this.generateRandomNumber(0, 500)
+			this.velocity.x = this.generateRandomNumber(2, 6);
 			this.velocity.x = -3;
 			
 		}
@@ -110,6 +114,10 @@ export default class FireArrow extends AnimatedObject {
 		setTimeout( () => {
 			this.hit = false
 		}, 1000)
+	}
+
+	generateRandomNumber(max, min) {
+		return Math.floor(Math.random() * (max - min + 1) + min)
 	}
 
 }
