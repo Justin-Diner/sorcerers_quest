@@ -83,7 +83,7 @@ body {
 
 .modal {
   position: fixed;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -138,7 +138,7 @@ body {
 
 #letter_a {
   position: relative;
-  background-image: url(./../assets/wasd/letter_a-removebg.png);
+  background-image: url(./../assets/wasd/a-keyboard-button.png);
   background-size: 50px 50px;
   height: 50px;
   width: 50px;
@@ -149,13 +149,58 @@ body {
 
 #letter_d {
   position: relative;
-  background-image: url(./../assets/wasd/letter_d_removebg.png);
+  background-image: url(./../assets/wasd/d_md.png);
   background-size: 50px 50px;
   height: 50px;
   width: 50px;
   left: 58px;
   bottom: 32px;
   background-color: grey;
+}
+
+#letter_c {
+  position: relative;
+  background-image: url(./../assets/wasd/c_key_final.png);
+  background-size: 50px 50px;
+  height: 50px;
+  width: 50px;
+  top: 168px;
+  right: 96px;
+  background-color: grey;
+}
+
+#jump_text {
+  position: relative;
+  bottom: 22px;
+  left: 30px;
+  font-family: "Kaushan Script", cursive;
+}
+
+#spacebar {
+  position: relative;
+  background-image: url(./../assets/wasd/spacebar-md.png);
+  background-size: 110px 50px;
+  height: 50px;
+  width: 110px;
+  bottom: 12px;
+  background-color: grey;
+}
+
+#attack_text {
+  position: relative;
+  right: 142px;
+  top: 150px;
+  font-family: "Kaushan Script", cursive;
+}
+
+#space_text {
+  position: relative;
+  bottom: 43px;
+  left: 20px;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-family: bold;
+  font-weight: 800;
 }
 
 #left_text {
@@ -234,7 +279,6 @@ body {
 
 #bottom {
   position: relative;
-  bottom: 2px;
   padding-bottom: 2px;
   height: 320px;
   background-color: gray;
@@ -270,6 +314,11 @@ body {
   background-color: #654321;
 }
 
+#dark_cement {
+  height: 14px;
+  background-color: DimGray;
+}
+
 #moss {
   height: 4px;
   background-color: darkgreen;
@@ -297,9 +346,9 @@ body {
 
 #bottom-text-area {
   position: relative;
-  top: 50px;
+  top: 40px;
   height: 220px;
-  background-color: green;
+  background-color: grey;
 }
 
 #walkway-parent {
