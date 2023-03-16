@@ -72,3 +72,9 @@ The project uses vanilla JavaScript, HTML, and CSS. The game utilizes the HTML C
 		}
 	}
 ```
+
+## Features in Development
+* Difficulty incease by having levels. Each level increases the amount of arrows fired.  
+* Smoother animations for my sprites 
+* Healing on the castle. 
+* More terrain 
