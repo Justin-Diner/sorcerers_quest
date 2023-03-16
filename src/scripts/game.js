@@ -151,7 +151,7 @@ export default class Game {
 		});
 		this.arrow.push(initialArrowOne);
 		this.arrow.push(initialArrowTwo);
-		setInterval(() => {
+		this.arrowInterval = setInterval(() => {
 			for (let i = 0; i < this.arrow.length; i++) {
 			this.arrow[i].draw(ctx);
 			this.arrow[i].reset();
@@ -253,13 +253,13 @@ export default class Game {
 	stopArrowDamage(i) {
 			this.arrow[i].recentlyHit = true; 
 			this.arrow.slice(i, 1)
-			console.log(this.arrow)
 	}
 
 	isGameOver(ctx) {
 		if (this.sorcerer.health < 1) {
 			let losingModal = document.getElementById("losing-modal");
 			let losing_button = document.getElementById("losing_button");
+			clearInterval(this.arrowInterval);
 			this.gameStarted = false;
 			losing_button.addEventListener("click", () => {
 				losingModal.style.display = "none";
