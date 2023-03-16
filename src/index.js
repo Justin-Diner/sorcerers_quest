@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Starting Modal Variables
 	const startingModal = document.getElementById("starting-modal")
 	const start_buttons = document.getElementsByClassName("start_button")
+	const allModals = document.getElementsByClassName('modal')
 
 	// Sound Variables 
 	const muteButton = document.getElementById("soundbackground");
@@ -33,8 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	let gameStarted = false;
 
 	// Preloads the background. Setting the color of canvas to gray, etc.
-	game.start(ctx); 
-
 	// Sound EL (start sound, mute and unmute). Default is muted. 
 	muteButton.addEventListener("click", () => {
 		if (startingAudio.muted === false) {
@@ -53,7 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		start_buttons[i].addEventListener("click", () => {
 			// Once clicked the animate() loop will run and hide display. 
 			gameStarted = true;
-			startingModal.style.display = "none";
+			changeDisplay(allModals);
+			game.start(ctx); 
+			animate();
 	})}
 
 	// When this is called below, if started, the game animates. 
@@ -62,15 +63,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			// If the game.animate() ever returns true, the game is over. 
 			const gameFlag = game.animate(ctx);
 			if (gameFlag) {
+				gameStarted = false;
 				return
 			}
 		}
 		// Repeats the method inside it 60 times per second. 
 		requestAnimationFrame(animate);
 	}
-
-	animate();
 });
 
-
+function changeDisplay(modals) {
+	for (let i = 0; i < modals.length; i++) {
+		console.log(modals);
+		modals[i].style.display = "none";
+	}
+}
 

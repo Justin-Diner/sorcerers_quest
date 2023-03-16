@@ -78,7 +78,8 @@ export default class Game {
 				x: this.sorcerer.position.x, 
 				y: this.sorcerer.position.y
 			}}
-		)
+		),
+		this.gameStarted = true;
 
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "d") {
@@ -131,7 +132,6 @@ export default class Game {
 		backgroundImage.draw(ctx);
 		ctx.restore();
 
-		// Initial thoughts on how to start the Arrow. It starts on animate(). 
 		// Initial Arrows
 		let initialArrowOne = new FireArrow({
 			position: { x: 900, y: 80}, 
@@ -200,11 +200,11 @@ export default class Game {
 		// Collision Detection
 		this.isCollided();
 
-		if (this.isVictory() === true) {
+		if (this.isVictory()) {
 			return true;
 		}
 		
-		if (this.isGameOver(ctx) === true) {
+		if (this.isGameOver(ctx)) {
 			return true; 
 		}
 	}
@@ -233,7 +233,6 @@ export default class Game {
 						new FireArrow(
 							randomShootingPosition()), 
 							);
-					console.log(this.arrow);
 				}
 			}
 		i++;
@@ -259,8 +258,9 @@ export default class Game {
 
 	isGameOver(ctx) {
 		if (this.sorcerer.health < 1) {
-			let losingModal = document.getElementById("losing-modal")
-			let losing_button = document.getElementById("losing_button")
+			let losingModal = document.getElementById("losing-modal");
+			let losing_button = document.getElementById("losing_button");
+			this.gameStarted = false;
 			losing_button.addEventListener("click", () => {
 				losingModal.style.display = "none";
 				location.reload();
