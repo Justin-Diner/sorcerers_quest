@@ -4,68 +4,71 @@
 
 Sorcerer's Quest is a vanilla JavaScript fantasy adventure game! You begin as a Sorcerer whose quest is simple, defeat the King hiding in Castlevania. It's not a simple quest, as the King's men will be defending the Castle with fire arrows. 
 
+![Introduction](./strategy/introduction.png)
+
 ## Technologies 
 
-The project will use vanilla JavaScript, HTML, and CSS. It will utilize the Canvas API to create animations, include collision detection, and an epic **explosive** ending! 
+The project uses vanilla JavaScript, HTML, and CSS. The game utilizes the HTML Canvas API to create animations, fire arrows, and complete collision detection. 
 
 ## User Controls
 
  1 - Accept(Start) Your Quest
  2 - Move the character left and right by using A-D. (Jump functionality may also be added if time permitted)
  3 - Dogde, Duck, Dive, Dip, Dive, and Dodge. 
- 4 - Reach the castle.
- 5 - Battle by casting your spell by using C.  
- 6 - Defat the castle.
- 7 - Profit! (Credits)
+ 4 - Battle by casting your spell by using C.  
+ 5 - Defat the castle.
+ 6 - Profit! (Save the people and become their leader!)
 
-In Sorcerer's Quest, users will be able to:
+## Feature Implementation 
 
-1. Control the Sorcerer Character  
-2. Dodge Arrows  
-3. Cast their fireball spell.   
-4. Heal  
-5. Blow up the Castle!  
+1. Control the Sorcerer Character and Dodging Arrows  
 
-In addition, this project will include:
+```javascript		
 
-6. Enemies to fight.   
-7. Additional Spells   
+	window.addEventListener("keydown", (e) => {
+		if (e.key === "d") {
+			acceptableKeys.d.pressed = true; 
+			sorcerer.moveRight();
+		} else if (e.key === "a") {
+			acceptableKeys.a.pressed = true; 
+			sorcerer.moveLeft();
+		} else if (e.key === " ") {
+			acceptableKeys.space.pressed = true; 
+			sorcerer.jump();
+		} else if (e.key === "c" && !(cLocked)) {
+			this.lockC();
+			sorcerer.cast();
+			
+			this.castle.health -=10
+			this.castle.healthbar.decrease();
+		}
+	})
+```
 
-## Implementation Timeline 
+ 2. Hit Detection was completed by the animation loop checking whether or not each arrow's hitbox is within the sorcerer's hitbox pixel boundaries. If it is, the arrow is timed out from doing damage for 1 second (which causes only one instancce of damage).  
+ 
+```javascript 
+	isCollided() {
+		let sorcerer = this.sorcerer
+		let sorcererHitBox = sorcerer.hitboxDims();
+		let topLeft = sorcererHitBox.topLeft;
+		let topRight = sorcererHitBox.topRight;
+		let bottomRight = sorcererHitBox.bottomRight;
 
-- Friday Afternoon & Weekend - Friday will be spent researching canvas and getting basic building blocks in place for the game. (Creating a color scheme, creating/finding appropriate assets), obtaining general skills to work with Canvas. The weekend will be spent trying to create the main canvas, the background loaded, and the player on the screen. Additionally, the creation of the initial level. General movement of the Sorcerer and Arrows would be a huge plus. 
-- Monday - Monday will be spent getting the player to move appropriately, loading arrows onto the screen, figuring out flight projetions and collision. Should also consider the start/music button, Github links/personal links, instructions, and general CSS.  
-- Tuesday - Tuesday I will complete collision detection to ensure that when the arrows his the Sorcerer his health decreases. Ensure he dies as 0 health and you have to restart. Work on the anmation and boss battle with the castle. 
-- Wednesday - Final adjustments, any additional features, cleanup, music, and sound. 
-- Thursday Morning - CSS Cleanup/Deployment. Presentation.
-
-## Wireframe 
-
-![alt text](./strategy/sorcerersquestwire.png)
-
-## Checklist
-
-☐ Includes links to your portfolio website, Github, and LinkedIn.
-
-☐ Landing page/modal with obvious, clear instructions.
-
-☐ Interactivity of some kind.
-
-☐ Well styled, clean frontend.
-
-☐ If it has music, the option to mute or stop it.
-
-Production README
-☐ Link to live version.
-
-☐ Instructions on how to play/interact with the project.
-
-☐ List of technologies / libraries / APIs used.
-
-☐ Technical implementation details with (good-looking) code snippets.
-
-☐ To-dos / future features.
-
-☐ No .DS_Store files / debuggers / console.logs.
-
-☐ Organized file structure, with /src and /dist directories.
+		for (let i = 0; i < this.arrow.length; i++) {
+			if (this.arrow[i].recentlyHit === false) {
+				if ((this.arrow[i].hitbox.position.x > topLeft[0] && this.arrow[i].hitbox.position.x < topRight[0]) && (this.arrow[i].hitbox.position.y < bottomRight[1] && this.arrow[i].hitbox.position.y > topRight[1])) {
+					this.stopArrowDamage(i);
+					this.arrow[i].ifHit();
+					sorcerer.health -= 10;
+					this.sorcerer.healthBar.decrease();
+					this.arrow.push(
+						new FireArrow(
+							randomShootingPosition()), 
+							);
+				}
+			}
+		i++;
+		}
+	}
+```
