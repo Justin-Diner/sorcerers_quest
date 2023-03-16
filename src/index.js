@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function changeDisplay(modals) {
 	for (let i = 0; i < modals.length; i++) {
-		console.log(modals);
 		modals[i].style.display = "none";
 	}
 }
