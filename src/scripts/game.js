@@ -6,7 +6,7 @@ import HealthBar from './health_bar'
 import Camera from './camera'
 import Castle from './castle';
 
-let background = new StillObject({
+let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
 	imageSrc: './assets/background/sunnybackground.jpg'}
 );
@@ -87,40 +87,28 @@ export default class Game {
 	}
 
 	start(ctx) {
-		ctx.fillStyle = "gray"; // canvas is white
-		ctx.fillRect(0, 30, canvas.width, canvas.height); // filling the canvas background
+		ctx.fillStyle = "gray"; // Turns the fillstyle to Gray
+		ctx.fillRect(0, 30, canvas.width, canvas.height); // Filling the canvas background on start. 
 
 		// Background (scaled to bottom left)
 		ctx.save(); // image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times odn x and y axis
-		ctx.translate(this.camera.position.x, -background.image.height + scaledCanvas.height)
-		background.draw(ctx);
+		ctx.translate(this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
+		backgroundImage.draw(ctx);
 		ctx.restore();
-		let arrow = new FireArrow({position: {
-			x: 900,
-			y: 80
-			}
-		})
-		this.arrow.push(arrow);
-		setInterval(() => {
-			this.arrow[0].reset();
-			console.log("Start Timer")
-		}, 2000)
-		this.camera = new Camera({
-			position: {
-				x: 0, 
-				y: 0
-			}
-		})
+
+		// Initial thoughts on how to start the Arrow. It starts on animate(). 
+		//let arrow = new FireArrow({position: { x: 900, y: 80}}) // Initial Arrow
+		//setInterval(() => {
+		//	this.arrow[0].reset();
+		//	console.log("Start Timer")
+		//}, 2000)
 	}
 
 	animate(ctx) {
-		ctx.fillStyle = "white"; // canvas is white
-		ctx.fillRect(0, 30, canvas.width, canvas.height); // filling the canvas background
-		
 		// Background (scaled to bottom left)
-		ctx.save(); // image is 688 x 432
-		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
+		ctx.save(); // Saving context. Pushes current stack onto state. 
+		ctx.scale(4, 4) // Enlarges  by 4 times on x and y axis
 		ctx.translate(-this.camera.position.x, -background.image.height + scaledCanvas.height)
 		background.draw(ctx);
 		ctx.restore();

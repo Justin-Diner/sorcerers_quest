@@ -1,37 +1,41 @@
 import Sorcerer from './scripts/sorcerer';
-import Game from './scripts/game'
 import Castle from './scripts/castle';
-
-
+import Game from './scripts/game';
 
 document.addEventListener("DOMContentLoaded", () => {
-	// Game
-	const title = document.getElementById("title");
 	const canvas = document.getElementById("canvas");
 	const ctx = canvas.getContext("2d");
-	canvas.height = 576; // height and width are this to fit most browsers. 
-	canvas.width = 1024;
+	canvas.height = 576; // Setting pixel height of canvas. 
+	canvas.width = 1024; // Setting pixel width of canvas. 
 
-	const castle = new Castle({position: {x: 680, y: 480}})
+	// Starting Modal Variables
+	const startingModal = document.getElementById("starting-modal")
+	const start_buttons = document.getElementsByClassName("start_button")
+
+	// Sound Variables 
+	const muteButton = document.getElementById("soundbackground");
+	const muteButtonImage = document.getElementById("sound_button")
+
+	// Main game, sorcerer, and castle variables. 
+	const castle = new Castle({position: {x: 680, y: 480}});
 	const sorcerer = new Sorcerer({x: 180, y: 280});
 	const game = new Game(sorcerer, castle);
-	
-	let started = false;
-	game.start(ctx);
 
-	let startingModal = document.getElementById("starting-modal")
-	let start_buttons = document.getElementsByClassName("start_button")
-
-	let muteButton = document.getElementById("soundbackground");
-	let muteButtonImage = document.getElementById("sound_button")
-	
+	// Sound - Introduction  variables. 
 	let startingAudio = document.createElement("AUDIO");
 	startingAudio.src = "./assets/music/intro_music.mp3"
 	startingAudio.loop = true; 
 	startingAudio.autoplay = true; 
 	startingAudio.muted = true;
 	muteButton.appendChild(startingAudio);
+	
+	// Game Started state flag. 
+	let gameStarted = false;
 
+	// Preloads the background. Setting the color of canvas to gray, etc.
+	game.start(ctx); 
+
+	// Sound EL (start sound, mute and unmute). Default is muted. 
 	muteButton.addEventListener("click", () => {
 		if (startingAudio.muted === false) {
 			startingAudio.muted = true;
@@ -44,15 +48,16 @@ document.addEventListener("DOMContentLoaded", () => {
 		muteButton.appendChild(startingAudio);
 	})
 
-
+	// Setting the start button on the starting Modal. 
 	for (let i = 0; i < start_buttons.length; i++) {
 		start_buttons[i].addEventListener("click", () => {
-		started = true;
-		startingModal.style.display = "none";
+			// Once clicked the animate() loop will run and hide display. 
+			gameStarted = true;
+			startingModal.style.display = "none";
 	})}
 
-
-	function animate() { // Call this to animate anything inside. 
+	// When this is called below, if started, the game animates. 
+	function animate() { 
 		if (started) {
 			let endingFlag = game.animate(ctx);
 			startingModal.style.display = "none"
@@ -60,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				return
 			}
 		}
+		// Repeats the method inside it 60 times per second. 
 		requestAnimationFrame(animate);
 	}
 
