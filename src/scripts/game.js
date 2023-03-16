@@ -274,7 +274,7 @@ export default class Game {
 		if (this.castle.health < 1) {
 			let winningModal = document.getElementById("winning-modal")
 			let winning_button = document.getElementById("winning_button")
-			
+			clearInterval(this.arrowInterval);
 			winning_button.addEventListener("click", () => {
 				winningModal.style.display = "none";
 				location.reload();
