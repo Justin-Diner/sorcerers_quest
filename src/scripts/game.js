@@ -33,8 +33,42 @@ const acceptableKeys = {
 
 let cLocked = false;
 
+function randomShootingPosition() {
+	let spawnHeight = Math.floor(576 / 3)
+	let spawnWidth = 1024
+	let xPosition = spawnWidth * Math.random();
+	let yPosition = spawnHeight * Math.random()
+	let newDirection; 
+	let velocity = {
+		x: 0, 
+		y: 0
+	};
+
+	if (xPosition < 512) {
+		newDirection = "left";
+	} else {
+		newDirection = "right";
+	}
+
+	if (newDirection = "left") {
+		velocity.x = 3;
+	} else {
+		velocity.x = -3;
+	}
+
+	return { position: {
+		x: xPosition,
+		y: yPosition
+		},
+		currentDirection : newDirection, 
+		velocity : {
+			x: velocity.x,
+			y: velocity.y
+		}
+	}
+}
+
 export default class Game {
-	
 	constructor(sorcerer, castle) {
 		this.sorcerer = sorcerer;
 		this.castle = castle;
@@ -98,38 +132,74 @@ export default class Game {
 		ctx.restore();
 
 		// Initial thoughts on how to start the Arrow. It starts on animate(). 
-		//let arrow = new FireArrow({position: { x: 900, y: 80}}) // Initial Arrow
-		//setInterval(() => {
-		//	this.arrow[0].reset();
-		//	console.log("Start Timer")
-		//}, 2000)
+		// Initial Arrows
+		let initialArrowOne = new FireArrow({
+			position: { x: 900, y: 80}, 
+			currentDirection: "right",
+			velocity: {
+				x: -3,
+				y: 2
+			}
+		}); 
+		let initialArrowTwo = new FireArrow({
+			position: { x: 20, y: 80}, 
+			currentDirection: "left",
+			velocity: {
+				x: 3,
+				y: 2
+			}
+		});
+		this.arrow.push(initialArrowOne);
+		this.arrow.push(initialArrowTwo);
+		setInterval(() => {
+			for (let i = 0; i < this.arrow.length; i++) {
+			this.arrow[i].draw(ctx);
+			this.arrow[i].reset();
+			}
+		}, 2000)
+		
+		// Sets the background in the right spot (need to adjust this).
+		this.camera = new Camera({
+			position: { 
+				x: 0, 
+				y: 0
+			}
+		})
 	}
 
 	animate(ctx) {
 		// Background (scaled to bottom left)
 		ctx.save(); // Saving context. Pushes current stack onto state. 
 		ctx.scale(4, 4) // Enlarges  by 4 times on x and y axis
-		ctx.translate(-this.camera.position.x, -background.image.height + scaledCanvas.height)
-		background.draw(ctx);
+		ctx.translate(-this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
+		backgroundImage.draw(ctx);
 		ctx.restore();
-
-		// HEALTH BAR
-		this.sorcerer.healthBar.draw(ctx);
+	
+		// Drawing Socerer and Castle Healthbars
+		// Sorcerer must be drawn 2nd for fireball animation to be in front of castle. 
 		this.castle.draw(ctx);
 		this.castle.healthbar.draw(ctx);
-
 		this.sorcerer.draw(ctx);
-		this.arrow[0].draw(ctx);
+		this.sorcerer.healthBar.draw(ctx);
 
-		// Initial velocity = 0 
-		this.sorcerer.velocity.x = 0; 
+		// Initial Arrow drawn begins moving. 
+		for (let i = 0; i < this.arrow.length; i++) {
+			this.arrow[i].draw(ctx);
+		}
+		
+		// Initial Socerer Velocity  
+		this.sorcerer.velocity.x = 0;
+
 		// Increase velocity based on what's pressed
 		if (acceptableKeys.d.pressed) {
 			this.sorcerer.velocity.x = 5;
 		} else if (acceptableKeys.a.pressed) {
 			this.sorcerer.velocity.x = -5
 		}
+
+		// Collision Detection
 		this.isCollided();
+
 		if (this.isVictory() === true) {
 			return true;
 		}
@@ -137,47 +207,54 @@ export default class Game {
 		if (this.isGameOver(ctx) === true) {
 			return true; 
 		}
-		//this.shouldPanCameraToTheRight();
 	}
 
 	isOutOfBounds(pos) {
 		let xPos = pos[0]
 		let yPos = pos[y]
 		return (xPos < 0) || (xPos > 1024) || (yPos > 576)
-		//|| || (yPos < 0) 
 	}
 
 	isCollided() {
-		let arrow = this.arrow[0]
 		let sorcerer = this.sorcerer
 		let sorcererHitBox = sorcerer.hitboxDims();
 		let topLeft = sorcererHitBox.topLeft;
 		let topRight = sorcererHitBox.topRight;
 		let bottomRight = sorcererHitBox.bottomRight;
 
-		if (this.arrow[0].hit === false) {
-			if ((arrow.hitbox.position.x > topLeft[0] && arrow.hitbox.position.x < topRight[0]) && (arrow.hitbox.position.y < bottomRight[1] && arrow.hitbox.position.y > topRight[1])) {
-				this.hit();
-				this.arrow[0].ifHit();
-				sorcerer.health -= 10;
-				this.sorcerer.healthBar.decrease();
+		for (let i = 0; i < this.arrow.length; i++) {
+			if (this.arrow[i].recentlyHit === false) {
+				if ((this.arrow[i].hitbox.position.x > topLeft[0] && this.arrow[i].hitbox.position.x < topRight[0]) && (this.arrow[i].hitbox.position.y < bottomRight[1] && this.arrow[i].hitbox.position.y > topRight[1])) {
+					this.stopArrowDamage(i);
+					this.arrow[i].ifHit();
+					sorcerer.health -= 10;
+					this.sorcerer.healthBar.decrease();
+					this.arrow.push(
+						new FireArrow(
+							randomShootingPosition()), 
+							);
+					console.log(this.arrow);
+				}
 			}
+		i++;
 		}
 	}
 
-	shouldPanCameraToTheRight() {
-		const cameraboxRightSide = this.sorcerer.camerabox.position.x + this.sorcerer.camerabox.width;
+	// Feature not Implemented. 
+	//shouldPanCameraToTheRight() {
+	//	const cameraboxRightSide = this.sorcerer.camerabox.position.x + this.sorcerer.camerabox.width;
 
-		if (cameraboxRightSide >= 1026) {
-			console.log(`Socerer Vel: ${this.sorcerer.velocity.x} Camera Vel: ${this.camera.position.x}`)
-			console.log(this.camera)
-			this.camera.position.x += this.sorcerer.velocity.x
-		}
-	}
+	//	if (cameraboxRightSide >= 1026) {
+	//		console.log(`Socerer Vel: ${this.sorcerer.velocity.x} Camera Vel: ${this.camera.position.x}`)
+	//		console.log(this.camera)
+	//		this.camera.position.x += this.sorcerer.velocity.x
+	//	}
+	//}
 
-	hit() {
-		this.arrow[0].hit = true; 
-		this.arrow.slice(0, 1)
+	stopArrowDamage(i) {
+			this.arrow[i].recentlyHit = true; 
+			this.arrow.slice(i, 1)
+			console.log(this.arrow)
 	}
 
 	isGameOver(ctx) {
@@ -219,18 +296,5 @@ export default class Game {
 	unlockC() {
 		cLocked = false;
 	}
-
-
 }
 
-
-
-function randomShootingPosition() {
-	let height = Math.floor(576 / 2.5)
-	let width = 1024
-	return { position: {
-		x: height * Math.random(),
-		y: width * Math.random()
-		}
-	}
-}

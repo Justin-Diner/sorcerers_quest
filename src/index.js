@@ -58,10 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// When this is called below, if started, the game animates. 
 	function animate() { 
-		if (started) {
-			let endingFlag = game.animate(ctx);
-			startingModal.style.display = "none"
-			if (endingFlag === true) {
+		if (gameStarted) {
+			// If the game.animate() ever returns true, the game is over. 
+			const gameFlag = game.animate(ctx);
+			if (gameFlag) {
 				return
 			}
 		}

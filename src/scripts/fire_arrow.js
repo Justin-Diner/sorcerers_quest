@@ -1,20 +1,25 @@
 import AnimatedObject from "./animated_object";
 
+// Base Dimensions of each arrow. 
 const ARROW_HEIGHT = 110;
 const ARROW_WIDTH = 100;
 
 export default class FireArrow extends AnimatedObject {
 	constructor(options) {
 		options.imageSrc = './assets/fire_arrow/fire.png'
+		// Consider renaming amountOfFrames (it is in animated Object)
 		options.amountOfFrames = 29;
+
 		super(options) // position
 		this.position = options.position
 		this.width = ARROW_WIDTH;
 		this.height = ARROW_HEIGHT;
+
 		this.velocity = {
-			x: -3, 
-			y: 2, 
+			x: options.velocity.x, 
+			y: options.velocity.y
 		}
+
 		this.hitbox = {
 			position: {
 				x: this.position.x, 
@@ -23,15 +28,14 @@ export default class FireArrow extends AnimatedObject {
 			width: 10, 
 			height: 10
 		}
-		this.target = options.target;
-		this.hit = false; 
-		this.direction = "right";
+
+		this.recentlyHit = false; 
+		this.currentDirection = options.currentDirection;
 	}
 
 	draw(ctx) {
-
-		if (this.direction === "right") {
-			// Creates Arrow Shaft
+		if (this.currentDirection === "right") {
+			// Creates Right facing Arrow Shaft
 			ctx.beginPath();
 			ctx.strokeStyle = '#964B00';
 			ctx.lineWidth = 3;
@@ -39,7 +43,7 @@ export default class FireArrow extends AnimatedObject {
 			ctx.lineTo(this.position.x + 100, this.position.y + 60);
 			ctx.stroke();
 
-			// Creates end of Arrow
+			// Creates Right facing arrow end
 			ctx.beginPath();
 			ctx.fillStyle = "#5A5A5A"
 			ctx.moveTo(this.position.x + 96, this.position.y + 60);
@@ -47,6 +51,7 @@ export default class FireArrow extends AnimatedObject {
 			ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
 			ctx.fill();
 		} else {
+			// Creates Left facing Arrow Shaft
 			ctx.beginPath();
 			ctx.strokeStyle = '#964B00';
 			ctx.lineWidth = 3;
@@ -54,7 +59,7 @@ export default class FireArrow extends AnimatedObject {
 			ctx.lineTo(this.position.x -12, this.position.y + 60);
 			ctx.stroke();
 
-			// Creates end of Arrow
+			// Creates Left facing arrow end
 			ctx.beginPath();
 			ctx.fillStyle = "#5A5A5A"
 			ctx.moveTo(this.position.x, this.position.y + 60);
@@ -63,17 +68,12 @@ export default class FireArrow extends AnimatedObject {
 			ctx.fill();
 		}
 
+		//Moves the arrow hitbox as it moves. 
 		this.updateHitBox();
 
+		// Increases the position in accordance with the arrows velocity. 
 		this.move()
 		this.animate(ctx, this.width, this.height);
-
-		// Hitbox Representations 
-		//ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
-		//ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
-		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
-
 	}
 
 	move() {
@@ -82,18 +82,18 @@ export default class FireArrow extends AnimatedObject {
 	}
 
 	reset() {
-		if (this.direction === "right") {
-			this.direction = "left";
+		if (this.currentDirection === "right") {
+			
 			this.position.x = 10;
-			this.position.y = this.generateRandomNumber(0, 501)
+			this.position.y = this.generateRandomNumber(0, 501);
 			this.velocity.x = this.generateRandomNumber(2, 6);
+			this.currentDirection = "left";
 		} else {
-			this.direction = "right";
 			this.position.x = 900;
 			this.position.y = this.generateRandomNumber(0, 500)
 			this.velocity.x = this.generateRandomNumber(2, 6);
 			this.velocity.x = -3;
-			
+			this.currentDirection = "right";
 		}
 		this.position.y = 40; 
 	}
@@ -111,7 +111,8 @@ export default class FireArrow extends AnimatedObject {
 
 	ifHit() {
 		setTimeout( () => {
-			this.hit = false
+			this.recentlyHit = false
+			this.reset();
 		}, 1000)
 	}
 
