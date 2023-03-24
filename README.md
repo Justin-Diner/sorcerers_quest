@@ -4,7 +4,7 @@
 
 ## Description
 
-Sorcerer's Quest is a vanilla JavaScript fantasy adventure game! You begin as a Sorcerer whose quest is simple, defeat the King hiding in Castlevania. It's not a simple quest, as the King's men will be defending the Castle with fire arrows. 
+Sorcerer's Quest is a vanilla JavaScript fantasy adventure game! You begin as a Sorcerer whose quest is simple, defeat the King hiding in Castlevania. It's not a simple quest, as the King's guards will be defending the Castle with fire arrows. Be sure to dodge them!
 
 ![Introduction](./strategy/introduction.png)
 
