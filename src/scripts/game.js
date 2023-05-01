@@ -1,10 +1,7 @@
 import Sorcerer from './sorcerer';
 import StillObject from './still_object'
 import FireArrow from './fire_arrow';
-import { Util } from './dist';
-import HealthBar from './health_bar'
 import Camera from './camera'
-import Castle from './castle';
 
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
@@ -38,19 +35,19 @@ function randomShootingPosition() {
 	let spawnWidth = 1024
 	let xPosition = spawnWidth * Math.random();
 	let yPosition = spawnHeight * Math.random()
-	let newDirection; 
+	let arrowDirection; 
 	let velocity = {
 		x: 0, 
 		y: 0
 	};
 
 	if (xPosition < 512) {
-		newDirection = "left";
+		arrowDirection = "left";
 	} else {
-		newDirection = "right";
+		arrowDirection = "right";
 	}
 
-	if (newDirection = "left") {
+	if (arrowDirection = "left") {
 		velocity.x = 3;
 	} else {
 		velocity.x = -3;
@@ -60,7 +57,7 @@ function randomShootingPosition() {
 		x: xPosition,
 		y: yPosition
 		},
-		currentDirection : newDirection, 
+		currentDirection : arrowDirection, 
 		velocity : {
 			x: velocity.x,
 			y: velocity.y
@@ -72,7 +69,7 @@ export default class Game {
 	constructor(sorcerer, castle) {
 		this.sorcerer = sorcerer;
 		this.castle = castle;
-		this.arrow = [];
+		this.inGameArrows = [];
 		this.camera = new Camera({
 			position: {
 				x: this.sorcerer.position.x, 
@@ -127,7 +124,7 @@ export default class Game {
 
 		// Background (scaled to bottom left)
 		ctx.save(); // image is 688 x 432
-		ctx.scale(4, 4) // Enlarges by 4 times odn x and y axis
+		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
 		ctx.translate(this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
 		backgroundImage.draw(ctx);
 		ctx.restore();
@@ -141,6 +138,7 @@ export default class Game {
 				y: 2
 			}
 		}); 
+
 		let initialArrowTwo = new FireArrow({
 			position: { x: 20, y: 80}, 
 			currentDirection: "left",
@@ -149,22 +147,24 @@ export default class Game {
 				y: 2
 			}
 		});
-		this.arrow.push(initialArrowOne);
-		this.arrow.push(initialArrowTwo);
-		this.arrowInterval = setInterval(() => {
-			for (let i = 0; i < this.arrow.length; i++) {
-			this.arrow[i].draw(ctx);
-			this.arrow[i].reset();
-			}
-		}, 2000)
+
+		this.inGameArrows.push(initialArrowOne);
+		this.inGameArrows.push(initialArrowTwo);
+
+		//this.arrowInterval = setInterval(() => {
+		//	for (let i = 0; i < this.arrow.length; i++) {
+		//	this.arrow[i].draw(ctx);
+		//	this.arrow[i].reset();
+		//	}
+		//}, 2000)
 		
 		// Sets the background in the right spot (need to adjust this).
-		this.camera = new Camera({
-			position: { 
-				x: 0, 
-				y: 0
-			}
-		})
+		//this.camera = new Camera({
+		//	position: { 
+		//		x: 0, 
+		//		y: 0
+		//	}
+		//})
 	}
 
 	animate(ctx) {
@@ -183,8 +183,8 @@ export default class Game {
 		this.sorcerer.healthBar.draw(ctx);
 
 		// Initial Arrow drawn begins moving. 
-		for (let i = 0; i < this.arrow.length; i++) {
-			this.arrow[i].draw(ctx);
+		for (let i = 0; i < this.inGameArrows.length; i++) {
+			this.inGameArrows[i].draw(ctx);
 		}
 		
 		// Initial Socerer Velocity  
@@ -222,14 +222,14 @@ export default class Game {
 		let topRight = sorcererHitBox.topRight;
 		let bottomRight = sorcererHitBox.bottomRight;
 
-		for (let i = 0; i < this.arrow.length; i++) {
-			if (this.arrow[i].recentlyHit === false) {
-				if ((this.arrow[i].hitbox.position.x > topLeft[0] && this.arrow[i].hitbox.position.x < topRight[0]) && (this.arrow[i].hitbox.position.y < bottomRight[1] && this.arrow[i].hitbox.position.y > topRight[1])) {
+		for (let i = 0; i < this.inGameArrows.length; i++) {
+			if (this.inGameArrows[i].recentlyHit === false) {
+				if ((this.inGameArrows[i].hitbox.position.x > topLeft[0] && this.inGameArrows[i].hitbox.position.x < topRight[0]) && (this.inGameArrows[i].hitbox.position.y < bottomRight[1] && this.inGameArrows[i].hitbox.position.y > topRight[1])) {
 					this.stopArrowDamage(i);
-					this.arrow[i].ifHit();
+					this.inGameArrows[i].ifHit();
 					sorcerer.health -= 10;
 					this.sorcerer.healthBar.decrease();
-					this.arrow.push(
+					this.inGameArrows.push(
 						new FireArrow(
 							randomShootingPosition()), 
 							);
@@ -251,8 +251,8 @@ export default class Game {
 	//}
 
 	stopArrowDamage(i) {
-			this.arrow[i].recentlyHit = true; 
-			this.arrow.slice(i, 1)
+			this.inGameArrows[i].recentlyHit = true; 
+			this.inGameArrows.slice(i, 1)
 	}
 
 	isGameOver(ctx) {
