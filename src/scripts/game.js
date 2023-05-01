@@ -3,6 +3,25 @@ import StillObject from './still_object'
 import FireArrow from './fire_arrow';
 import Camera from './camera'
 
+// Initial Arrows
+let initialArrowOne = new FireArrow({
+	position: { x: 900, y: 80}, 
+	currentDirection: "right",
+	velocity: {
+		x: -3,
+		y: 2
+	}
+}); 
+
+let initialArrowTwo = new FireArrow({
+	position: { x: 20, y: 80}, 
+	currentDirection: "left",
+	velocity: {
+		x: 3,
+		y: 2
+	}
+});
+
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
 	imageSrc: './assets/background/sunnybackground.jpg'}
@@ -119,63 +138,26 @@ export default class Game {
 	}
 
 	start(ctx) {
-		ctx.fillStyle = "gray"; // Turns the fillstyle to Gray
-		ctx.fillRect(0, 30, canvas.width, canvas.height); // Filling the canvas background on start. 
-
-		// Background (scaled to bottom left)
-		ctx.save(); // image is 688 x 432
-		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
-		ctx.translate(this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
-		backgroundImage.draw(ctx);
-		ctx.restore();
-
-		// Initial Arrows
-		let initialArrowOne = new FireArrow({
-			position: { x: 900, y: 80}, 
-			currentDirection: "right",
-			velocity: {
-				x: -3,
-				y: 2
-			}
-		}); 
-
-		let initialArrowTwo = new FireArrow({
-			position: { x: 20, y: 80}, 
-			currentDirection: "left",
-			velocity: {
-				x: 3,
-				y: 2
-			}
-		});
-
 		this.inGameArrows.push(initialArrowOne);
 		this.inGameArrows.push(initialArrowTwo);
 
-		//this.arrowInterval = setInterval(() => {
-		//	for (let i = 0; i < this.arrow.length; i++) {
-		//	this.arrow[i].draw(ctx);
-		//	this.arrow[i].reset();
-		//	}
-		//}, 2000)
-		
-		// Sets the background in the right spot (need to adjust this).
-		//this.camera = new Camera({
-		//	position: { 
-		//		x: 0, 
-		//		y: 0
-		//	}
-		//})
+		this.arrowInterval = setInterval(() => {
+			for (let i = 0; i < this.inGameArrows.length; i++) {
+			this.inGameArrows[i].draw(ctx);
+			this.inGameArrows[i].reset();
+			}
+		}, 2000)
 	}
 
 	animate(ctx) {
 		// Background (scaled to bottom left)
-		ctx.save(); // Saving context. Pushes current stack onto state. 
-		ctx.scale(4, 4) // Enlarges  by 4 times on x and y axis
+		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
+		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
 		ctx.translate(-this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
 		backgroundImage.draw(ctx);
 		ctx.restore();
 	
-		// Drawing Socerer and Castle Healthbars
+		// Drawing Socerer, Castle, and Healthbars
 		// Sorcerer must be drawn 2nd for fireball animation to be in front of castle. 
 		this.castle.draw(ctx);
 		this.castle.healthbar.draw(ctx);
@@ -232,7 +214,7 @@ export default class Game {
 					this.inGameArrows.push(
 						new FireArrow(
 							randomShootingPosition()), 
-							);
+					);
 				}
 			}
 		i++;

@@ -9,7 +9,6 @@ export default class FireArrow extends AnimatedObject {
 		options.imageSrc = './assets/fire_arrow/fire.png'
 		// Consider renaming amountOfFrames (it is in animated Object)
 		options.amountOfFrames = 29;
-
 		super(options) // position
 		this.position = options.position
 		this.width = ARROW_WIDTH;
@@ -35,39 +34,10 @@ export default class FireArrow extends AnimatedObject {
 
 	draw(ctx) {
 		if (this.currentDirection === "right") {
-			// Creates Right facing Arrow Shaft
-			ctx.beginPath();
-			ctx.strokeStyle = '#964B00';
-			ctx.lineWidth = 3;
-			ctx.moveTo(this.position.x + 50, this.position.y + 60);
-			ctx.lineTo(this.position.x + 100, this.position.y + 60);
-			ctx.stroke();
-
-			// Creates Right facing arrow end
-			ctx.beginPath();
-			ctx.fillStyle = "#5A5A5A"
-			ctx.moveTo(this.position.x + 96, this.position.y + 60);
-			ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
-			ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
-			ctx.fill();
+			this.drawRightArrow(ctx);
 		} else {
-			// Creates Left facing Arrow Shaft
-			ctx.beginPath();
-			ctx.strokeStyle = '#964B00';
-			ctx.lineWidth = 3;
-			ctx.moveTo(this.position.x + 50, this.position.y + 60);
-			ctx.lineTo(this.position.x -12, this.position.y + 60);
-			ctx.stroke();
-
-			// Creates Left facing arrow end
-			ctx.beginPath();
-			ctx.fillStyle = "#5A5A5A"
-			ctx.moveTo(this.position.x, this.position.y + 60);
-			ctx.lineTo(this.position.x - 12, this.position.y + 60 + 4);
-			ctx.lineTo(this.position.x - 12, this.position.y + 60 - 4);
-			ctx.fill();
+			this.drawLeftArrow(ctx);
 		}
-
 		//Moves the arrow hitbox as it moves. 
 		this.updateHitBox();
 
@@ -120,4 +90,38 @@ export default class FireArrow extends AnimatedObject {
 		return Math.floor(Math.random() * (max - min + 1) + min)
 	}
 
+	drawLeftArrow(ctx) {
+		ctx.beginPath();
+		ctx.strokeStyle = '#964B00';
+		ctx.lineWidth = 3;
+		ctx.moveTo(this.position.x + 50, this.position.y + 60);
+		ctx.lineTo(this.position.x -12, this.position.y + 60);
+		ctx.stroke();
+
+		// Creates Left facing arrow end
+		ctx.beginPath();
+		ctx.fillStyle = "#5A5A5A"
+		ctx.moveTo(this.position.x, this.position.y + 60);
+		ctx.lineTo(this.position.x - 12, this.position.y + 60 + 4);
+		ctx.lineTo(this.position.x - 12, this.position.y + 60 - 4);
+		ctx.fill();
+	}
+
+	drawRightArrow(ctx) {
+		// Creates Right facing Arrow Shaft
+		ctx.beginPath();
+		ctx.strokeStyle = '#964B00';
+		ctx.lineWidth = 3;
+		ctx.moveTo(this.position.x + 50, this.position.y + 60);
+		ctx.lineTo(this.position.x + 100, this.position.y + 60);
+		ctx.stroke();
+
+		// Creates Right facing arrow end
+		ctx.beginPath();
+		ctx.fillStyle = "#5A5A5A"
+		ctx.moveTo(this.position.x + 96, this.position.y + 60);
+		ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
+		ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
+		ctx.fill();
+	}
 }
