@@ -17,7 +17,7 @@ export const levelOneArrows = () => {
 				position: FireArrow.rightPositions[i],
 				currentDirection: "right",
 				velocity: {
-					x: -8, 
+					x: -20, 
 					y: 0
 				}
 			})

@@ -6,7 +6,7 @@ import utilities from './dist';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '..';
 import { ARROW_HEIGHT } from './fire_arrow';
 import LevelIndicator from './level_indicator';
-import levelOne from './levels/level_one';
+import { levelOneArrows } from './levels/level_one';
 
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
@@ -55,7 +55,7 @@ export default class Game {
 		this.levelIndicator = new LevelIndicator(1);
 
 		if (this.level = 1) {
-			this.inGameArrows = levelOne();
+			this.inGameArrows = levelOneArrows();
 		}
 
 
@@ -117,6 +117,12 @@ export default class Game {
 		//for (let i = 0; i < this.inGameArrows.length; i++) {
 		//	this.inGameArrows[i].draw(ctx);
 		//}
+
+		if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
+			this.inGameArrows = levelOneArrows();	
+			this.lastFiredArrowIndex = 0;
+		};
+
 		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
 		if (!currentArrow.moving) {
 			currentArrow.moving = true; 
@@ -125,11 +131,6 @@ export default class Game {
 
 		if (currentArrow.outsideCanvas) {
 			this.lastFiredArrowIndex++;
-
-			if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
-				this.lastFiredArrowIndex = 0;
-				this.inGameArrows = levelOne();
-			}
 		}
 
 		// Initial Socerer Velocity  
