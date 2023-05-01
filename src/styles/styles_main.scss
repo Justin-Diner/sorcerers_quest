@@ -22,23 +22,23 @@ body {
 #soundbackground {
 	position: fixed;
 	background-color: white;
-	width: 80px;
-	height: 80px; 
+	width: 60px;
+	height: 60px; 
 	z-index: 10;
 	border-radius: 50%;
 	left: 20px;
-	border: 4px solid black;
+	border: 3px solid black;
 }
 
 #sound_button {
 	position: relative;
 	background-image: url("../assets/mute/mute.png");
-	background-size: 60px 60px;
+	background-size: 48px 48px;
 	z-index: 11;
-	height: 60px; 
-	width: 60px;
-	left: 10px;
-	top: 10px;
+	height: 48px; 
+	width: 48px;
+	left: 5px;
+	top: 7px;
 }
 
 #main-content {
@@ -62,6 +62,14 @@ body {
 	background-image: url(../assets/parchment/parchment.png);
 	background-size: 800px 700px;
 	bottom: 40px;
+}
+
+#canvas {
+	border: 2px solid black;
+	height: 100%;
+	width: 100%;
+	position: relative;
+	top: 12px;
 }
 
 #winning-text {
@@ -340,8 +348,9 @@ body {
 	border-bottom: 111px solid black;
 	bottom: 90px;
 	right: 40px;
-
+	z-index: 2;
 }
+
 .inner-spire {
 	position: relative;
 	width: 0;
@@ -351,6 +360,7 @@ body {
 	border-bottom: 100px solid maroon;
 	right: 100px;
 	top: 6px;
+	z-index: 2;
 }
 
 #castle_door {

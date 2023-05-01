@@ -2,63 +2,54 @@ import Sorcerer from './scripts/sorcerer';
 import Castle from './scripts/castle';
 import Game from './scripts/game';
 
+export const CANVAS_HEIGHT = 576;
+export const CANVAS_WIDTH = 1024;
+
 document.addEventListener("DOMContentLoaded", () => {
 	const canvas = document.getElementById("canvas");
 	const ctx = canvas.getContext("2d");
-	canvas.height = 576; // Setting pixel height of canvas. 
-	canvas.width = 1024; // Setting pixel width of canvas. 
+	canvas.height = CANVAS_HEIGHT; // Setting pixel height of canvas. 
+	canvas.width = CANVAS_WIDTH; // Setting pixel width of canvas. 
+	ctx.fillStyle = "gray"; // Turns the fillstyle to Gray
+	ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+	console.log(`Canvas Height: ${canvas.clientHeight}`);
+	console.log(`Canvas Width: ${canvas.clientWidth}`);
 
 	// Starting Modal Variables
-	const startingModal = document.getElementById("starting-modal")
 	const start_buttons = document.getElementsByClassName("start_button")
 	const allModals = document.getElementsByClassName('modal')
-
-	// Sound Variables 
-	const muteButton = document.getElementById("soundbackground");
-	const muteButtonImage = document.getElementById("sound_button")
+	closeAllModals(allModals)
 
 	// Main game, sorcerer, and castle variables. 
 	const castle = new Castle({position: {x: 680, y: 480}});
 	const sorcerer = new Sorcerer({x: 180, y: 280});
 	const game = new Game(sorcerer, castle);
-
-	// Sound - Introduction  variables. 
-	let startingAudio = document.createElement("AUDIO");
-	startingAudio.src = "./assets/music/intro_music.mp3"
-	startingAudio.loop = true; 
-	startingAudio.autoplay = true; 
-	startingAudio.muted = true;
-	muteButton.appendChild(startingAudio);
 	
 	// Game Started state flag. 
-	let gameStarted = false;
+	//let gameStarted = false;
+	let gameStarted = true;
+	animate();
 
 	// Preloads the background. Setting the color of canvas to gray, etc.
-	// Sound EL (start sound, mute and unmute). Default is muted. 
-	muteButton.addEventListener("click", () => {
-		if (startingAudio.muted === false) {
-			startingAudio.muted = true;
-			muteButtonImage.style.backgroundImage = "url('./assets/mute/mute.png')"
-		} else {
-			startingAudio.muted = false;
-			startingAudio.play();
-			muteButtonImage.style.backgroundImage = "url('./assets/mute/sound_on.png')"
-		}
-		muteButton.appendChild(startingAudio);
-	})
-
 	// Setting the start button on the starting Modal. 
 	for (let i = 0; i < start_buttons.length; i++) {
 		start_buttons[i].addEventListener("click", () => {
 			// Once clicked the animate() loop will run and hide display. 
 			gameStarted = true;
-			changeDisplay(allModals);
+			closeAllModals(allModals);
 			game.start(ctx); 
 			animate();
 	})}
 
+	function closeAllModals(modals) {
+		for (let i = 0; i < modals.length; i++) {
+			modals[i].style.display = "none";
+		}
+	}
+
 	// When this is called below, if started, the game animates. 
 	function animate() { 
+
 		if (gameStarted) {
 			// If the game.animate() ever returns true, the game is over. 
 			const gameFlag = game.animate(ctx);
@@ -72,9 +63,5 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-function changeDisplay(modals) {
-	for (let i = 0; i < modals.length; i++) {
-		modals[i].style.display = "none";
-	}
-}
+
 

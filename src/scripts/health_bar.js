@@ -25,13 +25,12 @@ export default class HealthBar {
 	
 		// Text
 		ctx.fillStyle = "white";
+		ctx.font = "14px serif"
 		ctx.fillText(`${this.value} / ${this.maxHealth}`, this.textPosition, 29)
 		ctx.stroke();
-		
 	}
 
 	decrease() {
-		let maxInnerSize = 254;
 		if (this.value >= 1) {
 		this.value -= 10;
 		this.innerSize -= 254 / (this.maxHealth / 10);
