@@ -5,53 +5,8 @@ import Camera from './camera'
 import utilities from './dist';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '..';
 import { ARROW_HEIGHT } from './fire_arrow';
-
-const right_position_1 = {x: 900, y: 60};
-const right_position_2 = {x: 900, y: (60 + ARROW_HEIGHT) };
-const right_position_3 = {x: 900, y: (60 + (2 * ARROW_HEIGHT)) };
-const right_position_4 = {x: 900, y: (60 + (3 * ARROW_HEIGHT)) };
-const right_position_5 = {x: 900, y: (60 + (4 * ARROW_HEIGHT)) };
-const right_position_6 = {x: 900, y: (60 + (5 * ARROW_HEIGHT)) };
-
-const left_position_1 = {x: 20, y: 60 };
-const left_position_2 = {x: 20, y: (60 + ARROW_HEIGHT) };
-const left_position_3 = {x: 20, y: (60 + (2 * ARROW_HEIGHT)) };
-const left_position_4 = {x: 20, y: (60 + (3 * ARROW_HEIGHT)) };
-const left_position_5 = {x: 20, y: (60 + (4 * ARROW_HEIGHT)) };
-const left_position_6 = {x: 20, y: (60 + (5 * ARROW_HEIGHT)) };
-
-
-// Initial Arrows
-//let initialArrowOne = new FireArrow({
-//	position: right_position_1, 
-//	currentDirection: "right",
-//	velocity: {
-//		//x: -3,
-//		//y: 2
-//		x: -3,
-//		y: 0
-//	}
-//}); 
-
-let initialArrowTwo = new FireArrow({
-	position: left_position_1, 
-	currentDirection: "left",
-	velocity: {
-		//x: 3,
-		//y: 2
-		x: 1, 
-		y: 0
-	}
-});
-
-//let initialArrowThree = new FireArrow({
-//	position: { x: 0, y: 0}, 
-//	currentDirection: "left",
-//	velocity: {
-//		x: 0,
-//		y: 0
-//	}
-//});
+import LevelIndicator from './level_indicator';
+import levelOne from './levels/level_one';
 
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
@@ -85,13 +40,24 @@ export default class Game {
 		this.sorcerer = sorcerer;
 		this.castle = castle;
 		this.inGameArrows = [];
+		this.lastFiredArrowIndex = 0;
+		this.gameStarted = true;
+		this.level = 1;
+		this.inGameArrows = [];
+
+
 		this.camera = new Camera({
 			position: {
 				x: this.sorcerer.position.x, 
 				y: this.sorcerer.position.y
 			}}
-		),
-		this.gameStarted = true;
+		);
+		this.levelIndicator = new LevelIndicator(1);
+
+		if (this.level = 1) {
+			this.inGameArrows = levelOne();
+		}
+
 
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "d") {
@@ -133,12 +99,6 @@ export default class Game {
 		});
 	}
 
-	start(ctx) {
-		this.inGameArrows.push(initialArrowTwo);
-		//this.inGameArrows.push(initialArrowTwo);
-		//this.inGameArrows.push(initialArrowThree);
-	}
-
 	animate(ctx) {
 		// Background (scaled to bottom left)
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
@@ -146,22 +106,32 @@ export default class Game {
 		ctx.translate(-this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
 		backgroundImage.draw(ctx);
 		ctx.restore();
-		console.log(`X Position: ${this.inGameArrows[0].position.x}`)
-		console.log(`Y Position: ${this.inGameArrows[0].position.y}`)
-		console.log(this.inGameArrows[0].outsideCanvas)
-
+		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
 
+		//// Initial Arrow drawn begins moving. 
+		//if (this.inGameArrows[0].outsideCanvas) {
+		//	this.inGameArrows[0].velocity.x = 0;
+		//}
 
-		// Initial Arrow drawn begins moving. 
-		if (this.inGameArrows[0].outsideCanvas) {
-			this.inGameArrows[0].velocity.x = 0;
+		//for (let i = 0; i < this.inGameArrows.length; i++) {
+		//	this.inGameArrows[i].draw(ctx);
+		//}
+		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
+		if (!currentArrow.moving) {
+			currentArrow.moving = true; 
+		}
+		currentArrow.draw(ctx);
+
+		if (currentArrow.outsideCanvas) {
+			this.lastFiredArrowIndex++;
+
+			if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
+				this.lastFiredArrowIndex = 0;
+				this.inGameArrows = levelOne();
+			}
 		}
 
-
-		for (let i = 0; i < this.inGameArrows.length; i++) {
-			this.inGameArrows[i].draw(ctx);
-		}
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
 		// Increase velocity based on what's pressed
@@ -178,6 +148,29 @@ export default class Game {
 		if (this.isGameOver(ctx)) {
 			return true; 
 		}
+	}
+
+	//fireCurentLevelsArrows(ctx) {
+	//	if (!this.inGameArrows[0].moving) {
+	//		this.inGameArrows[0].draw(ctx);
+	//		this.inGameArrows[0].moving = true;
+	//	}
+		
+	//	//for (let i = 0; i < this.inGameArrows.length; i++) {
+	//	//	const nextArrow = this.inGameArrows[i + 1];
+	//	//	const currentArrow = this.inGameArrows[i];
+
+	//	//	if (currentArrow.outsideCanvas) {
+	//	//		nextArrow.draw(ctx);
+	//	//	}
+	//	//}
+	//	//if (this.inGameArrows.every(arrow => arrow.outsideCanvas)) {
+	//	//	this.inGameArrows = levelOne();
+	//	//} 
+	//} 
+
+	drawLevelIndicator(ctx) {
+		this.levelIndicator.draw(ctx);
 	}
 
 	drawCastleSorcererAndHealthBars(ctx) {
@@ -219,17 +212,6 @@ export default class Game {
 		let yPos = pos[1]
 		return (xPos < 0) || (xPos > 1024) || (yPos > 576)
 	}
-
-	// Feature not Implemented. 
-	//shouldPanCameraToTheRight() {
-	//	const cameraboxRightSide = this.sorcerer.camerabox.position.x + this.sorcerer.camerabox.width;
-
-	//	if (cameraboxRightSide >= 1026) {
-	//		console.log(`Socerer Vel: ${this.sorcerer.velocity.x} Camera Vel: ${this.camera.position.x}`)
-	//		console.log(this.camera)
-	//		this.camera.position.x += this.sorcerer.velocity.x
-	//	}
-	//}
 
 	stopArrowDamage(i) {
 			this.inGameArrows[i].recentlyHit = true; 

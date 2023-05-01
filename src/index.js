@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Game Started state flag. 
 	//let gameStarted = false;
 	let gameStarted = true;
-	game.start(ctx);
 	animate();
 
 	// Preloads the background. Setting the color of canvas to gray, etc.

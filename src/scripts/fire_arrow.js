@@ -13,6 +13,24 @@ let animationFrame = 0;
 let slowDownAnimationRate = 5;
 
 export default class FireArrow {
+	static rightPositions = {
+		1: {x: 900, y: 60},
+		2: {x: 900, y: (60 + ARROW_HEIGHT) },
+		3: {x: 900, y: (60 + (2 * ARROW_HEIGHT)) }, 
+		4: {x: 900, y: (60 + (3 * ARROW_HEIGHT)) },
+		5: {x: 900, y: (60 + (4 * ARROW_HEIGHT)) },
+		6: {x: 900, y: (60 + (5 * ARROW_HEIGHT)) }
+	}
+
+	static leftPositions = {
+		1: {x: 20, y: 60 },
+		2: {x: 20, y: (60 + ARROW_HEIGHT) },
+		3: {x: 20, y: (60 + (2 * ARROW_HEIGHT)) },
+		4: {x: 20, y: (60 + (3 * ARROW_HEIGHT)) },
+		5: {x: 20, y: (60 + (4 * ARROW_HEIGHT)) },
+		6: {x: 20, y: (60 + (5 * ARROW_HEIGHT)) },
+	}
+
 	constructor(options) {
 		this.image = new Image();
 		this.image.src = './assets/fire_arrow/fire.png'
@@ -34,10 +52,13 @@ export default class FireArrow {
 		}
 		this.recentlyHit = false; 
 		this.outsideCanvas = false;
+		this.moving = false; 
 		this.currentDirection = options.currentDirection;
 	}
 
 	draw(ctx) {
+		this.outsideCanvasCheck();
+		this.moving = true;
 		if (this.currentDirection === "right") {
 			this.drawRightArrow(ctx);
 		} else {
@@ -46,7 +67,7 @@ export default class FireArrow {
 		this.updateHitBox();	//Moves the arrow hitbox as the arrow moves. 
 		this.move(); 		// Increases the position in accordance with the arrows velocity. 
 		this.animate(ctx, ARROW_FRAME_WIDTH, ARROW_FRAME_HEIGHT);
-		this.outsideCanvasCheck();
+
 	}
 
 	move() {
@@ -110,11 +131,6 @@ export default class FireArrow {
 
 	drawLeftArrow(ctx) {
 		ctx.beginPath();
-		ctx.fillStyle = "blue"
-		ctx.fillRect(this.position.x -16, this.position.y, ARROW_WIDTH, ARROW_HEIGHT)
-		ctx.fill();
-
-		ctx.beginPath();
 		ctx.strokeStyle = '#964B00';
 		ctx.lineWidth = 3;
 		ctx.moveTo(this.position.x + 50, this.position.y + 60);
@@ -131,15 +147,6 @@ export default class FireArrow {
 	}
 
 	drawRightArrow(ctx) {
-		ctx.beginPath();
-		ctx.fillStyle = "blue"
-		ctx.fillRect(this.position.x + RIGHT_ARROW_X_OFFSET, this.position.y, ARROW_WIDTH, ARROW_HEIGHT)
-		ctx.fill();
-		
-		ctx.beginPath();
-		ctx.fillStyle = "red"
-		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
-		ctx.fill();
 		// Creates Right facing Arrow Shaft
 		ctx.beginPath();
 		ctx.strokeStyle = '#964B00';
@@ -161,15 +168,21 @@ export default class FireArrow {
 		if (this.currentDirection === "right") {
 			if (this.position.x < (0 -(RIGHT_ARROW_X_OFFSET + ARROW_WIDTH))) {
 				this.outsideCanvas = true; 
+				this.velocity.x = 0;
+				this.moving = false; 
 			}
 		} 
 			if (this.currentDirection === "left") {
 				if (this.position.x > CANVAS_WIDTH + LEFT_ARROW_X_OFFSET) {
 					this.outsideCanvas = true;
+					this.velocity.x = 0;
+					this.moving = false; 
 				}
 			}
 		if (this.position.y > (CANVAS_HEIGHT + 1)) {
 			this.outsideCanvas = true; 
+			this.velocity.y = 0;
+			this.moving = false; 
 		} 
 	}
 }
