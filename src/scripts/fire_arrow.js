@@ -3,13 +3,15 @@ import AnimatedObject from "./animated_object";
 // Base Dimensions of each arrow. 
 const ARROW_HEIGHT = 110;
 const ARROW_WIDTH = 100;
+let currentframe = 0;
+let animationFrame = 0;
+let slowDownAnimationRate = 5;
 
-export default class FireArrow extends AnimatedObject {
+export default class FireArrow {
 	constructor(options) {
-		options.imageSrc = './assets/fire_arrow/fire.png'
-		// Consider renaming amountOfFrames (it is in animated Object)
-		options.amountOfFrames = 29;
-		super(options) // position
+		this.image = new Image();
+		this.image.src = './assets/fire_arrow/fire.png'
+		this.totalAnimationFrames = 29;
 		this.position = options.position
 		this.width = ARROW_WIDTH;
 		this.height = ARROW_HEIGHT;
@@ -30,6 +32,22 @@ export default class FireArrow extends AnimatedObject {
 
 		this.recentlyHit = false; 
 		this.currentDirection = options.currentDirection;
+	}
+
+	animate(ctx, width, height) {
+		currentframe = Math.floor(animationFrame/slowDownAnimationRate) % this.totalAnimationFrames;
+		ctx.drawImage(
+			this.image,
+			currentframe * width, 
+			0, 
+			width, 
+			height, 
+			this.position.x, 
+			this.position.y, 
+			width, 
+			height
+		)
+		animationFrame++;
 	}
 
 	draw(ctx) {

@@ -24,7 +24,7 @@ export default class AnimatedObject {
 	animate(ctx, width, height) {
 		currentframe = Math.floor(animationFrame/slowDownAnimationRate) % this.amountOfFrames;
 		ctx.drawImage(
-			this.image, 
+			this.image,
 			currentframe * width, 
 			0, 
 			width, 
