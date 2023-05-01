@@ -2,25 +2,56 @@ import Sorcerer from './sorcerer';
 import StillObject from './still_object'
 import FireArrow from './fire_arrow';
 import Camera from './camera'
+import utilities from './dist';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '..';
+import { ARROW_HEIGHT } from './fire_arrow';
+
+const right_position_1 = {x: 900, y: 60};
+const right_position_2 = {x: 900, y: (60 + ARROW_HEIGHT) };
+const right_position_3 = {x: 900, y: (60 + (2 * ARROW_HEIGHT)) };
+const right_position_4 = {x: 900, y: (60 + (3 * ARROW_HEIGHT)) };
+const right_position_5 = {x: 900, y: (60 + (4 * ARROW_HEIGHT)) };
+const right_position_6 = {x: 900, y: (60 + (5 * ARROW_HEIGHT)) };
+
+const left_position_1 = {x: 20, y: 60 };
+const left_position_2 = {x: 20, y: (60 + ARROW_HEIGHT) };
+const left_position_3 = {x: 20, y: (60 + (2 * ARROW_HEIGHT)) };
+const left_position_4 = {x: 20, y: (60 + (3 * ARROW_HEIGHT)) };
+const left_position_5 = {x: 20, y: (60 + (4 * ARROW_HEIGHT)) };
+const left_position_6 = {x: 20, y: (60 + (5 * ARROW_HEIGHT)) };
+
 
 // Initial Arrows
-let initialArrowOne = new FireArrow({
-	position: { x: 900, y: 80}, 
-	currentDirection: "right",
-	velocity: {
-		x: -3,
-		y: 2
-	}
-}); 
+//let initialArrowOne = new FireArrow({
+//	position: right_position_6, 
+//	currentDirection: "right",
+//	velocity: {
+//		//x: -3,
+//		//y: 2
+//		x: 0,
+//		y: 0
+//	}
+//}); 
 
 let initialArrowTwo = new FireArrow({
-	position: { x: 20, y: 80}, 
+	position: left_position_6, 
 	currentDirection: "left",
 	velocity: {
-		x: 3,
-		y: 2
+		//x: 3,
+		//y: 2
+		x: 0, 
+		y: 0
 	}
 });
+
+//let initialArrowThree = new FireArrow({
+//	position: { x: 0, y: 0}, 
+//	currentDirection: "left",
+//	velocity: {
+//		x: 0,
+//		y: 0
+//	}
+//});
 
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
@@ -48,41 +79,6 @@ const acceptableKeys = {
 }
 
 let cLocked = false;
-
-function randomShootingPosition() {
-	let spawnHeight = Math.floor(576 / 3)
-	let spawnWidth = 1024
-	let xPosition = spawnWidth * Math.random();
-	let yPosition = spawnHeight * Math.random()
-	let arrowDirection; 
-	let velocity = {
-		x: 0, 
-		y: 0
-	};
-
-	if (xPosition < 512) {
-		arrowDirection = "left";
-	} else {
-		arrowDirection = "right";
-	}
-
-	if (arrowDirection = "left") {
-		velocity.x = 3;
-	} else {
-		velocity.x = -3;
-	}
-
-	return { position: {
-		x: xPosition,
-		y: yPosition
-		},
-		currentDirection : arrowDirection, 
-		velocity : {
-			x: velocity.x,
-			y: velocity.y
-		}
-	}
-}
 
 export default class Game {
 	constructor(sorcerer, castle) {
@@ -138,15 +134,16 @@ export default class Game {
 	}
 
 	start(ctx) {
-		this.inGameArrows.push(initialArrowOne);
 		this.inGameArrows.push(initialArrowTwo);
+		//this.inGameArrows.push(initialArrowTwo);
+		//this.inGameArrows.push(initialArrowThree);
 
-		this.arrowInterval = setInterval(() => {
-			for (let i = 0; i < this.inGameArrows.length; i++) {
-			this.inGameArrows[i].draw(ctx);
-			this.inGameArrows[i].reset();
-			}
-		}, 2000)
+		//this.arrowInterval = setInterval(() => {
+		//	for (let i = 0; i < this.inGameArrows.length; i++) {
+		//	this.inGameArrows[i].draw(ctx);
+		//	this.inGameArrows[i].reset();
+		//	}
+		//}, 2000)
 	}
 
 	animate(ctx) {
@@ -156,45 +153,40 @@ export default class Game {
 		ctx.translate(-this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
 		backgroundImage.draw(ctx);
 		ctx.restore();
-	
-		// Drawing Socerer, Castle, and Healthbars
-		// Sorcerer must be drawn 2nd for fireball animation to be in front of castle. 
-		this.castle.draw(ctx);
-		this.castle.healthbar.draw(ctx);
-		this.sorcerer.draw(ctx);
-		this.sorcerer.healthBar.draw(ctx);
+		console.log(`X Position: ${this.inGameArrows[0].position.x}`)
+		console.log(`Y Position: ${this.inGameArrows[0].position.y}`)
+		console.log(this.inGameArrows[0].outsideCanvas)
 
+		this.drawCastleSorcererAndHealthBars(ctx);
 		// Initial Arrow drawn begins moving. 
 		for (let i = 0; i < this.inGameArrows.length; i++) {
 			this.inGameArrows[i].draw(ctx);
 		}
-		
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
-
 		// Increase velocity based on what's pressed
 		if (acceptableKeys.d.pressed) {
 			this.sorcerer.velocity.x = 5;
 		} else if (acceptableKeys.a.pressed) {
 			this.sorcerer.velocity.x = -5
 		}
-
 		// Collision Detection
 		this.isCollided();
-
 		if (this.isVictory()) {
 			return true;
 		}
-		
 		if (this.isGameOver(ctx)) {
 			return true; 
 		}
 	}
 
-	isOutOfBounds(pos) {
-		let xPos = pos[0]
-		let yPos = pos[y]
-		return (xPos < 0) || (xPos > 1024) || (yPos > 576)
+	drawCastleSorcererAndHealthBars(ctx) {
+		// Drawing Socerer, Castle, and Healthbars
+		// Sorcerer must be drawn 2nd for fireball animation to be in front of castle. 
+		this.castle.draw(ctx);
+		this.castle.healthbar.draw(ctx);
+		this.sorcerer.draw(ctx);
+		this.sorcerer.healthBar.draw(ctx);
 	}
 
 	isCollided() {
@@ -213,12 +205,19 @@ export default class Game {
 					this.sorcerer.healthBar.decrease();
 					this.inGameArrows.push(
 						new FireArrow(
-							randomShootingPosition()), 
+							utilities.randomShootingPosition()), 
 					);
 				}
 			}
 		i++;
 		}
+	}
+
+	// Helper for OutOfBounds Boolean
+	isOutOfBounds(pos) {
+		let xPos = pos[0]
+		let yPos = pos[1]
+		return (xPos < 0) || (xPos > 1024) || (yPos > 576)
 	}
 
 	// Feature not Implemented. 

@@ -1,8 +1,13 @@
-import AnimatedObject from "./animated_object";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "..";
 
 // Base Dimensions of each arrow. 
-const ARROW_HEIGHT = 110;
-const ARROW_WIDTH = 100;
+export const ARROW_HEIGHT = 70;
+const ARROW_WIDTH = 76;
+const RIGHT_ARROW_X_OFFSET = 30;
+const LEFT_ARROW_X_OFFSET = -17
+
+const ARROW_FRAME_HEIGHT = 70;
+const ARROW_FRAME_WIDTH = 100; 
 let currentframe = 0;
 let animationFrame = 0;
 let slowDownAnimationRate = 5;
@@ -15,12 +20,10 @@ export default class FireArrow {
 		this.position = options.position
 		this.width = ARROW_WIDTH;
 		this.height = ARROW_HEIGHT;
-
 		this.velocity = {
 			x: options.velocity.x, 
 			y: options.velocity.y
 		}
-
 		this.hitbox = {
 			position: {
 				x: this.position.x, 
@@ -29,9 +32,26 @@ export default class FireArrow {
 			width: 10, 
 			height: 10
 		}
-
 		this.recentlyHit = false; 
+		this.outsideCanvas = false;
 		this.currentDirection = options.currentDirection;
+	}
+
+	draw(ctx) {
+		if (this.currentDirection === "right") {
+			this.drawRightArrow(ctx);
+		} else {
+			this.drawLeftArrow(ctx);
+		}
+		this.updateHitBox();	//Moves the arrow hitbox as the arrow moves. 
+		this.move(); 		// Increases the position in accordance with the arrows velocity. 
+		this.animate(ctx, ARROW_FRAME_WIDTH, ARROW_FRAME_HEIGHT);
+		this.outsideCanvasCheck();
+	}
+
+	move() {
+		this.position.x += this.velocity.x;
+		this.position.y += this.velocity.y;
 	}
 
 	animate(ctx, width, height) {
@@ -50,28 +70,8 @@ export default class FireArrow {
 		animationFrame++;
 	}
 
-	draw(ctx) {
-		if (this.currentDirection === "right") {
-			this.drawRightArrow(ctx);
-		} else {
-			this.drawLeftArrow(ctx);
-		}
-		//Moves the arrow hitbox as it moves. 
-		this.updateHitBox();
-
-		// Increases the position in accordance with the arrows velocity. 
-		this.move()
-		this.animate(ctx, this.width, this.height);
-	}
-
-	move() {
-		this.position.x += this.velocity.x;
-		this.position.y += this.velocity.y;
-	}
-
 	reset() {
 		if (this.currentDirection === "right") {
-			
 			this.position.x = 10;
 			this.position.y = this.generateRandomNumber(0, 501);
 			this.velocity.x = this.generateRandomNumber(2, 6);
@@ -110,6 +110,11 @@ export default class FireArrow {
 
 	drawLeftArrow(ctx) {
 		ctx.beginPath();
+		ctx.fillStyle = "blue"
+		ctx.fillRect(this.position.x -16, this.position.y, ARROW_WIDTH, ARROW_HEIGHT)
+		ctx.fill();
+
+		ctx.beginPath();
 		ctx.strokeStyle = '#964B00';
 		ctx.lineWidth = 3;
 		ctx.moveTo(this.position.x + 50, this.position.y + 60);
@@ -126,6 +131,15 @@ export default class FireArrow {
 	}
 
 	drawRightArrow(ctx) {
+		ctx.beginPath();
+		ctx.fillStyle = "blue"
+		ctx.fillRect(this.position.x + RIGHT_ARROW_X_OFFSET, this.position.y, ARROW_WIDTH, ARROW_HEIGHT)
+		ctx.fill();
+		
+		ctx.beginPath();
+		ctx.fillStyle = "red"
+		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+		ctx.fill();
 		// Creates Right facing Arrow Shaft
 		ctx.beginPath();
 		ctx.strokeStyle = '#964B00';
@@ -141,5 +155,14 @@ export default class FireArrow {
 		ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 + 4);
 		ctx.lineTo(this.position.x + 97 + 5, this.position.y + 60 - 4);
 		ctx.fill();
+	}
+
+	outsideCanvasCheck() {
+		if (this.position.x > (1024 + ARROW_WIDTH) || this.position.x < (0 - ARROW_WIDTH)) {
+			this.outsideCanvas = true; 
+		} 
+		//if ((this.position.y > (CANVAS_HEIGHT + ARROW_HEIGHT)) || (this.position.y < (-ARROW_HEIGHT))) {
+		//	this.outsideCanvas = true; 
+		//} 
 	}
 }
