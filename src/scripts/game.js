@@ -23,23 +23,23 @@ const left_position_6 = {x: 20, y: (60 + (5 * ARROW_HEIGHT)) };
 
 // Initial Arrows
 //let initialArrowOne = new FireArrow({
-//	position: right_position_6, 
+//	position: right_position_1, 
 //	currentDirection: "right",
 //	velocity: {
 //		//x: -3,
 //		//y: 2
-//		x: 0,
+//		x: -3,
 //		y: 0
 //	}
 //}); 
 
 let initialArrowTwo = new FireArrow({
-	position: left_position_6, 
+	position: left_position_1, 
 	currentDirection: "left",
 	velocity: {
 		//x: 3,
 		//y: 2
-		x: 0, 
+		x: 1, 
 		y: 0
 	}
 });
@@ -137,13 +137,6 @@ export default class Game {
 		this.inGameArrows.push(initialArrowTwo);
 		//this.inGameArrows.push(initialArrowTwo);
 		//this.inGameArrows.push(initialArrowThree);
-
-		//this.arrowInterval = setInterval(() => {
-		//	for (let i = 0; i < this.inGameArrows.length; i++) {
-		//	this.inGameArrows[i].draw(ctx);
-		//	this.inGameArrows[i].reset();
-		//	}
-		//}, 2000)
 	}
 
 	animate(ctx) {
@@ -158,7 +151,14 @@ export default class Game {
 		console.log(this.inGameArrows[0].outsideCanvas)
 
 		this.drawCastleSorcererAndHealthBars(ctx);
+
+
 		// Initial Arrow drawn begins moving. 
+		if (this.inGameArrows[0].outsideCanvas) {
+			this.inGameArrows[0].velocity.x = 0;
+		}
+
+
 		for (let i = 0; i < this.inGameArrows.length; i++) {
 			this.inGameArrows[i].draw(ctx);
 		}

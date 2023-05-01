@@ -4,7 +4,7 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "..";
 export const ARROW_HEIGHT = 70;
 const ARROW_WIDTH = 76;
 const RIGHT_ARROW_X_OFFSET = 30;
-const LEFT_ARROW_X_OFFSET = -17
+const LEFT_ARROW_X_OFFSET = 17
 
 const ARROW_FRAME_HEIGHT = 70;
 const ARROW_FRAME_WIDTH = 100; 
@@ -158,11 +158,18 @@ export default class FireArrow {
 	}
 
 	outsideCanvasCheck() {
-		if (this.position.x > (1024 + ARROW_WIDTH) || this.position.x < (0 - ARROW_WIDTH)) {
+		if (this.currentDirection === "right") {
+			if (this.position.x < (0 -(RIGHT_ARROW_X_OFFSET + ARROW_WIDTH))) {
+				this.outsideCanvas = true; 
+			}
+		} 
+			if (this.currentDirection === "left") {
+				if (this.position.x > CANVAS_WIDTH + LEFT_ARROW_X_OFFSET) {
+					this.outsideCanvas = true;
+				}
+			}
+		if (this.position.y > (CANVAS_HEIGHT + 1)) {
 			this.outsideCanvas = true; 
 		} 
-		//if ((this.position.y > (CANVAS_HEIGHT + ARROW_HEIGHT)) || (this.position.y < (-ARROW_HEIGHT))) {
-		//	this.outsideCanvas = true; 
-		//} 
 	}
 }
