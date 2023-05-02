@@ -1,45 +1,17 @@
 import HealthBar from "./health_bar";
-
-// Idle Animations 
-const sorcererRightIdle = new Image();
-sorcererRightIdle.src = './assets/sorcerer/Idle.png'
-const sorcererLeftIdle = new Image();
-sorcererLeftIdle.src = './assets/sorcerer/idle_left.png'
-
-// Run Animations
-const sorcererRunRight = new Image();
-sorcererRunRight.src = './assets/sorcerer/Run.png'
-const sorcererRunLeft = new Image(); 
-sorcererRunLeft.src = './assets/sorcerer/sorcerer_run_left.png'
-let leftFrames = {}
-
-// Jumping Animations
-const sorcererJump = new Image();
-sorcererJump.src = './assets/sorcerer/Jump.png'
-
-//Jumping Left 
-const leftSorcererJump = new Image();
-leftSorcererJump.src = './assets/sorcerer/leftJump.png';
-
-// Casting 
-const sorcererCast = new Image();
-sorcererCast.src = './assets/sorcerer/Attack1.png'
-
-// Explosion
-const explosionOne = new Image();
-explosionOne.src = './assets/explosion/Explosion1_long.png'
+import { sorcererRightIdle, sorcererLeftIdle, sorcererRunRight, sorcererRunLeft, sorcererJump, leftSorcererJump, sorcererCast, explosionOne } from "../animations/animations";
 
 // Animation Variables 
+const slowDownAnimationRate = 5;
 let frame = 0;
 let gameFrame = 0;
-const slowDownAnimationRate = 5;
+let leftFrames = {}
 
 let idleFrameSize = 5;
 let runFrameSize = 7;
 let jumpingFrameSize = 1;
 let frameSize = 0;
 let casting = true;
-let animationCount = 0;
 
 let oneLoopFrame = 0;
 let castLoopCounter = 0;
@@ -201,7 +173,6 @@ export default class Sorcerer {
 	// Velocity 
 	moveRight() {
 		this.resetCastingCounters()
-		this.status = "moving";
 		if (this.status !== "jumping") {
 			this.status = "moving"
 			this.direction = "right"
@@ -231,12 +202,15 @@ export default class Sorcerer {
 
 		let idleCheck = setInterval( () => {
 			if (this.status === "jumping") {
-				if (this.velocity.y === 0) {
+				if (this.velocity.y === 0 && this.velocity.x === 0) {
 					this.status = "idle";
 					clearInterval(idleCheck)
+				} else if (this.velocity.y ===  0 && this.velocity.x != 0) {
+					this.status = "moving";
+					clearInterval(idleCheck);
 				}
 			}
-		}, 400);
+		}, 200);
 	}
 
 	cast() {

@@ -1,10 +1,7 @@
-import Sorcerer from './sorcerer';
 import StillObject from './still_object'
 import FireArrow from './fire_arrow';
 import Camera from './camera'
 import utilities from './dist';
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from '..';
-import { ARROW_HEIGHT } from './fire_arrow';
 import LevelIndicator from './level_indicator';
 import { levelOneArrows } from './levels/level_one';
 
@@ -45,7 +42,6 @@ export default class Game {
 		this.level = 1;
 		this.inGameArrows = [];
 
-
 		this.camera = new Camera({
 			position: {
 				x: this.sorcerer.position.x, 
@@ -57,7 +53,6 @@ export default class Game {
 		if (this.level = 1) {
 			this.inGameArrows = levelOneArrows();
 		}
-
 
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "d") {
@@ -72,19 +67,17 @@ export default class Game {
 			} else if (e.key === "c" && !(cLocked)) {
 				this.lockC();
 				sorcerer.cast();
-				
 				this.castle.health -=10
 				this.castle.healthbar.decrease();
+				acceptableKeys.c.pressed = true;
 			}
 		})
 
 		window.addEventListener("keyup", (e) => {
 			if (e.key === "d") {
 				acceptableKeys.d.pressed = false; 
-				this.sorcerer.status = "idle";
 			} else if (e.key === "a") {
 				acceptableKeys.a.pressed = false; 
-				this.sorcerer.status = "idle";
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = false; 
 			} else if (e.key === "c") {
@@ -101,7 +94,7 @@ export default class Game {
 
 	animate(ctx) {
 		// Background (scaled to bottom left)
-		console.log(this.sorcerer.status);
+		console.log(`Sorcerer Status: ${this.sorcerer.status}`);
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
 		ctx.translate(-this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
@@ -109,8 +102,8 @@ export default class Game {
 		ctx.restore();
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
-
 		this.beginCurrentLevel(ctx)
+		this.checkIdleStatus();
 
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
@@ -145,9 +138,7 @@ export default class Game {
 
 	beginCurrentLevel(ctx) {
 		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
-
 		currentArrow.draw(ctx);
-
 		if (!currentArrow.moving) {
 			this.lastFiredArrowIndex++;
 		}
@@ -200,7 +191,7 @@ export default class Game {
 			this.inGameArrows.slice(i, 1)
 	}
 
-	isGameOver(ctx) {
+	isGameOver() {
 		if (this.sorcerer.health < 1) {
 			let losingModal = document.getElementById("losing-modal");
 			let losing_button = document.getElementById("losing_button");
@@ -240,6 +231,13 @@ export default class Game {
 
 	unlockC() {
 		cLocked = false;
+	}
+
+	checkIdleStatus() {
+		const noKeysPressed = Object.values(acceptableKeys).every(key => !key.pressed)
+		if (noKeysPressed && this.sorcerer.status != "jumping") {
+			this.sorcerer.status = "idle";
+		}
 	}
 }
 
