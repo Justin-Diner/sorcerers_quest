@@ -229,10 +229,11 @@ export default class Sorcerer {
 		}
 		this.velocity.y = -10
 
-		setInterval( () => {
+		let idleCheck = setInterval( () => {
 			if (this.status === "jumping") {
 				if (this.velocity.y === 0) {
 					this.status = "idle";
+					clearInterval(idleCheck)
 				}
 			}
 		}, 400);
