@@ -33,11 +33,14 @@ explosionOne.src = './assets/explosion/Explosion1_long.png'
 let frame = 0;
 let gameFrame = 0;
 const slowDownAnimationRate = 5;
+
 let idleFrameSize = 5;
 let runFrameSize = 7;
 let jumpingFrameSize = 1;
 let frameSize = 0;
 let casting = true;
+let animationCount = 0;
+
 let oneLoopFrame = 0;
 let castLoopCounter = 0;
 let explosionLoopCounter = 0;
@@ -147,9 +150,9 @@ export default class Sorcerer {
 		// Chooses the frame based on cycles of the animation loop. Increases every 5 frames. Once Math.floor hits 1, it increments. Example (0.2, 0.4, 0.6, 0.8, 1.0, etc.)
 		// Draws the Sorcerer with the above frame in line 2
 		// ctx.drawImage(image, sx,sy,sw, sh, dx, dy, dw, dh)
-		if (this.status === "casting" && casting === true) {
-			this.oneCast(ctx, sorcererCast);
-			this.explosion(ctx, explosionOne)
+		if (this.status === "casting" && casting) {
+			this.oneCast(ctx, currentAnimation);
+			this.explosion(ctx, explosionOne);
 		} else if(this.direction === "right") {
 			frame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
@@ -197,6 +200,7 @@ export default class Sorcerer {
   
 	// Velocity 
 	moveRight() {
+		this.resetCastingCounters()
 		this.status = "moving";
 		if (this.status !== "jumping") {
 			this.status = "moving"
@@ -207,6 +211,7 @@ export default class Sorcerer {
 	}
 
 	moveLeft() {
+		this.resetCastingCounters()
 		this.velocity.x -= 1
 		if (this.status !== "jumping") {
 			this.status = "moving";
@@ -235,24 +240,42 @@ export default class Sorcerer {
 	}
 
 	oneCast(ctx, image) {
+		let animationCount = 0;
+		if (animationCount > 0) {
+			return;
+		}
+
 		if (castLoopCounter <= 54) {
-		frame = Math.floor(oneLoopFrame/7) % 7;
-		ctx.drawImage(image, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190)
-		castLoopCounter++
-		oneLoopFrame++
+			frame = Math.floor(oneLoopFrame / 7) % 8;
+			ctx.drawImage(image, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190)
+			castLoopCounter++
+			oneLoopFrame++
 		} else {
-			oneLoopFrame = 0;
-			castLoopCounter = 0;
+			animationCount += 1;
+			frame = 0;
 			this.idle();
 		}
 	}
 
+	resetCastingCounters() {
+		oneLoopFrame = 0;
+		castLoopCounter = 0;
+	}
+
 	explosion(ctx, image) {
-		if (explosionLoopCounter <= 150) {
-			frame = Math.floor(oneLoopFrame/8) % 15;
+		let animationCount = 0;
+		if (animationCount > 0 ) {
+			return;
+		}
+
+		if (explosionLoopCounter <= 60) {
+			frame = Math.floor(oneLoopFrame / 4) % 16;
+			console.log(frame);
 			ctx.drawImage(image, frame * (image.width / 16), 0, image.width / 14, image.height, 680, 200, 400, 300)
 			explosionLoopCounter++
 		} else {
+				animationCount += 1;
+				frame = 0;
 				explosionLoopCounter = 0;
 			}
 	}
