@@ -109,29 +109,7 @@ export default class Game {
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
 
-		//// Initial Arrow drawn begins moving. 
-		//if (this.inGameArrows[0].outsideCanvas) {
-		//	this.inGameArrows[0].velocity.x = 0;
-		//}
-
-		//for (let i = 0; i < this.inGameArrows.length; i++) {
-		//	this.inGameArrows[i].draw(ctx);
-		//}
-
-		if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
-			this.inGameArrows = levelOneArrows();	
-			this.lastFiredArrowIndex = 0;
-		};
-
-		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
-		if (!currentArrow.moving) {
-			currentArrow.moving = true; 
-		}
-		currentArrow.draw(ctx);
-
-		if (currentArrow.outsideCanvas) {
-			this.lastFiredArrowIndex++;
-		}
+		this.beginCurrentLevel(ctx)
 
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
@@ -151,25 +129,6 @@ export default class Game {
 		}
 	}
 
-	//fireCurentLevelsArrows(ctx) {
-	//	if (!this.inGameArrows[0].moving) {
-	//		this.inGameArrows[0].draw(ctx);
-	//		this.inGameArrows[0].moving = true;
-	//	}
-		
-	//	//for (let i = 0; i < this.inGameArrows.length; i++) {
-	//	//	const nextArrow = this.inGameArrows[i + 1];
-	//	//	const currentArrow = this.inGameArrows[i];
-
-	//	//	if (currentArrow.outsideCanvas) {
-	//	//		nextArrow.draw(ctx);
-	//	//	}
-	//	//}
-	//	//if (this.inGameArrows.every(arrow => arrow.outsideCanvas)) {
-	//	//	this.inGameArrows = levelOne();
-	//	//} 
-	//} 
-
 	drawLevelIndicator(ctx) {
 		this.levelIndicator.draw(ctx);
 	}
@@ -183,27 +142,52 @@ export default class Game {
 		this.sorcerer.healthBar.draw(ctx);
 	}
 
-	isCollided() {
-		let sorcerer = this.sorcerer
-		let sorcererHitBox = sorcerer.hitboxDims();
-		let topLeft = sorcererHitBox.topLeft;
-		let topRight = sorcererHitBox.topRight;
-		let bottomRight = sorcererHitBox.bottomRight;
+	beginCurrentLevel(ctx) {
+		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
 
-		for (let i = 0; i < this.inGameArrows.length; i++) {
-			if (this.inGameArrows[i].recentlyHit === false) {
-				if ((this.inGameArrows[i].hitbox.position.x > topLeft[0] && this.inGameArrows[i].hitbox.position.x < topRight[0]) && (this.inGameArrows[i].hitbox.position.y < bottomRight[1] && this.inGameArrows[i].hitbox.position.y > topRight[1])) {
-					this.stopArrowDamage(i);
-					this.inGameArrows[i].ifHit();
-					sorcerer.health -= 10;
-					this.sorcerer.healthBar.decrease();
-					this.inGameArrows.push(
-						new FireArrow(
-							utilities.randomShootingPosition()), 
+		currentArrow.draw(ctx);
+
+		if (!currentArrow.moving) {
+			this.lastFiredArrowIndex++;
+		}
+		
+		if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
+			this.inGameArrows = [];
+			this.inGameArrows = levelOneArrows();	
+			this.lastFiredArrowIndex = 0;
+		}
+	}
+
+	isCollided() {
+		const sorcererHitBox = this.sorcerer.hitboxDims();
+		const topLeft = sorcererHitBox.topLeft;
+		const topRight = sorcererHitBox.topRight;
+		const bottomRight = sorcererHitBox.bottomRight;
+
+		for (let i = 0; i < this.inGameArrows.length; i++) { 
+			if (!this.inGameArrows[i].recentlyHit && this.inGameArrows[i].moving) {
+				const arrowPosX = this.inGameArrows[i].hitbox.position.x;
+				const arrowPosY = this.inGameArrows[i].hitbox.position.y
+
+				if (
+					(arrowPosX > topLeft[0] && 
+					arrowPosX < topRight[0]) &&
+					(arrowPosY < bottomRight[1] && 
+						arrowPosY > topRight[1])
+				) {
+					console.log((arrowPosX > topLeft[0] && 
+						arrowPosX < topRight[0]) &&
+						(arrowPosY < bottomRight[1] && 
+							arrowPosY > topRight[1]));
+						this.stopArrowDamage(i);
+						this.inGameArrows[i].ifHit();
+						this.sorcerer.health -= 10;
+						this.sorcerer.healthBar.decrease();
+						this.inGameArrows.push(
+							new FireArrow(utilities.randomShootingPosition()), 
 					);
 				}
 			}
-		i++;
 		}
 	}
 

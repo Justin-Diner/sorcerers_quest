@@ -12,24 +12,25 @@ let currentframe = 0;
 let animationFrame = 0;
 let slowDownAnimationRate = 5;
 
-export default class FireArrow {
-	static rightPositions = {
-		1: {x: 900, y: 60},
-		2: {x: 900, y: (60 + ARROW_HEIGHT) },
-		3: {x: 900, y: (60 + (2 * ARROW_HEIGHT)) }, 
-		4: {x: 900, y: (60 + (3 * ARROW_HEIGHT)) },
-		5: {x: 900, y: (60 + (4 * ARROW_HEIGHT)) },
-		6: {x: 900, y: (60 + (5 * ARROW_HEIGHT)) }
-	}
+export const rightPositions = {
+	1: {x: 900, y: 60},
+	2: {x: 900, y: (60 + ARROW_HEIGHT) },
+	3: {x: 900, y: (60 + (2 * ARROW_HEIGHT)) }, 
+	4: {x: 900, y: (60 + (3 * ARROW_HEIGHT)) },
+	5: {x: 900, y: (60 + (4 * ARROW_HEIGHT)) },
+	6: {x: 900, y: (60 + (5 * ARROW_HEIGHT)) }
+}
 
-	static leftPositions = {
-		1: {x: 20, y: 60 },
-		2: {x: 20, y: (60 + ARROW_HEIGHT) },
-		3: {x: 20, y: (60 + (2 * ARROW_HEIGHT)) },
-		4: {x: 20, y: (60 + (3 * ARROW_HEIGHT)) },
-		5: {x: 20, y: (60 + (4 * ARROW_HEIGHT)) },
-		6: {x: 20, y: (60 + (5 * ARROW_HEIGHT)) },
-	}
+export const leftPositions = {
+	1: {x: 20, y: 60 },
+	2: {x: 20, y: (60 + ARROW_HEIGHT) },
+	3: {x: 20, y: (60 + (2 * ARROW_HEIGHT)) },
+	4: {x: 20, y: (60 + (3 * ARROW_HEIGHT)) },
+	5: {x: 20, y: (60 + (4 * ARROW_HEIGHT)) },
+	6: {x: 20, y: (60 + (5 * ARROW_HEIGHT)) },
+}
+
+export default class FireArrow {
 
 	constructor(options) {
 		this.image = new Image();
@@ -57,14 +58,17 @@ export default class FireArrow {
 	}
 
 	draw(ctx) {
-		this.outsideCanvasCheck();
 		this.moving = true;
+		this.outsideCanvasCheck();
 		if (this.currentDirection === "right") {
 			this.drawRightArrow(ctx);
 		} else {
 			this.drawLeftArrow(ctx);
 		}
 		this.updateHitBox();	//Moves the arrow hitbox as the arrow moves. 
+
+		ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		this.move(); 		// Increases the position in accordance with the arrows velocity. 
 		this.animate(ctx, ARROW_FRAME_WIDTH, ARROW_FRAME_HEIGHT);
 
@@ -121,7 +125,7 @@ export default class FireArrow {
 	ifHit() {
 		setTimeout( () => {
 			this.recentlyHit = false
-			this.reset();
+			//this.reset();
 		}, 1000)
 	}
 
@@ -168,6 +172,7 @@ export default class FireArrow {
 		if (this.currentDirection === "right" && this.moving) {
 			if (this.position.x < (0 -(RIGHT_ARROW_X_OFFSET + ARROW_WIDTH))) {
 				this.outsideCanvas = true; 
+				console.log(this.outsideCanvas);
 				this.velocity.x = 0;
 				this.moving = false; 
 			}
