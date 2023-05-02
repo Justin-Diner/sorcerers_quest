@@ -26,7 +26,7 @@ export default class HealthBar {
 		// Text
 		ctx.fillStyle = "white";
 		ctx.font = "14px serif"
-		ctx.fillText(`${this.value} / ${this.maxHealth}`, this.textPosition, 29)
+		ctx.fillText(`${this.value} / ${this.maxHealth}`, this.textPosition, 30)
 		ctx.stroke();
 	}
 

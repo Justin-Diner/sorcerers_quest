@@ -61,8 +61,12 @@ body {
   height: 100%;
 }
 
-#main-container {
-  position: relative;
+#top-header {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
 }
 
 #title {
@@ -71,7 +75,6 @@ body {
   font-family: "Cinzel Decorative", cursive;
   font-size: 46px;
   position: relative;
-  top: 64px;
 }
 
 #soundbackground {
@@ -96,11 +99,27 @@ body {
   top: 7px;
 }
 
+#sun_wrapper {
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+}
+
+#sun_image {
+  background-image: url("../assets/sun/sun.png");
+  background-size: 100%;
+  position: relative;
+  height: 200%;
+  width: 200%;
+}
+
 #main-content {
   display: flex;
   justify-content: center;
   flex-direction: row;
-  padding-top: 80px;
+  padding-top: 20px;
 }
 
 .modal {
@@ -124,7 +143,6 @@ body {
   height: 100%;
   width: 100%;
   position: relative;
-  top: 12px;
 }
 
 #winning-text {
@@ -233,9 +251,10 @@ body {
   background-size: 50px 50px;
   height: 50px;
   width: 50px;
-  top: 170px;
-  right: 205px;
+  top: 60px;
+  left: 14px;
   background-color: grey;
+  box-shadow: 2px 4px 8px 2px;
 }
 
 #letter_d {
@@ -247,6 +266,7 @@ body {
   left: 58px;
   bottom: 32px;
   background-color: grey;
+  box-shadow: 2px 4px 8px 2px;
 }
 
 #letter_c {
@@ -258,6 +278,7 @@ body {
   top: 168px;
   right: 100px;
   background-color: grey;
+  box-shadow: 2px 4px 8px 2px;
 }
 
 #linkedIn {
@@ -266,7 +287,7 @@ body {
   background-size: 50px 50px;
   height: 50px;
   width: 50px;
-  left: 22px;
+  left: 10px;
   top: 25px;
 }
 
@@ -280,7 +301,7 @@ body {
   background-size: 50px 50px;
   height: 50px;
   width: 50px;
-  right: 33px;
+  right: 24px;
   top: 74px;
 }
 
@@ -288,7 +309,7 @@ body {
   position: absolute;
   height: 50px;
   width: 50px;
-  left: 22px;
+  left: 18px;
   top: 74px;
   opacity: 0;
   z-index: 1;
@@ -314,6 +335,7 @@ body {
   width: 110px;
   bottom: 14px;
   background-color: grey;
+  box-shadow: 2px 4px 8px 2px;
 }
 
 #attack_text {
@@ -386,6 +408,19 @@ body {
   filter: drop-shadow(5px 5px 5px #222);
 }
 
+.inner-spire {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 100px solid maroon;
+  opacity: 0.7;
+  right: 100px;
+  top: 6px;
+  z-index: 2;
+}
+
 .spire {
   position: relative;
   width: 0;
@@ -395,18 +430,6 @@ body {
   border-bottom: 111px solid black;
   bottom: 90px;
   right: 40px;
-  z-index: 2;
-}
-
-.inner-spire {
-  position: relative;
-  width: 0;
-  height: 0;
-  border-left: 100px solid transparent;
-  border-right: 100px solid transparent;
-  border-bottom: 100px solid maroon;
-  right: 100px;
-  top: 6px;
   z-index: 2;
 }
 
@@ -451,32 +474,40 @@ body {
 
 #linkedIn {
   position: relative;
-  left: 27px;
+  left: 36px;
 }
 
 #topgrass {
   height: 4px;
   background-color: darkgreen;
+  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-size: 100px;
 }
 
 #grass {
   height: 40px;
   background-color: green;
+  background-image: url(./../assets/grass/grass.png);
+  background-size: 300px;
 }
 
 #dirt {
   height: 20px;
   background-color: #654321;
+  background-image: url(../../assets/stonesteps/stonesteps.jpg);
+  background-size: 100px;
 }
 
 #dark_cement {
   height: 14px;
   background-color: DimGray;
+  background-image: url(../../assets/stonesteps/stonesteps.jpg);
+  background-size: 100px;
 }
 
 #moss {
   height: 4px;
-  background-color: darkgreen;
+  background-color: rgb(5, 82, 5);
 }
 
 #right-tree {
@@ -504,12 +535,16 @@ body {
   top: 25px;
   height: 240px;
   background-color: grey;
+  background-image: url(../../assets/stonesteps/stonesteps.jpg);
+  background-size: 100px;
 }
 
 #walkway-parent {
   display: flex;
   justify-content: center;
   background-color: blue;
+  background-image: url(../../assets/water/water.jpg);
+  box-shadow: 0px 0px 6px 1px;
 }
 
 #walkway {

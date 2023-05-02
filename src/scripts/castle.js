@@ -14,7 +14,7 @@ export default class Castle {
 			y: 14
 		},
 		value: 100,
-		textPosition: 810})
+		textPosition: 805})
 	}
 
 	draw(ctx) {
