@@ -101,6 +101,7 @@ export default class Game {
 
 	animate(ctx) {
 		// Background (scaled to bottom left)
+		console.log(this.sorcerer.status);
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
 		ctx.translate(-this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
@@ -175,10 +176,6 @@ export default class Game {
 					(arrowPosY < bottomRight[1] && 
 						arrowPosY > topRight[1])
 				) {
-					console.log((arrowPosX > topLeft[0] && 
-						arrowPosX < topRight[0]) &&
-						(arrowPosY < bottomRight[1] && 
-							arrowPosY > topRight[1]));
 						this.stopArrowDamage(i);
 						this.inGameArrows[i].ifHit();
 						this.sorcerer.health -= 10;

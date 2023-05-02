@@ -222,11 +222,20 @@ export default class Sorcerer {
 	}
 
 	jump() {
+		if (this.status === "casting") {
+			this.status === "casting"
+		} else {
+			this.status = "jumping"
+		}
 		this.velocity.y = -10
-		this.status = "jumping"
-		setTimeout( () => {
-			this.status = "idle"
-		}, 900);
+
+		setInterval( () => {
+			if (this.status === "jumping") {
+				if (this.velocity.y === 0) {
+					this.status = "idle";
+				}
+			}
+		}, 400);
 	}
 
 	cast() {
@@ -270,7 +279,6 @@ export default class Sorcerer {
 
 		if (explosionLoopCounter <= 60) {
 			frame = Math.floor(oneLoopFrame / 4) % 16;
-			console.log(frame);
 			ctx.drawImage(image, frame * (image.width / 16), 0, image.width / 14, image.height, 680, 200, 400, 300)
 			explosionLoopCounter++
 		} else {
