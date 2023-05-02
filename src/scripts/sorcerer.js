@@ -90,7 +90,7 @@ export default class Sorcerer {
 			}
 		} else if (this.direction === "left" && this.status === "moving") {
 			currentAnimation = sorcererRunLeft;
-			runFrameSize;
+			frameSize = runFrameSize;
 			leftFrames = {
 				0: 7, 
 				1: 6, 
@@ -103,7 +103,7 @@ export default class Sorcerer {
 			}
 		} else if (this.direction === "right" && this.status === "moving") {
 			currentAnimation = sorcererRunRight;
-			runFrameSize;
+			frameSize = runFrameSize;
 		} else if (this.direction === "right" && this.status === "jumping") {
 			currentAnimation = sorcererJump;
 			frameSize = jumpingFrameSize;
@@ -127,10 +127,30 @@ export default class Sorcerer {
 			this.explosion(ctx, explosionOne);
 		} else if(this.direction === "right") {
 			frame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
-			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
+			ctx.drawImage(
+				currentAnimation, 
+				frame * SORCERER_WIDTH, 
+				56, 
+				SORCERER_WIDTH, 
+				SORCERER_HEIGHT, 
+				this.position.x, 
+				this.position.y, 
+				231, 
+				190
+			)
 		} else if (this.direction === "left") {
 			frame = leftFrames[Math.floor(gameFrame/slowDownAnimationRate) % frameSize];
-			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
+			ctx.drawImage(
+				currentAnimation, 
+				frame * SORCERER_WIDTH, 
+				56, 
+				SORCERER_WIDTH, 
+				SORCERER_HEIGHT, 
+				this.position.x, 
+				this.position.y, 
+				231, 
+				190
+			)
 		}
 		// Gravity 
 		this.update(); 
@@ -210,7 +230,7 @@ export default class Sorcerer {
 					clearInterval(idleCheck);
 				}
 			}
-		}, 200);
+		}, 100);
 	}
 
 	cast() {
