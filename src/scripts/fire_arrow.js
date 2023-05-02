@@ -66,6 +66,9 @@ export default class FireArrow {
 			this.drawLeftArrow(ctx);
 		}
 		this.updateHitBox();	//Moves the arrow hitbox as the arrow moves. 
+
+		ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		this.move(); 		// Increases the position in accordance with the arrows velocity. 
 		this.animate(ctx, ARROW_FRAME_WIDTH, ARROW_FRAME_HEIGHT);
 
@@ -122,7 +125,7 @@ export default class FireArrow {
 	ifHit() {
 		setTimeout( () => {
 			this.recentlyHit = false
-			this.reset();
+			//this.reset();
 		}, 1000)
 	}
 
@@ -169,6 +172,7 @@ export default class FireArrow {
 		if (this.currentDirection === "right" && this.moving) {
 			if (this.position.x < (0 -(RIGHT_ARROW_X_OFFSET + ARROW_WIDTH))) {
 				this.outsideCanvas = true; 
+				console.log(this.outsideCanvas);
 				this.velocity.x = 0;
 				this.moving = false; 
 			}

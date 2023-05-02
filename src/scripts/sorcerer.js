@@ -96,7 +96,6 @@ export default class Sorcerer {
 		}	
 	}
 
-
 	draw(ctx) {
 		let currentAnimation = sorcererRightIdle;
 
@@ -161,18 +160,9 @@ export default class Sorcerer {
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
-		//this.updateCameraBox();
-		
 
-		//ctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
-		//ctx.fillRect(
-		//	this.camerabox.position.x, 
-		//	this.camerabox.position.y, 
-		//	this.camerabox.width + 60, 
-		//	this.camerabox.height)
-
-		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+		ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		gameFrame++;
 	}
 
@@ -200,17 +190,6 @@ export default class Sorcerer {
 			height: 100
 		}
 	}
-
-	//updateCameraBox() {
-	//	this.camerabox = {
-	//		position: {
-	//			x: this.position.x - 25, 
-	//			y: this.position.y
-	//		},
-	//		width: 250, 
-	//		height: 100
-	//	}
-	//}
 
 	idle() {
 		this.status = "idle";
@@ -246,7 +225,6 @@ export default class Sorcerer {
 	}
 
 	cast() {
-		
 		this.status = "casting";
 		this.direction = "right";
 		this.velocity.x = 0;
@@ -256,7 +234,6 @@ export default class Sorcerer {
 
 	}
 
-	
 	oneCast(ctx, image) {
 		if (castLoopCounter <= 54) {
 		frame = Math.floor(oneLoopFrame/7) % 7;
@@ -275,7 +252,7 @@ export default class Sorcerer {
 			frame = Math.floor(oneLoopFrame/8) % 15;
 			ctx.drawImage(image, frame * (image.width / 16), 0, image.width / 14, image.height, 680, 200, 400, 300)
 			explosionLoopCounter++
-			} else {
+		} else {
 				explosionLoopCounter = 0;
 			}
 	}

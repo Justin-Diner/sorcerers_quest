@@ -11,7 +11,7 @@ export const levelOneArrows = () => {
 				position: {x: rightPositions[i].x, y: rightPositions[i].y},
 				currentDirection: "right",
 				velocity: {
-					x: -20, 
+					x: -10, 
 					y: 0
 				}
 			})
