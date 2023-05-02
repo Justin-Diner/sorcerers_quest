@@ -1,10 +1,7 @@
-import Sorcerer from './sorcerer';
 import StillObject from './still_object'
 import FireArrow from './fire_arrow';
 import Camera from './camera'
 import utilities from './dist';
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from '..';
-import { ARROW_HEIGHT } from './fire_arrow';
 import LevelIndicator from './level_indicator';
 import { levelOneArrows } from './levels/level_one';
 
@@ -45,7 +42,6 @@ export default class Game {
 		this.level = 1;
 		this.inGameArrows = [];
 
-
 		this.camera = new Camera({
 			position: {
 				x: this.sorcerer.position.x, 
@@ -58,7 +54,6 @@ export default class Game {
 			this.inGameArrows = levelOneArrows();
 		}
 
-
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "d") {
 				acceptableKeys.d.pressed = true; 
@@ -69,10 +64,10 @@ export default class Game {
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = true; 
 				sorcerer.jump();
-			} else if (e.key === "c" && !(cLocked)) {
+			} else if (e.key === "c" && !cLocked) {
+				acceptableKeys.c.pressed = true;
 				this.lockC();
 				sorcerer.cast();
-				
 				this.castle.health -=10
 				this.castle.healthbar.decrease();
 			}
@@ -81,13 +76,19 @@ export default class Game {
 		window.addEventListener("keyup", (e) => {
 			if (e.key === "d") {
 				acceptableKeys.d.pressed = false; 
-				this.sorcerer.status = "idle";
+				this.sorcerer.velocity.x = 0
+				if (this.sorcerer.velocity.x === 0 && this.sorcerer.status != "jumping") {
+					this.sorcerer.status = "idle";
+				}
 			} else if (e.key === "a") {
 				acceptableKeys.a.pressed = false; 
-				this.sorcerer.status = "idle";
+				this.sorcerer.velocity.x = 0
+				if (this.sorcerer.velocity.x === 0 && this.sorcerer.status != "jumping") {
+					this.sorcerer.status = "idle";
+				}
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = false; 
-			} else if (e.key === "c") {
+			} else if (e.key === "c" && !cLocked) {
 				acceptableKeys.c.pressed = false;
 			}
 		})
@@ -108,8 +109,8 @@ export default class Game {
 		ctx.restore();
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
-
 		this.beginCurrentLevel(ctx)
+		this.checkIdleStatus();
 
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
@@ -144,9 +145,7 @@ export default class Game {
 
 	beginCurrentLevel(ctx) {
 		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
-
 		currentArrow.draw(ctx);
-
 		if (!currentArrow.moving) {
 			this.lastFiredArrowIndex++;
 		}
@@ -175,10 +174,6 @@ export default class Game {
 					(arrowPosY < bottomRight[1] && 
 						arrowPosY > topRight[1])
 				) {
-					console.log((arrowPosX > topLeft[0] && 
-						arrowPosX < topRight[0]) &&
-						(arrowPosY < bottomRight[1] && 
-							arrowPosY > topRight[1]));
 						this.stopArrowDamage(i);
 						this.inGameArrows[i].ifHit();
 						this.sorcerer.health -= 10;
@@ -203,7 +198,7 @@ export default class Game {
 			this.inGameArrows.slice(i, 1)
 	}
 
-	isGameOver(ctx) {
+	isGameOver() {
 		if (this.sorcerer.health < 1) {
 			let losingModal = document.getElementById("losing-modal");
 			let losing_button = document.getElementById("losing_button");
@@ -243,6 +238,18 @@ export default class Game {
 
 	unlockC() {
 		cLocked = false;
+	}
+
+	checkIdleStatus() {
+		const noKeysPressed = Object.values(acceptableKeys).every(key => !key.pressed)
+		if (noKeysPressed && (this.sorcerer.status != "jumping") && this.sorcerer.velocity.x != 0) {
+			if (acceptableKeys.d.pressed || acceptableKeys.a.pressed) {
+				console.log("testing");
+				this.sorcerer.status = "moving"
+			} else if (this.sorcerer.status != "jumping") {
+			this.sorcerer.status = "idle";
+			}
+		}
 	}
 }
 

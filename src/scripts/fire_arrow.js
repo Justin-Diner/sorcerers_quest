@@ -172,7 +172,6 @@ export default class FireArrow {
 		if (this.currentDirection === "right" && this.moving) {
 			if (this.position.x < (0 -(RIGHT_ARROW_X_OFFSET + ARROW_WIDTH))) {
 				this.outsideCanvas = true; 
-				console.log(this.outsideCanvas);
 				this.velocity.x = 0;
 				this.moving = false; 
 			}
