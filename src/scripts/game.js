@@ -109,28 +109,19 @@ export default class Game {
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
 
-		//// Initial Arrow drawn begins moving. 
-		//if (this.inGameArrows[0].outsideCanvas) {
-		//	this.inGameArrows[0].velocity.x = 0;
-		//}
-
-		//for (let i = 0; i < this.inGameArrows.length; i++) {
-		//	this.inGameArrows[i].draw(ctx);
-		//}
-
-		if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
-			this.inGameArrows = levelOneArrows();	
-			this.lastFiredArrowIndex = 0;
-		};
-
 		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
-		if (!currentArrow.moving) {
-			currentArrow.moving = true; 
-		}
+
 		currentArrow.draw(ctx);
 
-		if (currentArrow.outsideCanvas) {
+		if (!currentArrow.moving) {
 			this.lastFiredArrowIndex++;
+		}
+		
+		if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
+			this.inGameArrows = [];
+			this.inGameArrows = levelOneArrows();	
+			this.lastFiredArrowIndex = 0;
+			console.log(this.lastFiredArrowIndex)
 		}
 
 		// Initial Socerer Velocity  
@@ -150,25 +141,6 @@ export default class Game {
 			return true; 
 		}
 	}
-
-	//fireCurentLevelsArrows(ctx) {
-	//	if (!this.inGameArrows[0].moving) {
-	//		this.inGameArrows[0].draw(ctx);
-	//		this.inGameArrows[0].moving = true;
-	//	}
-		
-	//	//for (let i = 0; i < this.inGameArrows.length; i++) {
-	//	//	const nextArrow = this.inGameArrows[i + 1];
-	//	//	const currentArrow = this.inGameArrows[i];
-
-	//	//	if (currentArrow.outsideCanvas) {
-	//	//		nextArrow.draw(ctx);
-	//	//	}
-	//	//}
-	//	//if (this.inGameArrows.every(arrow => arrow.outsideCanvas)) {
-	//	//	this.inGameArrows = levelOne();
-	//	//} 
-	//} 
 
 	drawLevelIndicator(ctx) {
 		this.levelIndicator.draw(ctx);
