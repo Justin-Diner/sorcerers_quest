@@ -11,7 +11,6 @@ let idleFrameSize = 5;
 let runFrameSize = 7;
 let jumpingFrameSize = 1;
 let frameSize = 0;
-let casting = true;
 
 let oneLoopFrame = 0;
 let castLoopCounter = 0;
@@ -59,7 +58,6 @@ export default class Sorcerer {
 			width: 150, 
 			height: 100
 		}
-
 	}
 
 	hitboxDims() {
@@ -120,9 +118,8 @@ export default class Sorcerer {
 		}
 		
 		// Chooses the frame based on cycles of the animation loop. Increases every 5 frames. Once Math.floor hits 1, it increments. Example (0.2, 0.4, 0.6, 0.8, 1.0, etc.)
-		// Draws the Sorcerer with the above frame in line 2
-		// ctx.drawImage(image, sx,sy,sw, sh, dx, dy, dw, dh)
-		if (this.status === "casting" && casting) {
+		console.log(`This.status: ${this.status}`);
+		if (this.status === "casting") {
 			this.oneCast(ctx, currentAnimation);
 			this.explosion(ctx, explosionOne);
 		} else if(this.direction === "right") {
@@ -244,18 +241,22 @@ export default class Sorcerer {
 	}
 
 	oneCast(ctx, image) {
+
 		let animationCount = 0;
+	
 		if (animationCount > 0) {
 			return;
 		}
 
 		if (castLoopCounter <= 54) {
-			frame = Math.floor(oneLoopFrame / 7) % 8;
+			frame = Math.floor(oneLoopFrame / 7) % 8;;
 			ctx.drawImage(image, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190)
 			castLoopCounter++
-			oneLoopFrame++
+			oneLoopFrame++ 
 		} else {
 			animationCount += 1;
+			castLoopCounter = 0;
+			oneLoopFrame = 0;
 			frame = 0;
 			this.idle();
 		}

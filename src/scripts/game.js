@@ -64,23 +64,25 @@ export default class Game {
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = true; 
 				sorcerer.jump();
-			} else if (e.key === "c" && !(cLocked)) {
+			} else if (e.key === "c" && !cLocked) {
+				acceptableKeys.c.pressed = true;
 				this.lockC();
 				sorcerer.cast();
 				this.castle.health -=10
 				this.castle.healthbar.decrease();
-				acceptableKeys.c.pressed = true;
 			}
 		})
 
 		window.addEventListener("keyup", (e) => {
 			if (e.key === "d") {
 				acceptableKeys.d.pressed = false; 
+				this.sorcerer.status = "idle";
 			} else if (e.key === "a") {
 				acceptableKeys.a.pressed = false; 
+				this.sorcerer.status = "idle";
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = false; 
-			} else if (e.key === "c") {
+			} else if (e.key === "c" && !cLocked) {
 				acceptableKeys.c.pressed = false;
 			}
 		})
@@ -94,7 +96,6 @@ export default class Game {
 
 	animate(ctx) {
 		// Background (scaled to bottom left)
-		console.log(`Sorcerer Status: ${this.sorcerer.status}`);
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
 		ctx.translate(-this.camera.position.x, -backgroundImage.image.height + scaledCanvas.height)
@@ -235,7 +236,7 @@ export default class Game {
 
 	checkIdleStatus() {
 		const noKeysPressed = Object.values(acceptableKeys).every(key => !key.pressed)
-		if (noKeysPressed && this.sorcerer.status != "jumping") {
+		if (noKeysPressed && this.sorcerer.status != "jumping" && !cLocked) {
 			this.sorcerer.status = "idle";
 		}
 	}
