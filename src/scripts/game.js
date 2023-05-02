@@ -76,10 +76,14 @@ export default class Game {
 		window.addEventListener("keyup", (e) => {
 			if (e.key === "d") {
 				acceptableKeys.d.pressed = false; 
-				this.sorcerer.status = "idle";
+				if (this.sorcerer.velocity.x === 0) {
+					this.sorcerer.status = "idle";
+				}
 			} else if (e.key === "a") {
 				acceptableKeys.a.pressed = false; 
-				this.sorcerer.status = "idle";
+				if (this.sorcerer.velocity.x === 0) {
+					this.sorcerer.status = "idle";
+				}
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = false; 
 			} else if (e.key === "c" && !cLocked) {
@@ -236,8 +240,14 @@ export default class Game {
 
 	checkIdleStatus() {
 		const noKeysPressed = Object.values(acceptableKeys).every(key => !key.pressed)
-		if (noKeysPressed && this.sorcerer.status != "jumping" && !cLocked) {
+		if (noKeysPressed && (this.sorcerer.status != "jumping") && !cLocked) {
+			if (acceptableKeys.d.pressed || acceptableKeys.a.pressed) {
+				console.log(acceptableKeys.d.pressed)
+				this.sorcerer.status = "moving"
+			} else {
+				console.log("hitting")
 			this.sorcerer.status = "idle";
+			}
 		}
 	}
 }

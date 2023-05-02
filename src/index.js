@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const ctx = canvas.getContext("2d");
 	canvas.height = CANVAS_HEIGHT; // Setting pixel height of canvas. 
 	canvas.width = CANVAS_WIDTH; // Setting pixel width of canvas. 
-	ctx.fillStyle = "gray"; // Turns the fillstyle to Gray
+	ctx.fillStyle = "gray"; 
 	ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	console.log(`Canvas Height: ${canvas.clientHeight}`);
 	console.log(`Canvas Width: ${canvas.clientWidth}`);

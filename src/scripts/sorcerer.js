@@ -193,8 +193,11 @@ export default class Sorcerer {
 		if (this.status !== "jumping") {
 			this.status = "moving"
 			this.direction = "right"
+		} else if (this.velocity.x != 0) {
+			this.direction = "right";
+			this.status = "moving"
 		} else {
-		this.direction = "right";
+			this.direction = "right";
 		}
 	}
 
@@ -204,6 +207,9 @@ export default class Sorcerer {
 		if (this.status !== "jumping") {
 			this.status = "moving";
 			this.direction = "left";
+		} else if (this.velocity.x != 0) {
+			this.direction = "right";
+			this.status = "moving"
 		} else {
 			this.direction = "left";
 		}
@@ -217,7 +223,7 @@ export default class Sorcerer {
 		}
 		this.velocity.y = -10
 
-		let idleCheck = setInterval( () => {
+		let idleCheck = setInterval(() => {
 			if (this.status === "jumping") {
 				if (this.velocity.y === 0 && this.velocity.x === 0) {
 					this.status = "idle";
