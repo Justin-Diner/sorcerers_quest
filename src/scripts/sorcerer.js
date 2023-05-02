@@ -190,28 +190,31 @@ export default class Sorcerer {
 	// Velocity 
 	moveRight() {
 		this.resetCastingCounters()
-		if (this.status !== "jumping") {
+		this.velocity.x += 1
+		if (this.status === "jumping") {
+			this.status = "jumping";
+			this.direction = "right";
+		} else if (this.velocity.x != 0 && this.status != "jumping"){
 			this.status = "moving"
 			this.direction = "right"
-		} else if (this.velocity.x != 0) {
-			this.direction = "right";
-			this.status = "moving"
 		} else {
 			this.direction = "right";
+			this.status = "idle"
 		}
 	}
 
 	moveLeft() {
 		this.resetCastingCounters()
 		this.velocity.x -= 1
-		if (this.status !== "jumping") {
-			this.status = "moving";
+		if (this.status === "jumping") {
+			this.status = "jumping";
 			this.direction = "left";
-		} else if (this.velocity.x != 0) {
-			this.direction = "right";
+		} else if (this.velocity.x != 0 && this.status != "jumping") {
+			this.direction = "left";
 			this.status = "moving"
 		} else {
 			this.direction = "left";
+			this.status = "idle"
 		}
 	}
 
