@@ -118,7 +118,6 @@ export default class Sorcerer {
 		}
 		
 		// Chooses the frame based on cycles of the animation loop. Increases every 5 frames. Once Math.floor hits 1, it increments. Example (0.2, 0.4, 0.6, 0.8, 1.0, etc.)
-		console.log(`This.status: ${this.status}`);
 		if (this.status === "casting") {
 			this.oneCast(ctx, currentAnimation);
 			this.explosion(ctx, explosionOne);

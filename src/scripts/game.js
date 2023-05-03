@@ -40,7 +40,7 @@ export default class Game {
 		this.lastFiredArrowIndex = 0;
 		this.gameStarted = true;
 		this.level = 1;
-		this.inGameArrows = [];
+		this.newlyGeneratedArrow;
 
 		this.camera = new Camera({
 			position: {
@@ -112,6 +112,10 @@ export default class Game {
 		this.beginCurrentLevel(ctx)
 		this.checkIdleStatus();
 
+		if (this.newlyGeneratedArrow) {
+			this.newlyGeneratedArrow.draw(ctx);
+		}
+
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
 		// Increase velocity based on what's pressed
@@ -121,7 +125,7 @@ export default class Game {
 			this.sorcerer.velocity.x = -5
 		}
 		// Collision Detection
-		this.isCollided();
+		this.isCollided(ctx);
 		if (this.isVictory()) {
 			return true;
 		}
@@ -157,7 +161,7 @@ export default class Game {
 		}
 	}
 
-	isCollided() {
+	isCollided(ctx) {
 		const sorcererHitBox = this.sorcerer.hitboxDims();
 		const topLeft = sorcererHitBox.topLeft;
 		const topRight = sorcererHitBox.topRight;
@@ -178,9 +182,9 @@ export default class Game {
 						this.inGameArrows[i].ifHit();
 						this.sorcerer.health -= 10;
 						this.sorcerer.healthBar.decrease();
-						this.inGameArrows.push(
-							new FireArrow(utilities.randomShootingPosition()), 
-					);
+						//this.inGameArrows.push(
+						//	new FireArrow(utilities.randomShootingPosition()),);
+						this.newlyGeneratedArrow = utilities.randomShootingPosition();
 				}
 			}
 		}

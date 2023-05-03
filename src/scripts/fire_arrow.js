@@ -21,6 +21,7 @@ export const rightPositions = {
 	6: {x: 900, y: (60 + (5 * ARROW_HEIGHT)) }
 }
 
+
 export const leftPositions = {
 	1: {x: 20, y: 60 },
 	2: {x: 20, y: (60 + ARROW_HEIGHT) },
@@ -29,6 +30,7 @@ export const leftPositions = {
 	5: {x: 20, y: (60 + (4 * ARROW_HEIGHT)) },
 	6: {x: 20, y: (60 + (5 * ARROW_HEIGHT)) },
 }
+
 
 export default class FireArrow {
 
@@ -112,13 +114,24 @@ export default class FireArrow {
 	}
 
 	updateHitBox() {
-		this.hitbox = {
-			position: {
-				x: this.position.x + 37, 
-				y: this.position.y + 57
-			}, 
-			width: 63, 
-			height: 6
+		if (this.currentDirection === "right") {
+			this.hitbox = {
+				position: {
+					x: this.position.x + 37, 
+					y: this.position.y + 57
+				}, 
+				width: 63, 
+				height: 6
+			}
+		} else {
+			this.hitbox = {
+				position: {
+					x: this.position.x - 6, 
+					y: this.position.y + 57
+				},
+				width: 63,
+				height: 6
+			}
 		}
 	}
 
