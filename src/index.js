@@ -1,6 +1,7 @@
 import Sorcerer from './scripts/sorcerer';
 import Castle from './scripts/castle';
 import Game from './scripts/game';
+import LevelOne from './scripts/levels/level_one';
 
 export const CANVAS_HEIGHT = 576;
 export const CANVAS_WIDTH = 1024;
@@ -16,14 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
 	console.log(`Canvas Width: ${canvas.clientWidth}`);
 
 	// Starting Modal Variables
-	const start_buttons = document.getElementsByClassName("start_button")
+	const startButton = document.getElementById("start_game_button")
 	const allModals = document.getElementsByClassName('modal')
 	closeAllModals(allModals)
 
 	// Main game, sorcerer, and castle variables. 
-	const castle = new Castle({position: {x: 680, y: 480}});
+
 	const sorcerer = new Sorcerer({x: 180, y: 280});
-	const game = new Game(sorcerer, castle);
+	let levelOne = new LevelOne()
+	const game = new Game(sorcerer, levelOne.castle);
 	
 	// Game Started state flag. 
 	//let gameStarted = false;
@@ -32,14 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Preloads the background. Setting the color of canvas to gray, etc.
 	// Setting the start button on the starting Modal. 
-	for (let i = 0; i < start_buttons.length; i++) {
-		start_buttons[i].addEventListener("click", () => {
-			// Once clicked the animate() loop will run and hide display. 
-			gameStarted = true;
-			closeAllModals(allModals);
-			game.start(ctx); 
-			animate();
-	})}
+	startButton.addEventListener("click", () => {
+		// Once clicked the animate() loop will run and hide display. 
+		gameStarted = true;
+		closeAllModals(allModals);
+		game.start(ctx); 
+		animate();
+	})
 
 	function closeAllModals(modals) {
 		for (let i = 0; i < modals.length; i++) {

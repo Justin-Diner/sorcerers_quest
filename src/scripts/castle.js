@@ -5,15 +5,15 @@ castleImg.src = './assets/castle/castle.png'
 
 export default class Castle {
 	constructor(options){
-		this.position = options.position;
+		this.position = {x: 680, y: 480}
 		this.width = 400;
 		this.height =  600; 
-		this.health = 100; 
+		this.health = options.health; 
 		this.healthbar = new HealthBar({position: {
 			x: 700, 
 			y: 14
 		},
-		value: 100,
+		value: options.health,
 		textPosition: 805})
 	}
 

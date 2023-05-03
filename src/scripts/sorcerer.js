@@ -1,5 +1,5 @@
 import HealthBar from "./health_bar";
-import { sorcererRightIdle, sorcererLeftIdle, sorcererRunRight, sorcererRunLeft, sorcererJump, leftSorcererJump, sorcererCast, explosionOne } from "../animations/animations";
+import { sorcererRightIdle, sorcererLeftIdle, sorcererRunRight, sorcererRunLeft, sorcererJump, leftSorcererJump, sorcererCast, explosionOne, sorcererDeath } from "../animations/animations";
 
 // Animation Variables 
 const slowDownAnimationRate = 5;
@@ -11,10 +11,14 @@ let idleFrameSize = 5;
 let runFrameSize = 7;
 let jumpingFrameSize = 1;
 let frameSize = 0;
+let deathFrameSize = 6;
 
 let oneLoopFrame = 0;
 let castLoopCounter = 0;
+let deathLoopCounter = 0;
 let explosionLoopCounter = 0;
+
+let deathAnimationCount = 0;
 
 const SORCERER_WIDTH = 231
 const SORCERER_HEIGHT = 164
@@ -72,10 +76,10 @@ export default class Sorcerer {
 	draw(ctx) {
 		let currentAnimation = sorcererRightIdle;
 
-		if (this.direction === "right" && this.status == "idle") {
+		if (this.direction === "right" && this.status == "idle" && this.status != "dead") {
 			currentAnimation = sorcererRightIdle;
 			frameSize = idleFrameSize;
-		} else if (this.direction === "left" && this.status === "idle") {
+		} else if (this.direction === "left" && this.status === "idle" && this.status != "dead") {
 			currentAnimation = sorcererLeftIdle;
 			frameSize = idleFrameSize;
 			leftFrames = {
@@ -86,7 +90,7 @@ export default class Sorcerer {
 				4: 1, 
 				5: 0 
 			}
-		} else if (this.direction === "left" && this.status === "moving") {
+		} else if (this.direction === "left" && this.status === "moving" && this.status != "dead") {
 			currentAnimation = sorcererRunLeft;
 			frameSize = runFrameSize;
 			leftFrames = {
@@ -99,27 +103,34 @@ export default class Sorcerer {
 				6: 1, 
 				7: 0
 			}
-		} else if (this.direction === "right" && this.status === "moving") {
+		} else if (this.direction === "right" && this.status === "moving" && this.status != "dead") {
 			currentAnimation = sorcererRunRight;
 			frameSize = runFrameSize;
-		} else if (this.direction === "right" && this.status === "jumping") {
+		} else if (this.direction === "right" && this.status === "jumping" && this.status != "dead") {
 			currentAnimation = sorcererJump;
 			frameSize = jumpingFrameSize;
-		} else if (this.direction === "left" && this.status === "jumping") {
+		} else if (this.direction === "left" && this.status === "jumping" && this.status != "dead") {
 			currentAnimation = leftSorcererJump;
 			frameSize = jumpingFrameSize;
 			leftFrames = {
 				0:1, 
 				1:0
 			}
-		} else if (this.direction === "right" && this.status === "casting") {
+		} else if (this.direction === "right" && this.status === "casting" && this.status != "dead") {
 			currentAnimation = sorcererCast;
 			frameSize = 7;
+		} else if (this.status === "dead") {
+			currentAnimation = sorcererDeath;
+			frameSize = deathFrameSize;
 		}
 		
 		// Chooses the frame based on cycles of the animation loop. Increases every 5 frames. Once Math.floor hits 1, it increments. Example (0.2, 0.4, 0.6, 0.8, 1.0, etc.)
-		console.log(`This.status: ${this.status}`);
-		if (this.status === "casting") {
+ 		if (this.status === "dead" && this.deathAnimationCount > 0) {
+			debugger
+			ctx.drawImage(image, 6, 3, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
+		} else if (this.status === "dead") {
+			this.death(ctx, currentAnimation);
+		} else if (this.status === "casting") {
 			this.oneCast(ctx, currentAnimation);
 			this.explosion(ctx, explosionOne);
 		} else if(this.direction === "right") {
@@ -148,7 +159,7 @@ export default class Sorcerer {
 				231, 
 				190
 			)
-		}
+		} 
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
@@ -245,12 +256,24 @@ export default class Sorcerer {
 		this.velocity.x = 0;
 	}
 
-	death() {
+	death(ctx, image) {
+		if (deathAnimationCount > 0) {
+			ctx.drawImage(image, 6, 3, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
+			return;
+		}
 
+		if (deathLoopCounter <= 38 && deathAnimationCount < 1) {
+			frame = Math.floor(oneLoopFrame / 7) % deathFrameSize + 1;
+			ctx.drawImage(image, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
+			deathLoopCounter++;
+			oneLoopFrame++;
+		} else {
+			deathAnimationCount += 1
+			ctx.drawImage(image, 6, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
+		}
 	}
 
 	oneCast(ctx, image) {
-
 		let animationCount = 0;
 	
 		if (animationCount > 0) {
@@ -258,7 +281,7 @@ export default class Sorcerer {
 		}
 
 		if (castLoopCounter <= 54) {
-			frame = Math.floor(oneLoopFrame / 7) % 8;;
+			frame = Math.floor(oneLoopFrame / 7) % 8;
 			ctx.drawImage(image, frame * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190)
 			castLoopCounter++
 			oneLoopFrame++ 

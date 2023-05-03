@@ -1,37 +1,50 @@
+import FireArrow from "./fire_arrow";
+import { rightPositions, leftPositions } from "./fire_arrow";
+
 export const utilities = {
 	randomShootingPosition() {
-		let spawnHeight = Math.floor(576 / 3)
-		let spawnWidth = 1024
-		let xPosition = spawnWidth * Math.random();
-		let yPosition = spawnHeight * Math.random()
-		let arrowDirection; 
+		const choices = ["right", "left"]
+		let arrowDirection = choices[Math.floor(Math.random() * choices.length)]; 
+		let xPosition;
+		let yPosition;
+
+		if (arrowDirection === "right") {
+			xPosition = rightPositions[1].x;
+			yPosition = rightPositions[1].y;
+		} else {
+			xPosition = leftPositions[1].x
+			yPosition = leftPositions[1].y
+		}
+
 		let velocity = {
 			x: 0, 
-			y: 0
-		};
+			y: 4
+		}; 
 	
-		if (xPosition < 512) {
-			arrowDirection = "left";
+		if (arrowDirection === "left") {
+			velocity.x = 5;
 		} else {
-			arrowDirection = "right";
+			velocity.x = -5;
 		}
 	
-		if (arrowDirection = "left") {
-			velocity.x = 3;
-		} else {
-			velocity.x = -3;
-		}
-	
-		return { position: {
-			x: xPosition,
-			y: yPosition
-			},
-			currentDirection : arrowDirection, 
-			velocity : {
-				x: velocity.x,
+		return new FireArrow({
+			position: {x: xPosition, y: yPosition},
+			currentDirection: arrowDirection,
+			velocity: {
+				x: velocity.x, 
 				y: velocity.y
 			}
-		}
+		})
+		//{ position: {
+		//	x: xPosition,
+		//	y: yPosition
+		//	},
+		//	currentDirection : arrowDirection, 
+		//	velocity : {
+		//		x: velocity.x,
+		//		y: velocity.y
+		//	}
+		//}
 	},
 	  // Normalize the length of the vector to 1, maintaining direction.
 	  dir(vec) {

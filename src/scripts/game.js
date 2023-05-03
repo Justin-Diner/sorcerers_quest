@@ -3,7 +3,10 @@ import FireArrow from './fire_arrow';
 import Camera from './camera'
 import utilities from './dist';
 import LevelIndicator from './level_indicator';
-import { levelOneArrows } from './levels/level_one';
+import LevelOne from './levels/level_one';
+import { LevelTwo } from './levels/level_two';
+import { LevelThree } from './levels/level_three';
+import Castle from './castle';
 
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
@@ -34,13 +37,16 @@ let cLocked = false;
 
 export default class Game {
 	constructor(sorcerer, castle) {
+		this.gameStarted = true;
+		this.levelStarted = false;
 		this.sorcerer = sorcerer;
 		this.castle = castle;
 		this.inGameArrows = [];
-		this.lastFiredArrowIndex = 0;
-		this.gameStarted = true;
-		this.level = 1;
-		this.inGameArrows = [];
+		this.lastFiredRightArrowIndex = 0;
+		this.lastFiredLeftArrowIndex = 0;
+		this.currentLevel = 1;
+		this.level;
+		this.newlyGeneratedArrow;
 
 		this.camera = new Camera({
 			position: {
@@ -48,10 +54,14 @@ export default class Game {
 				y: this.sorcerer.position.y
 			}}
 		);
+	
 		this.levelIndicator = new LevelIndicator(1);
 
-		if (this.level = 1) {
-			this.inGameArrows = levelOneArrows();
+		if (this.currentLevel === 1) {
+			this.level = new LevelOne;
+			this.level.generateArrows();
+			this.inGameArrows = this.level.levelArrows;
+			this.levelStarted = true;
 		}
 
 		window.addEventListener("keydown", (e) => {
@@ -101,6 +111,9 @@ export default class Game {
 	}
 
 	animate(ctx) {
+		if (this.isGameOver(ctx)) {
+			return true; 
+		}
 		// Background (scaled to bottom left)
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
@@ -109,8 +122,18 @@ export default class Game {
 		ctx.restore();
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
-		this.beginCurrentLevel(ctx)
-		this.checkIdleStatus();
+		if (this.levelStarted === true) {
+			this.beginCurrentLevel(ctx)
+		}
+		if (this.sorcerer.status != "dead") {
+			this.checkIdleStatus();
+		}
+
+		// Collision Detection
+		this.isCollided(ctx);
+		if (this.newlyGeneratedArrow) {
+			this.newlyGeneratedArrow.draw(ctx);
+		}
 
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
@@ -120,19 +143,30 @@ export default class Game {
 		} else if (acceptableKeys.a.pressed) {
 			this.sorcerer.velocity.x = -5
 		}
-		// Collision Detection
-		this.isCollided();
-		if (this.isVictory()) {
-			return true;
+
+		// Level Progression or Victory Checks
+		if (this.currentLevel === 1 || this.currentLevel === 2) {
+			this.beatLevel();
 		}
-		if (this.isGameOver(ctx)) {
-			return true; 
+		if (this.currentLevel === 3) {
+			if (this.isVictory()) {
+				return true;
+			}
 		}
 	}
 
 	drawLevelIndicator(ctx) {
-		this.levelIndicator.draw(ctx);
+		if (this.currentLevel === 1) {
+			this.levelIndicator.draw(ctx);
+		} else if (this.currentLevel === 2) {
+			this.levelIndicator = new LevelIndicator(2);
+			this.levelIndicator.draw(ctx)
+		} else {
+			this.levelIndicator = new LevelIndicator(3);
+			this.levelIndicator.draw(ctx);
+		}
 	}
+	
 
 	drawCastleSorcererAndHealthBars(ctx) {
 		// Drawing Socerer, Castle, and Healthbars
@@ -144,17 +178,63 @@ export default class Game {
 	}
 
 	beginCurrentLevel(ctx) {
-		const currentArrow = this.inGameArrows[this.lastFiredArrowIndex];
+		if (this.currentLevel === 1) {
+			this.playLevelOne(ctx);
+		}
+
+		if (this.currentLevel === 2) {
+			this.playLevelTwo(ctx);
+		}
+	}
+
+	playLevelOne(ctx) {
+		const currentArrow = this.inGameArrows[this.lastFiredRightArrowIndex];
 		currentArrow.draw(ctx);
 		if (!currentArrow.moving) {
-			this.lastFiredArrowIndex++;
+			this.lastFiredRightArrowIndex++;
 		}
-		
-		if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
-			this.inGameArrows = [];
-			this.inGameArrows = levelOneArrows();	
-			this.lastFiredArrowIndex = 0;
+		if (this.lastFiredRightArrowIndex >= this.inGameArrows.length) {
+			this.level.generateArrows();
+			this.inGameArrows = this.level.levelArrows;
+			this.lastFiredRightArrowIndex = 0;
 		}
+	}
+
+	playLevelTwo(ctx) {
+		let allPossibleArrows = this.level.levelArrows;
+
+		if (!this.inGameArrows.length) {
+			this.inGameArrows.push(allPossibleArrows[0][this.lastFiredRightArrowIndex]);
+			this.inGameArrows.push(allPossibleArrows[1][this.lastFiredLeftArrowIndex]);
+		}
+
+		for (let i = 0; i < this.inGameArrows.length; i++) {
+			this.inGameArrows[i].draw(ctx);
+		}
+
+		if (!this.inGameArrows[0].moving) {
+			this.lastFiredRightArrowIndex++;
+			if (this.lastFiredRightArrowIndex >= allPossibleArrows[0].length) {
+				this.level.clearLevelArrows();
+				this.level.generateArrows();
+				allPossibleArrows = this.level.levelArrows
+				this.lastFiredRightArrowIndex = 0;
+			}	
+			this.inGameArrows.push(allPossibleArrows[0][this.lastFiredRightArrowIndex])
+			this.inGameArrows.shift();
+		}
+
+		if (!this.inGameArrows[1].moving) {
+			this.lastFiredLeftArrowIndex++;
+			if (this.lastFiredLeftArrowIndex >= allPossibleArrows[1].length) {
+				this.level.clearLevelArrows();
+				this.level.generateArrows();
+				allPossibleArrows = this.level.levelArrows
+				this.lastFiredLeftArrowIndex = 0;
+			}
+			this.inGameArrows.push(allPossibleArrows[1][this.lastFiredLeftArrowIndex])
+			this.inGameArrows.shift();
+		}	
 	}
 
 	isCollided() {
@@ -178,9 +258,7 @@ export default class Game {
 						this.inGameArrows[i].ifHit();
 						this.sorcerer.health -= 10;
 						this.sorcerer.healthBar.decrease();
-						this.inGameArrows.push(
-							new FireArrow(utilities.randomShootingPosition()), 
-					);
+						this.newlyGeneratedArrow = utilities.randomShootingPosition();
 				}
 			}
 		}
@@ -200,24 +278,80 @@ export default class Game {
 
 	isGameOver() {
 		if (this.sorcerer.health < 1) {
-			let losingModal = document.getElementById("losing-modal");
-			let losing_button = document.getElementById("losing_button");
-			clearInterval(this.arrowInterval);
+			this.sorcerer.status = "dead";
+			const losingModal = document.getElementById("losing-modal");
+			const losingButton = document.getElementById("losing_button");
 			this.gameStarted = false;
-			losing_button.addEventListener("click", () => {
+			losingButton.addEventListener("click", () => {
 				losingModal.style.display = "none";
 				location.reload();
 			})
-			losingModal.style.display = "flex";
-			return true;
+			setTimeout(() => {
+				losingModal.style.display = "flex";
+				return true;
+			}, 800)
 		} 
 	}
 
-	isVictory() {
+	beatLevel() {
 		if (this.castle.health < 1) {
+			this.levelStarted = false;
+			if (this.currentLevel === 1) {
+				this.castle = new Castle({health: 10})
+				this.resetForNewLevel();
+				const levelTwoModal = document.getElementById("level_two_start_modal");
+				const levelTwoStartButton = document.getElementById("level_two_start_button");
+				levelTwoStartButton.addEventListener('click', () => {
+					levelTwoModal.style.display = "none";
+					this.startLevelTwo();
+				})
+				levelTwoModal.style.display = "flex";
+			}
+
+			if (this.currentLevel === 2) {
+				this.castle = new Castle({health: 100});
+				this.resetForNewLevel();
+				const levelThreeModal = document.getElementById("level_three_start_modal")
+				const levelThreeStartButton = document.getElementById("level_three_start_button");
+				levelThreeStartButton.addEventListener('click', () => {
+					levelThreeModal.style.display = "none";
+					this.startLevelThree();
+				})
+				levelThreeModal.style.display = "flex";
+			}
+		}
+	}
+
+	resetForNewLevel() {
+		if (this.levelStarted === false) {
+			this.inGameArrows = [];
+			this.lastFiredLeftArrowIndex = 0;
+			this.lastFiredRightArrowIndex = 0;
+		}
+	}
+
+	startLevelTwo() {
+		this.currentLevel = 2;
+		this.level = new LevelTwo();
+		this.level.generateArrows();
+		this.inGameArrows = [this.level.levelArrows[0][0], this.level.levelArrows[1][0]]
+		this.castle = this.level.castle;
+		this.levelStarted = true;
+	}
+
+	startLevelThree() {
+		this.currentLevel = 3;
+		this.level = new LevelThree();
+		this.level.generateArrows();
+		this.inGameArrows = [this.level.levelArrows[0][0], this.level.levelArrows[1][0]]
+		this.castle = this.level.castle;
+		this.levelStarted = true; 
+	}
+
+	isVictory() {
+		if (this.currentLevel === 3 && this.castle.health < 1) {
 			let winningModal = document.getElementById("winning-modal")
 			let winning_button = document.getElementById("winning_button")
-			clearInterval(this.arrowInterval);
 			winning_button.addEventListener("click", () => {
 				winningModal.style.display = "none";
 				location.reload();
@@ -244,9 +378,8 @@ export default class Game {
 		const noKeysPressed = Object.values(acceptableKeys).every(key => !key.pressed)
 		if (noKeysPressed && (this.sorcerer.status != "jumping") && this.sorcerer.velocity.x != 0) {
 			if (acceptableKeys.d.pressed || acceptableKeys.a.pressed) {
-				console.log("testing");
 				this.sorcerer.status = "moving"
-			} else if (this.sorcerer.status != "jumping") {
+			} else if (this.sorcerer.status != "jumping" || this.sorcerer.status != "dead") {
 			this.sorcerer.status = "idle";
 			}
 		}
