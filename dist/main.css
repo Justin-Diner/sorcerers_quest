@@ -77,7 +77,7 @@ body {
   position: relative;
 }
 
-#soundbackground {
+#sound_button_background {
   position: fixed;
   background-color: white;
   width: 60px;

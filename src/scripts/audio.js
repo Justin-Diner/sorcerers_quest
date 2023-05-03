@@ -1,7 +1,17 @@
 // Sound Variables 
-export const soundButton = document.getElementById("soundbackground");
+const soundButton = document.getElementById("sound_button_background");
+debugger
 const muteButtonImage = document.getElementById("sound_button")
-	
+
+// Sound - Introduction variables. 
+const startingAudio = document.createElement("AUDIO");
+startingAudio.src = "./assets/music/intro_music.mp3"
+startingAudio.loop = true; 
+startingAudio.autoplay = true; 
+startingAudio.muted = true;
+soundButton.appendChild(startingAudio);
+
+
 // Sound EL (start sound, mute and unmute). Default is muted. 
 soundButton.addEventListener("click", () => {
 	if (startingAudio.muted === false) {
@@ -14,13 +24,3 @@ soundButton.addEventListener("click", () => {
 	}
 	soundButton.appendChild(startingAudio);
 })
-
-// Sound - Introduction variables. 
-const startingAudio = document.createElement("AUDIO");
-startingAudio.src = "./assets/music/intro_music.mp3"
-startingAudio.loop = true; 
-startingAudio.autoplay = true; 
-startingAudio.muted = true;
-soundButton.appendChild(startingAudio);
-
-export default soundButton;
