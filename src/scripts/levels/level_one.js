@@ -3,11 +3,10 @@ import FireArrow from "../fire_arrow";
 import Castle from "../castle";
 
 export class LevelOne {
-	constructor(sorcerer) {
+	constructor() {
 		this.level = 1;
 		this.levelArrows = [];
-		this.sorcerer = sorcerer;
-		this.castle = new Castle({health: 10})
+		this.castle = new Castle({health: 30})
 	}
 
 	generateArrows() {

@@ -111,6 +111,9 @@ export default class Game {
 	}
 
 	animate(ctx) {
+		if (this.isGameOver(ctx)) {
+			return true; 
+		}
 		// Background (scaled to bottom left)
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		ctx.scale(4, 4) // Enlarges by 4 times on x and y axis
@@ -122,8 +125,9 @@ export default class Game {
 		if (this.levelStarted === true) {
 			this.beginCurrentLevel(ctx)
 		}
-
-		this.checkIdleStatus();
+		if (this.sorcerer.status != "dead") {
+			this.checkIdleStatus();
+		}
 
 		// Collision Detection
 		this.isCollided(ctx);
@@ -148,10 +152,6 @@ export default class Game {
 			if (this.isVictory()) {
 				return true;
 			}
-		}
-
-		if (this.isGameOver(ctx)) {
-			return true; 
 		}
 	}
 
@@ -278,6 +278,7 @@ export default class Game {
 
 	isGameOver() {
 		if (this.sorcerer.health < 1) {
+			this.sorcerer.status = "dead";
 			const losingModal = document.getElementById("losing-modal");
 			const losingButton = document.getElementById("losing_button");
 			this.gameStarted = false;
@@ -285,8 +286,10 @@ export default class Game {
 				losingModal.style.display = "none";
 				location.reload();
 			})
-			losingModal.style.display = "flex";
-			return true;
+			setTimeout(() => {
+				losingModal.style.display = "flex";
+				return true;
+			}, 800)
 		} 
 	}
 
@@ -375,9 +378,8 @@ export default class Game {
 		const noKeysPressed = Object.values(acceptableKeys).every(key => !key.pressed)
 		if (noKeysPressed && (this.sorcerer.status != "jumping") && this.sorcerer.velocity.x != 0) {
 			if (acceptableKeys.d.pressed || acceptableKeys.a.pressed) {
-				console.log("testing");
 				this.sorcerer.status = "moving"
-			} else if (this.sorcerer.status != "jumping") {
+			} else if (this.sorcerer.status != "jumping" || this.sorcerer.status != "dead") {
 			this.sorcerer.status = "idle";
 			}
 		}

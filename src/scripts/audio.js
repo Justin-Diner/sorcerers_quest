@@ -1,6 +1,5 @@
 // Sound Variables 
 const soundButton = document.getElementById("sound_button_background");
-debugger
 const muteButtonImage = document.getElementById("sound_button")
 
 // Sound - Introduction variables. 
