@@ -3,7 +3,7 @@ import FireArrow from './fire_arrow';
 import Camera from './camera'
 import utilities from './dist';
 import LevelIndicator from './level_indicator';
-import { levelOneArrows } from './levels/level_one';
+import LevelOne from './levels/level_one';
 
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
@@ -39,7 +39,8 @@ export default class Game {
 		this.inGameArrows = [];
 		this.lastFiredArrowIndex = 0;
 		this.gameStarted = true;
-		this.level = 1;
+		this.currentLevel = 1;
+		this.level;
 		this.newlyGeneratedArrow;
 
 		this.camera = new Camera({
@@ -50,8 +51,10 @@ export default class Game {
 		);
 		this.levelIndicator = new LevelIndicator(1);
 
-		if (this.level = 1) {
-			this.inGameArrows = levelOneArrows();
+		if (this.currentLevel === 1) {
+			this.level = new LevelOne;
+			this.level.generateArrows();
+			this.inGameArrows = this.level.levelArrows;
 		}
 
 		window.addEventListener("keydown", (e) => {
@@ -156,7 +159,7 @@ export default class Game {
 		
 		if (this.lastFiredArrowIndex >= this.inGameArrows.length) {
 			this.inGameArrows = [];
-			this.inGameArrows = levelOneArrows();	
+			this.inGameArrows = this.level.levelArrows
 			this.lastFiredArrowIndex = 0;
 		}
 	}
