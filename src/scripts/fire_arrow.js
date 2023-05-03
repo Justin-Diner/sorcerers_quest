@@ -61,6 +61,7 @@ export default class FireArrow {
 
 	draw(ctx) {
 		this.moving = true;
+		this.move(); 		// Increases the position in accordance with the arrows velocity.
 		this.outsideCanvasCheck();
 		if (this.currentDirection === "right") {
 			this.drawRightArrow(ctx);
@@ -71,9 +72,8 @@ export default class FireArrow {
 
 		ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
 		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
-		this.move(); 		// Increases the position in accordance with the arrows velocity. 
+ 
 		this.animate(ctx, ARROW_FRAME_WIDTH, ARROW_FRAME_HEIGHT);
-
 	}
 
 	move() {
