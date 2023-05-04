@@ -16,30 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
 	ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
 	// Starting Modal Variables
-	const startButton = document.getElementById("start_game_button")
+	const startGameButton = document.getElementById("start_game_button")
+	const startingModal = document.getElementById('starting-modal');
 	const allModals = document.getElementsByClassName('modal')
 	closeAllModals(allModals)
 
-	// Main game, sorcerer, and castle variables. 
-
+	// Main game, initial sorcerer, and initial castle variables. 
 	const sorcerer = new Sorcerer({x: 180, y: 280});
-	let levelOne = new LevelOne();
+	const levelOne = new LevelOne();
 	const game = new Game(sorcerer, levelOne.castle);
+	
+	// Preloads the background. Setting the color of canvas to gray, etc.
+	// Setting the start button on the starting Modal.
+	
+	startGameButton.addEventListener("click", () => {
+		// Once clicked the animate() loop will run and hide display. 
+		gameStarted = true;
+		closeAllModals(allModals);
+		animate();
+	})
+
+	startingModal.style.display = "flex";
 	
 	// Game Started state flag. 
 	//let gameStarted = false;
 	let gameStarted = true;
-	animate();
-
-	// Preloads the background. Setting the color of canvas to gray, etc.
-	// Setting the start button on the starting Modal. 
-	startButton.addEventListener("click", () => {
-		// Once clicked the animate() loop will run and hide display. 
-		gameStarted = true;
-		closeAllModals(allModals);
-		game.start(ctx); 
-		animate();
-	})
 
 	function closeAllModals(modals) {
 		for (let i = 0; i < modals.length; i++) {

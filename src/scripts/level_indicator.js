@@ -5,8 +5,8 @@ export default class LevelIndicator {
 
 	draw(ctx) {
 		ctx.font = "bold 36px serif"
-		ctx.fillStyle = "red";
-		ctx.fillText(`Level: ${this.level}`, 440, 39)
+		ctx.fillStyle = "white";
+		ctx.fillText(`Level: ${this.level} / 3`, 428, 39)
 		ctx.stroke();
 	}
 }
