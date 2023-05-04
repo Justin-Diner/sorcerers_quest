@@ -14,8 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	canvas.width = CANVAS_WIDTH; // Setting pixel width of canvas. 
 	ctx.fillStyle = "gray"; 
 	ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-	console.log(`Canvas Height: ${canvas.clientHeight}`);
-	console.log(`Canvas Width: ${canvas.clientWidth}`);
 
 	// Starting Modal Variables
 	const startButton = document.getElementById("start_game_button")

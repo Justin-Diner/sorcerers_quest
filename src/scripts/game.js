@@ -321,7 +321,6 @@ export default class Game {
 				levelTreeThirdWaveSpawned = true;
 				this.inGameArrows.push(allPossibleArrows[0][2]);
 				this.inGameArrows.push(allPossibleArrows[1][2]);
-				console.log(allPossibleArrows);
 			}, 2500)
 		}
 
@@ -345,7 +344,6 @@ export default class Game {
 			this.inGameArrows[5].draw(ctx);
 		}
 			this.inGameArrows[5].draw(ctx);
-			console.log(this.inGameArrows);
 		}
 
 		if (this.newlyGeneratedArrows.length) {
