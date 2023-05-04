@@ -1,7 +1,11 @@
 // #999600, #FFFB19, #E5E100, #440099, #6600E6
-
 body {
-	background-image: linear-gradient(rgb(12, 109, 227), orange);
+	background-color: gray;
+}
+#main-container {
+	//background-image: linear-gradient(rgb(12, 109, 227), orange);
+	background-image: url('../assets/forrestbackground/forrestbackground.jpg');
+	background-size: cover;
 	width: 100%;
 	height: 100%;
 
@@ -12,7 +16,7 @@ body {
 	width: 100%;
 	height: 100px;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	
 }
 
@@ -22,18 +26,20 @@ body {
 	font-family: 'Cinzel Decorative', cursive;
 	font-size: 46px;
 	position: relative;
-
+	right: 88px;
+	top: 24px;
 }
 
 #sound_button_background {
-	position: fixed;
 	background-color: white;
 	width: 60px;
 	height: 60px; 
 	z-index: 10;
 	border-radius: 50%;
-	left: 20px;
 	border: 3px solid black;
+	position: relative;
+	margin-right: 48px;
+	top: 10px;
 }
 
 #sound_button {
@@ -53,13 +59,14 @@ body {
 	display: flex;
 	align-items: flex-end;
 	flex-direction: row;
+	z-index: -1;
 }
 
 #sun_image {
 		background-image: url("../assets/sun/sun.png");
-		background-size: 100%;
+		background-size: 120%;
 		position: relative;
-		height: 200%;
+		height: 220%;
 		width: 200%;
 
 }
@@ -87,8 +94,13 @@ body {
 	bottom: 40px;
 }
 
+#waxseal_start {
+	position: relative;
+	height: 100px;
+	width: 100px;
+}
 #canvas {
-	border: 2px solid black;
+	border-top: 3px solid black;
 	height: 100%;
 	width: 100%;
 	position: relative;
@@ -112,7 +124,6 @@ body {
 	top: 130px;
 }
 
-
 #losing-modal {
 	position: fixed; 
 	display: none; 
@@ -122,8 +133,6 @@ body {
 	position: fixed; 
 	display: none; 
 }
-
-
 
 #blood_splat {
 	position: absolute;
@@ -249,24 +258,23 @@ body {
 	cursor: pointer;
 }
 
+
+#clickable-github-box {
+	position: relative;
+	height: 50px; 
+	width: 50px; 
+	right: 24px;
+	top: 74px;
+	z-index: 1;
+	border-radius: 20px;
+}
+
 #github {
 	position: relative;
 	background-image: url(./../assets/socials/github.png);
 	background-size: 50px 50px;
 	height: 50px; 
 	width: 50px; 
-	right: 24px;
-	top: 74px;
-}
-
-#clickable-github-box {
-	position: absolute;
-	height: 50px; 
-	width: 50px; 
-	left: 18px;
-	top: 74px;
-	opacity: 0;
-	z-index: 1;
 }
 
 #clickable-github-box:hover {
@@ -449,7 +457,7 @@ body {
 #grass {
 	height: 40px;
 	background-color: green;
-	background-image: url(./../assets/grass/grass.png);
+	background-image: url(../../assets/stonesteps/stonesteps.jpg);
 	background-size: 300px; 
 }
 
@@ -474,22 +482,26 @@ body {
 	background-color: rgb(5, 82, 5);
 }
 
+.tree-container {
+	position: relative;
+	bottom: 200px;
+}
+
 #right-tree {
 	position: absolute;
 	height: 300px;
-	bottom: 290px;
 	left: 10px;
 	z-index: 1;
-
   -webkit-filter: drop-shadow(5px 5px 5px #222);
   filter: drop-shadow(5px 5px 5px #222);
 }
+
 #left-tree {
 	position: absolute;
 	height: 300px;
-	bottom: 280px;
 	left: 60px;
 	z-index: 2;
+	top: 6px;
 	-webkit-filter: drop-shadow(5px 5px 5px #222);
   filter: drop-shadow(5px 5px 5px #222);
 }
@@ -513,7 +525,7 @@ body {
 
 #walkway {
 	border-bottom: 200px solid black;
-	border-left: 50px solid transparent;
+	border-left: 49px solid transparent;
 	border-right: 50px solid transparent;
 	height: 0;
 	width: 700px;
@@ -527,6 +539,7 @@ body {
 	height: 0;
 	width: 694px;
 	right: 46px;
+
 }
 
 #instructions-title {

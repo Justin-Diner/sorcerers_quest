@@ -16,30 +16,42 @@ document.addEventListener("DOMContentLoaded", () => {
 	ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
 	// Starting Modal Variables
-	const startButton = document.getElementById("start_game_button")
+	const startGameButton = document.getElementById("start_game_button")
+	const startingModal = document.getElementById('starting-modal');
 	const allModals = document.getElementsByClassName('modal')
-	closeAllModals(allModals)
 
-	// Main game, sorcerer, and castle variables. 
-
-	const sorcerer = new Sorcerer({x: 180, y: 280});
-	let levelOne = new LevelOne();
-	const game = new Game(sorcerer, levelOne.castle);
 	
+	closeAllModals(allModals)
 	// Game Started state flag. 
-	//let gameStarted = false;
-	let gameStarted = true;
-	animate();
+	let gameStarted = false;
 
-	// Preloads the background. Setting the color of canvas to gray, etc.
-	// Setting the start button on the starting Modal. 
-	startButton.addEventListener("click", () => {
-		// Once clicked the animate() loop will run and hide display. 
-		gameStarted = true;
+	// Main game, initial sorcerer, and initial castle variables. 
+	let levelOne = new LevelOne();
+	let sorcerer = new Sorcerer({x: 180, y: 280});
+	let game = new Game(sorcerer, levelOne.castle);
+
+	const losingModal = document.getElementById("losing-modal");
+	const losingButton = document.getElementById("losing_button")
+
+	losingButton.addEventListener("click", () => {
+		sorcerer = new Sorcerer({x: 180, y: 280});
+		levelOne = new LevelOne();
+		game = new Game(sorcerer, levelOne.castle);
 		closeAllModals(allModals);
-		game.start(ctx); 
+		gameStarted = true;
+	})
+	
+	// Preloads the background. Setting the color of canvas to gray, etc.
+	// Setting the start button on the starting Modal.
+	
+	startGameButton.addEventListener("click", () => {
+		// Once clicked the animate() loop will run and hide display. 
+		closeAllModals(allModals);
+		gameStarted = true;
 		animate();
 	})
+
+	startingModal.style.display = "flex";
 
 	function closeAllModals(modals) {
 		for (let i = 0; i < modals.length; i++) {
