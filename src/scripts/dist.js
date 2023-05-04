@@ -35,16 +35,6 @@ export const utilities = {
 				y: velocity.y
 			}
 		})
-		//{ position: {
-		//	x: xPosition,
-		//	y: yPosition
-		//	},
-		//	currentDirection : arrowDirection, 
-		//	velocity : {
-		//		x: velocity.x,
-		//		y: velocity.y
-		//	}
-		//}
 	},
 	  // Normalize the length of the vector to 1, maintaining direction.
 	  dir(vec) {

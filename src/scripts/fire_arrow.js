@@ -70,8 +70,8 @@ export default class FireArrow {
 		}
 		this.updateHitBox();	//Moves the arrow hitbox as the arrow moves. 
 
-		ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
  
 		this.animate(ctx, ARROW_FRAME_WIDTH, ARROW_FRAME_HEIGHT);
 	}
@@ -139,7 +139,7 @@ export default class FireArrow {
 		setTimeout( () => {
 			this.recentlyHit = false
 			//this.reset();
-		}, 1000)
+		}, 1500)
 	}
 
 	generateRandomNumber(max, min) {

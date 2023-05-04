@@ -4,9 +4,12 @@ import Camera from './camera'
 import utilities from './dist';
 import LevelIndicator from './level_indicator';
 import LevelOne from './levels/level_one';
-import { LevelTwo } from './levels/level_two';
-import { LevelThree } from './levels/level_three';
+import LevelTwo from './levels/level_two';
+import LevelThree from './levels/level_three';
 import Castle from './castle';
+
+let levelThreeSecondWaveSpawned = false;
+let levelTreeThirdWaveSpawned = false; 
 
 let backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
@@ -45,8 +48,8 @@ export default class Game {
 		this.lastFiredRightArrowIndex = 0;
 		this.lastFiredLeftArrowIndex = 0;
 		this.currentLevel = 1;
-		this.level;
-		this.newlyGeneratedArrow;
+		this.level = new LevelOne();
+		this.newlyGeneratedArrows = [];
 
 		this.camera = new Camera({
 			position: {
@@ -63,6 +66,7 @@ export default class Game {
 			this.inGameArrows = this.level.levelArrows;
 			this.levelStarted = true;
 		}
+
 
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "d") {
@@ -122,6 +126,10 @@ export default class Game {
 		ctx.restore();
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
+		if (this.currentLevel === 3 && !this.levelStarted) {
+			this.levelStarted = true;
+			this.level.generateArrows();
+		}
 		if (this.levelStarted === true) {
 			this.beginCurrentLevel(ctx)
 		}
@@ -131,9 +139,11 @@ export default class Game {
 
 		// Collision Detection
 		this.isCollided(ctx);
-		if (this.newlyGeneratedArrow) {
-			this.newlyGeneratedArrow.draw(ctx);
-		}
+		//if (this.newlyGeneratedArrows) {
+		//	for (let i = 0; i < this.newlyGeneratedArrows.length; i++){
+		//		this.newlyGeneratedArrows[i].draw(ctx);
+		//	}
+		//}
 
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
@@ -148,6 +158,7 @@ export default class Game {
 		if (this.currentLevel === 1 || this.currentLevel === 2) {
 			this.beatLevel();
 		}
+
 		if (this.currentLevel === 3) {
 			if (this.isVictory()) {
 				return true;
@@ -178,12 +189,19 @@ export default class Game {
 	}
 
 	beginCurrentLevel(ctx) {
+		if (this.sorcerer.status === "dead") {
+			return;
+		}
 		if (this.currentLevel === 1) {
 			this.playLevelOne(ctx);
 		}
 
 		if (this.currentLevel === 2) {
 			this.playLevelTwo(ctx);
+		}
+
+		if (this.currentLevel === 3) {
+			this.playLevelThree(ctx);
 		}
 	}
 
@@ -237,6 +255,106 @@ export default class Game {
 		}	
 	}
 
+	playLevelThree(ctx) {
+		const allPossibleArrows = this.level.levelArrows;
+		
+		if (this.inGameArrows.length > 6) {
+			this.inGameArrows.splice(6)
+		}
+
+		if (!this.inGameArrows.length) {
+			this.inGameArrows.push(allPossibleArrows[0][0]);
+			this.inGameArrows.push(allPossibleArrows[1][0]);
+		}
+
+		this.inGameArrows[0].draw(ctx);
+		this.inGameArrows[1].draw(ctx);
+
+		if (!this.inGameArrows[0].moving) {
+			this.inGameArrows[0].position.x = 900;
+			this.inGameArrows[0].moving = true;
+			this.inGameArrows[0].outSideCanvas = false;
+			this.inGameArrows[0].velocity.x = -10;
+			this.inGameArrows[0].draw(ctx);
+		}
+
+		if (!this.inGameArrows[1].moving) {
+			this.inGameArrows[1].position.x = 20;
+			this.inGameArrows[1].moving = true;
+			this.inGameArrows[1].outSideCanvas = false;
+			this.inGameArrows[1].velocity.x = 10;
+			this.inGameArrows[1].draw(ctx);
+		}
+
+		if (!levelThreeSecondWaveSpawned) {
+			levelThreeSecondWaveSpawned = true;
+			setTimeout(() => {
+				this.inGameArrows.push(allPossibleArrows[0][5]);
+				this.inGameArrows.push(allPossibleArrows[1][5]);
+			}, 1000)
+		}
+
+		if (this.inGameArrows[2]) {
+			if (!this.inGameArrows[2].moving) {
+				this.inGameArrows[2].position.x = 900;
+				this.inGameArrows[2].moving = true;
+				this.inGameArrows[2].outSideCanvas = false;
+				this.inGameArrows[2].velocity.x = -10;
+				this.inGameArrows[2].draw(ctx);
+			}
+
+			this.inGameArrows[2].draw(ctx);
+		}
+		if (this.inGameArrows[3]) {
+		if (!this.inGameArrows[3].moving) {
+			this.inGameArrows[3].position.x = 20;
+			this.inGameArrows[3].moving = true;
+			this.inGameArrows[3].outSideCanvas = false;
+			this.inGameArrows[3].velocity.x = 10;
+			this.inGameArrows[3].draw(ctx);
+		}
+			this.inGameArrows[3].draw(ctx);
+		}
+
+		if (!levelTreeThirdWaveSpawned) {
+			setTimeout(() => {
+				levelTreeThirdWaveSpawned = true;
+				this.inGameArrows.push(allPossibleArrows[0][2]);
+				this.inGameArrows.push(allPossibleArrows[1][2]);
+				console.log(allPossibleArrows);
+			}, 2500)
+		}
+
+		if (this.inGameArrows[4]) {
+			if (!this.inGameArrows[4].moving) {
+				this.inGameArrows[4].position.x = 900;
+				this.inGameArrows[4].moving = true;
+				this.inGameArrows[4].outSideCanvas = false;
+				this.inGameArrows[4].velocity.x = -10;
+				this.inGameArrows[4].draw(ctx);
+			}
+
+			this.inGameArrows[4].draw(ctx);
+		}
+		if (this.inGameArrows[5]) {
+		if (!this.inGameArrows[5].moving) {
+			this.inGameArrows[5].position.x = 20;
+			this.inGameArrows[5].moving = true;
+			this.inGameArrows[5].outSideCanvas = false;
+			this.inGameArrows[5].velocity.x = 10;
+			this.inGameArrows[5].draw(ctx);
+		}
+			this.inGameArrows[5].draw(ctx);
+			console.log(this.inGameArrows);
+		}
+
+		if (this.newlyGeneratedArrows.length) {
+			for (let i = 0; i < this.newlyGeneratedArrows.length; i++){
+				this.newlyGeneratedArrows[i].draw(ctx);
+			}
+		}
+	}
+
 	isCollided() {
 		const sorcererHitBox = this.sorcerer.hitboxDims();
 		const topLeft = sorcererHitBox.topLeft;
@@ -254,11 +372,33 @@ export default class Game {
 					(arrowPosY < bottomRight[1] && 
 						arrowPosY > topRight[1])
 				) {
-						this.stopArrowDamage(i);
+						this.stopArrowInGameArrowDamage(i);
 						this.inGameArrows[i].ifHit();
 						this.sorcerer.health -= 10;
 						this.sorcerer.healthBar.decrease();
-						this.newlyGeneratedArrow = utilities.randomShootingPosition();
+						this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
+				}
+			}
+		}
+
+		if (this.newlyGeneratedArrows.length) {
+			for (let i = 0; i < this.newlyGeneratedArrows.length; i++) { 
+				if (!this.newlyGeneratedArrows[i].recentlyHit && this.newlyGeneratedArrows[i].moving) {
+					const arrowPosX = this.newlyGeneratedArrows[i].hitbox.position.x;
+					const arrowPosY = this.newlyGeneratedArrows[i].hitbox.position.y
+	
+					if (
+						(arrowPosX > topLeft[0] && 
+						arrowPosX < topRight[0]) &&
+						(arrowPosY < bottomRight[1] && 
+							arrowPosY > topRight[1])
+					) {
+							this.stopNewlyGeneratedArrowDamage(i) ;
+							this.newlyGeneratedArrows[i].ifHit();
+							this.sorcerer.health -= 10;
+							this.sorcerer.healthBar.decrease();
+							this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
+					}
 				}
 			}
 		}
@@ -271,9 +411,14 @@ export default class Game {
 		return (xPos < 0) || (xPos > 1024) || (yPos > 576)
 	}
 
-	stopArrowDamage(i) {
+	stopArrowInGameArrowDamage(i) {
 			this.inGameArrows[i].recentlyHit = true; 
 			this.inGameArrows.slice(i, 1)
+	}
+
+	stopNewlyGeneratedArrowDamage(i) {
+		this.newlyGeneratedArrows[i].recentlyHit = true; 
+		this.newlyGeneratedArrows.slice(i, 1)
 	}
 
 	isGameOver() {
@@ -288,7 +433,7 @@ export default class Game {
 				location.reload();
 			})
 			setTimeout(() => {
-				losingModal.style.display = "none";
+				losingModal.style.display = "flex";
 				return true;
 			}, 800)
 		} 

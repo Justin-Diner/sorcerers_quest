@@ -2,6 +2,7 @@ import Sorcerer from './scripts/sorcerer';
 import Castle from './scripts/castle';
 import Game from './scripts/game';
 import LevelOne from './scripts/levels/level_one';
+import { LevelThree } from './scripts/levels/level_three';
 
 export const CANVAS_HEIGHT = 576;
 export const CANVAS_WIDTH = 1024;
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Main game, sorcerer, and castle variables. 
 
 	const sorcerer = new Sorcerer({x: 180, y: 280});
-	let levelOne = new LevelOne()
+	let levelOne = new LevelOne();
 	const game = new Game(sorcerer, levelOne.castle);
 	
 	// Game Started state flag. 

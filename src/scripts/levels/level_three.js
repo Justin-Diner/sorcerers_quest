@@ -10,11 +10,11 @@ export class LevelThree {
 		this.castle = new Castle ({health: 100})
 	}
 
-	generateArroww() {
-		for (let i = 0; i < 7; i++) {
+	generateArrows() {
+		for (let i = 6; i > 0; i--) {
 			this.levelArrows[0].push(
 				new FireArrow({
-					position: {x:rightPositions[i].x, y: rightPositions[i].y},
+					position: {x: rightPositions[i].x, y: rightPositions[i].y},
 					currentDirection: "right",
 					velocity: {
 						x: -10,
@@ -34,5 +34,6 @@ export class LevelThree {
 			)
 		}
 	}
-
 }
+
+export default LevelThree
