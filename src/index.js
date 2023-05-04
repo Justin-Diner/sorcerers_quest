@@ -34,11 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	const losingButton = document.getElementById("losing_button")
 
 	losingButton.addEventListener("click", () => {
-		gameStarted = true;
 		sorcerer = new Sorcerer({x: 180, y: 280});
 		levelOne = new LevelOne();
 		game = new Game(sorcerer, levelOne.castle);
 		closeAllModals(allModals);
+		gameStarted = true;
 	})
 	
 	// Preloads the background. Setting the color of canvas to gray, etc.

@@ -78,7 +78,6 @@ export default class Game {
 				this.lockC();
 				sorcerer.cast();
 				this.castle.health -=10
-				console.log(this.castle);
 				this.castle.healthbar.decrease();
 			}
 		})
