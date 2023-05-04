@@ -282,12 +282,13 @@ export default class Game {
 			const losingModal = document.getElementById("losing-modal");
 			const losingButton = document.getElementById("losing_button");
 			this.gameStarted = false;
+			this.levelStarted = false;
 			losingButton.addEventListener("click", () => {
 				losingModal.style.display = "none";
 				location.reload();
 			})
 			setTimeout(() => {
-				losingModal.style.display = "flex";
+				losingModal.style.display = "none";
 				return true;
 			}, 800)
 		} 
