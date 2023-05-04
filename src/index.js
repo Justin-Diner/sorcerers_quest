@@ -19,28 +19,39 @@ document.addEventListener("DOMContentLoaded", () => {
 	const startGameButton = document.getElementById("start_game_button")
 	const startingModal = document.getElementById('starting-modal');
 	const allModals = document.getElementsByClassName('modal')
+
+	
 	closeAllModals(allModals)
+	// Game Started state flag. 
+	let gameStarted = false;
 
 	// Main game, initial sorcerer, and initial castle variables. 
-	const sorcerer = new Sorcerer({x: 180, y: 280});
-	const levelOne = new LevelOne();
-	const game = new Game(sorcerer, levelOne.castle);
+	let levelOne = new LevelOne();
+	let sorcerer = new Sorcerer({x: 180, y: 280});
+	let game = new Game(sorcerer, levelOne.castle);
+
+	const losingModal = document.getElementById("losing-modal");
+	const losingButton = document.getElementById("losing_button")
+
+	losingButton.addEventListener("click", () => {
+		gameStarted = true;
+		sorcerer = new Sorcerer({x: 180, y: 280});
+		levelOne = new LevelOne();
+		game = new Game(sorcerer, levelOne.castle);
+		closeAllModals(allModals);
+	})
 	
 	// Preloads the background. Setting the color of canvas to gray, etc.
 	// Setting the start button on the starting Modal.
 	
 	startGameButton.addEventListener("click", () => {
 		// Once clicked the animate() loop will run and hide display. 
-		gameStarted = true;
 		closeAllModals(allModals);
+		gameStarted = true;
 		animate();
 	})
 
 	startingModal.style.display = "flex";
-	
-	// Game Started state flag. 
-	//let gameStarted = false;
-	let gameStarted = true;
 
 	function closeAllModals(modals) {
 		for (let i = 0; i < modals.length; i++) {
