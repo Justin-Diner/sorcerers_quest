@@ -14,7 +14,7 @@ export class LevelTwo {
 	}
 
 	generateArrows() {
-		for (let i = 6; i > 2; i--) {
+		for (let i = 6; i > 0; i--) {
 			this.levelArrows[0].push(
 				new FireArrow({
 					position: {x: rightPositions[i].x, y: rightPositions[i].y},
@@ -38,3 +38,5 @@ export class LevelTwo {
 		}
 	}
 }
+
+export default LevelTwo
