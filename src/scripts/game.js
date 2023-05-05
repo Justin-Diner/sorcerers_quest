@@ -8,43 +8,37 @@ import LevelTwo from './levels/level_two';
 import LevelThree from './levels/level_three';
 import Castle from './castle';
 
-let levelThreeSecondWaveSpawned = false;
-let levelTreeThirdWaveSpawned = false;
-let cLocked = false;
 const losingModal = document.getElementById("losing-modal");
-let playerDied = false; 
 const backgroundImage = new StillObject({
 	position : { x: 0, y: 0 },
 	imageSrc: './assets/forrestbackground/forrestbackground.jpg'}
 );
 
 const acceptableKeys = {
-	d: {
-		pressed: false
-	},
-	a: {
-		pressed: false
-	}, 
-	space: {
-		pressed: false
-	}, 
-	c: {
-		pressed: false
-	}
+	d: { pressed: false },
+	a: { pressed: false }, 
+	space: { pressed: false }, 
+	c: { pressed: false }
 }
 
 export default class Game {
 	constructor(sorcerer, castle) {
-		this.gameStarted = true;
-		this.levelStarted = false;
 		this.sorcerer = sorcerer;
 		this.castle = castle;
+		this.gameStarted = true;
+		this.levelStarted = false;
 		this.inGameArrows = [];
 		this.lastFiredRightArrowIndex = 0;
 		this.lastFiredLeftArrowIndex = 0;
-		this.currentLevel = 1;
+		this.currentLevelNumber = 1;
 		this.level;
 		this.newlyGeneratedArrows = [];
+
+		this.endGame = false;
+		this.levelThreeSecondWaveSpawned = false;
+		this.levelTreeThirdWaveSpawned = false;
+		this.cLocked = false;
+		this.playerDied = false; 
 
 		this.camera = new Camera({
 			position: {
@@ -55,13 +49,12 @@ export default class Game {
 	
 		this.levelIndicator = new LevelIndicator(1);
 
-		if (this.currentLevel === 1) {
-			this.level = new LevelOne;
+		if (this.currentLevelNumber === 1) {
+			this.level = new LevelOne();
 			this.level.generateArrows();
 			this.inGameArrows = this.level.levelArrows;
 			this.levelStarted = true;
 		}
-
 
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "d") {
@@ -73,7 +66,7 @@ export default class Game {
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = true; 
 				sorcerer.jump();
-			} else if (e.key === "c" && !cLocked) {
+			} else if (e.key === "c" && !this.cLocked) {
 				acceptableKeys.c.pressed = true;
 				this.lockC();
 				sorcerer.cast();
@@ -97,7 +90,7 @@ export default class Game {
 				}
 			} else if (e.key === " ") {
 				acceptableKeys.space.pressed = false; 
-			} else if (e.key === "c" && !cLocked) {
+			} else if (e.key === "c" && !this.cLocked) {
 				acceptableKeys.c.pressed = false;
 			}
 		})
@@ -113,10 +106,12 @@ export default class Game {
 		if (this.isGameOver(ctx)) {
 			return true;
 		}
+
 		// Background (scaled to bottom left)
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		backgroundImage.draw(ctx);
 		ctx.restore();
+
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
 		if (this.levelStarted === true) {
@@ -139,16 +134,16 @@ export default class Game {
 		}
 
 		// Level Progression or Victory Checks
-		if (this.currentLevel === 1 || this.currentLevel === 2) {
+		if (this.currentLevelNumber === 1 || this.currentLevelNumber === 2) {
 			this.beatLevel();
 		}
 
-		if (this.currentLevel === 3 && !this.levelStarted) {
+		if (this.currentLevelNumber === 3 && !this.levelStarted) {
 			this.levelStarted = true;
 			this.level.generateArrows();
 		}
 
-		if (this.currentLevel === 3) {
+		if (this.currentLevelNumber === 3) {
 			if (this.isVictory()) {
 				return true;
 			}
@@ -156,9 +151,9 @@ export default class Game {
 	}
 
 	drawLevelIndicator(ctx) {
-		if (this.currentLevel === 1) {
+		if (this.currentLevelNumber === 1) {
 			this.levelIndicator.draw(ctx);
-		} else if (this.currentLevel === 2) {
+		} else if (this.currentLevelNumber === 2) {
 			this.levelIndicator = new LevelIndicator(2);
 			this.levelIndicator.draw(ctx)
 		} else {
@@ -181,15 +176,15 @@ export default class Game {
 		if (this.sorcerer.status === "dead") {
 			return;
 		}
-		if (this.currentLevel === 1) {
+		if (this.currentLevelNumber === 1) {
 			this.playLevelOne(ctx);
 		}
 
-		if (this.currentLevel === 2) {
+		if (this.currentLevelNumber === 2) {
 			this.playLevelTwo(ctx);
 		}
 
-		if (this.currentLevel === 3) {
+		if (this.currentLevelNumber === 3) {
 			this.playLevelThree(ctx);
 		}
 	}
@@ -275,8 +270,8 @@ export default class Game {
 			this.inGameArrows[1].draw(ctx);
 		}
 
-		if (!levelThreeSecondWaveSpawned) {
-			levelThreeSecondWaveSpawned = true;
+		if (!this.levelThreeSecondWaveSpawned) {
+			this.levelThreeSecondWaveSpawned = true;
 			setTimeout(() => {
 				this.inGameArrows.push(allPossibleArrows[0][5]);
 				this.inGameArrows.push(allPossibleArrows[1][5]);
@@ -305,9 +300,9 @@ export default class Game {
 			this.inGameArrows[3].draw(ctx);
 		}
 
-		if (!levelTreeThirdWaveSpawned) {
+		if (!this.levelTreeThirdWaveSpawned) {
 			setTimeout(() => {
-				levelTreeThirdWaveSpawned = true;
+				this.levelTreeThirdWaveSpawned = true;
 				this.inGameArrows.push(allPossibleArrows[0][2]);
 				this.inGameArrows.push(allPossibleArrows[1][2]);
 			}, 2500)
@@ -343,7 +338,9 @@ export default class Game {
 	}
 
 	isCollided() {
-		this.deathCheck();
+		if (this.deathCheck()) {
+			return true; 
+		}
 
 		const sorcererHitBox = this.sorcerer.hitboxDims();
 		const topLeft = sorcererHitBox.topLeft;
@@ -402,25 +399,32 @@ export default class Game {
 
 	stopArrowInGameArrowDamage(i) {
 			this.inGameArrows[i].recentlyHit = true; 
+			// Check this line once complete. 
 			this.inGameArrows.slice(i, 1)
 	}
 
 	stopNewlyGeneratedArrowDamage(i) {
 		this.newlyGeneratedArrows[i].recentlyHit = true; 
+		// Check this line once complete. 
 		this.newlyGeneratedArrows.slice(i, 1)
 	}
 
 	isGameOver() {	
-		if (this.sorcerer.health < 1 && !playerDied) {
-			playerDied = true;
+		if (this.endGame) {
+			return true;
+		};
+
+		if (this.sorcerer.health < 1 && !this.playerDied) {
 			this.sorcerer.status = "dead";
+			this.playerDied = true;
 			this.gameStarted = false;
 			this.levelStarted = false;
 
 			const ending = setTimeout(() => {
 				this.unlockC();
 				losingModal.style.display = "flex";
-				return true;
+				this.endGame = true;
+				clearTimeout(ending)
 			}, 1000)
 		} 
 	}
@@ -428,7 +432,7 @@ export default class Game {
 	beatLevel() {
 		if (this.castle.health < 1) {
 			this.levelStarted = false;
-			if (this.currentLevel === 1) {
+			if (this.currentLevelNumber === 1) {
 				this.castle = new Castle({health: 10})
 				this.resetForNewLevel();
 				const levelTwoModal = document.getElementById("level_two_start_modal");
@@ -440,7 +444,7 @@ export default class Game {
 				levelTwoModal.style.display = "flex";
 			}
 
-			if (this.currentLevel === 2) {
+			if (this.currentLevelNumber === 2) {
 				this.castle = new Castle({health: 100});
 				this.resetForNewLevel();
 				const levelThreeModal = document.getElementById("level_three_start_modal")
@@ -463,7 +467,7 @@ export default class Game {
 	}
 
 	startLevelTwo() {
-		this.currentLevel = 2;
+		this.currentLevelNumber = 2;
 		this.level = new LevelTwo();
 		this.level.generateArrows();
 		this.inGameArrows = [this.level.levelArrows[0][0], this.level.levelArrows[1][0]]
@@ -472,7 +476,7 @@ export default class Game {
 	}
 
 	startLevelThree() {
-		this.currentLevel = 3;
+		this.currentLevelNumber = 3;
 		this.level = new LevelThree();
 		this.level.generateArrows();
 		this.inGameArrows = [this.level.levelArrows[0][0], this.level.levelArrows[1][0]]
@@ -481,7 +485,7 @@ export default class Game {
 	}
 
 	isVictory() {
-		if (this.currentLevel === 3 && this.castle.health < 1) {
+		if (this.currentLevelNumber === 3 && this.castle.health < 1) {
 			let winningModal = document.getElementById("winning-modal")
 			let winning_button = document.getElementById("winning_button")
 			winning_button.addEventListener("click", () => {
@@ -494,14 +498,17 @@ export default class Game {
 	}
 
 	lockC() {
-		if (!cLocked) {
-			cLocked = true; 
-			setTimeout(this.unlockC, 3000);
+		if (!this.cLocked) {
+			this.cLocked = true; 
+			const cLock = setTimeout(() => {
+				this.unlockC();
+				clearInterval(cLock);
+			}, 3000);
 		} 
 	}
 
 	unlockC() {
-		cLocked = false;
+		this.cLocked = false;
 	}
 
 	checkIdleStatus() {
@@ -517,7 +524,7 @@ export default class Game {
 
 	deathCheck() {
 		if (this.sorcerer.status === "dead") {
-			return
+			return true
 		}
 	}
 }
