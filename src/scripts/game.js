@@ -106,7 +106,6 @@ export default class Game {
 		if (this.isGameOver(ctx)) {
 			return true;
 		}
-		console.log(this.sorcerer.position.x)
 		// Background (scaled to bottom left)
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		backgroundImage.draw(ctx);
