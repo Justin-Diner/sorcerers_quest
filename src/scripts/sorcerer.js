@@ -1,38 +1,41 @@
 import HealthBar from "./health_bar";
 import { sorcererRightIdle, sorcererLeftIdle, sorcererRunRight, sorcererRunLeft, sorcererJump, leftSorcererJump, sorcererCast, explosionOne, sorcererDeath } from "../animations/animations";
 
-// Animation Variables 
+const SORCERER_WIDTH = 231
+const SORCERER_HEIGHT = 164
+const GRAVITY = 0.4;
+
+// Animation Constants 
 const slowDownAnimationRate = 5;
+const idleFrameSize = 5;
+const runFrameSize = 7;
+const jumpingFrameSize = 1;
+const deathFrameSize = 6;
+
+// Animation Flags and Changing Variables
+let leftFrames = {}
+let deathAnimationCount = 0;
+
 let frame = 0;
 let gameFrame = 0;
-let leftFrames = {}
-
-let idleFrameSize = 5;
-let runFrameSize = 7;
-let jumpingFrameSize = 1;
 let frameSize = 0;
-let deathFrameSize = 6;
-
 let oneLoopFrame = 0;
 let castLoopCounter = 0;
 let deathLoopCounter = 0;
 let explosionLoopCounter = 0;
 
-let deathAnimationCount = 0;
-
-const SORCERER_WIDTH = 231
-const SORCERER_HEIGHT = 164
-const GRAVITY = 0.4;
-
 export default class Sorcerer {
 	constructor(position) {
 		this.position = position;
+		this.health = 50;
+		this.status = "idle"
+		this.direction = "right";
+		this.leftMovementStopped = false; 
+		this.rightMovementStopped = false;
 		this.velocity = {
 			x: 0, 
 			y: 1
 		}
-		this.status = "idle"
-		this.direction = "right";
 		this.hitbox = {
 			position: {
 				x: this.position.x, 
@@ -41,27 +44,11 @@ export default class Sorcerer {
 			width: 69, 
 			height: 100
 		}
-
-		// Sorcerer Health
-		this.health = 50;
-		this.healthBar = new HealthBar({position: 
-			{
-			x: 54, 
-			y: 14
-			},
+		this.healthBar = new HealthBar({
+			position: { x: 54, y: 14},
 			value: this.health,
 			textPosition: 160
 		})
-
-
-		this.camerabox = {
-			position: {
-				x: this.position.x, 
-				y: this.position.y
-			},
-			width: 150, 
-			height: 100
-		}
 	}
 
 	hitboxDims() {
@@ -80,7 +67,11 @@ export default class Sorcerer {
 		const facingRight = (this.direction === "right");
 		const facingLeft = (this.direction === "left");
 		const idle = (this.status === "idle");
+		const moving = this.status === "moving";
+		const jumping = this.status === "jumping"
+		const casting = this.status === "casting"
 
+		// Choosing Correct Sprite Sheet For All Sorcerer Status's. 
 		if (facingRight && idle && alive) {
 			currentAnimation = sorcererRightIdle;
 			frameSize = idleFrameSize;
@@ -95,7 +86,7 @@ export default class Sorcerer {
 				4: 1, 
 				5: 0 
 			}
-		} else if (facingLeft && this.status === "moving" && alive) {
+		} else if (facingLeft && moving && alive) {
 			currentAnimation = sorcererRunLeft;
 			frameSize = runFrameSize;
 			leftFrames = {
@@ -108,45 +99,50 @@ export default class Sorcerer {
 				6: 1, 
 				7: 0
 			}
-		} else if (facingRight && this.status === "moving" && alive) {
+		} else if (facingRight && moving && alive) {
 			currentAnimation = sorcererRunRight;
 			frameSize = runFrameSize;
-		} else if (facingRight && this.status === "jumping" && alive) {
+		} else if (facingRight && jumping && alive) {
 			currentAnimation = sorcererJump;
 			frameSize = jumpingFrameSize;
-		} else if (facingLeft && this.status === "jumping" && alive) {
+		} else if (facingLeft && jumping && alive) {
 			currentAnimation = leftSorcererJump;
 			frameSize = jumpingFrameSize;
 			leftFrames = {
 				0:1, 
 				1:0
 			}
-		} else if (facingRight && this.status === "casting" && alive) {
+		} else if (facingRight && casting && alive) {
 			currentAnimation = sorcererCast;
 			frameSize = 7;
-		} else if (this.status === "dead") {
+		} else if (dead) {
 			currentAnimation = sorcererDeath;
 			frameSize = deathFrameSize;
 		}
-		// Chooses the frame based on cycles of the animation loop. Increases every 5 frames. Once Math.floor hits 1, it increments. Example (0.2, 0.4, 0.6, 0.8, 1.0, etc.)
+
+		// Animate Correct Image based on Correct Sprite Sheet
  		if (dead) {
 			this.death(ctx, currentAnimation);
-		} else if (this.status === "casting") {
+		} else if (casting) {
 			this.oneCast(ctx, currentAnimation);
 			this.explosion(ctx, explosionOne);
 		} else if(facingRight && alive) {
 			frame = Math.floor(gameFrame/slowDownAnimationRate) % frameSize;
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
 		} else if (facingLeft && alive) {
-			frame = leftFrames[Math.floor(gameFrame  /slowDownAnimationRate) % frameSize];
+			frame = leftFrames[Math.floor(gameFrame/slowDownAnimationRate) % frameSize];
 			ctx.drawImage(currentAnimation, frame * SORCERER_WIDTH, 56, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y, 231, 190)
 		} 
+
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
 
 		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
 		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+		if (gameFrame > 99) {
+			gameFrame = 0;
+		}
 		gameFrame++;
 	}
 
@@ -156,7 +152,6 @@ export default class Sorcerer {
 		this.position.y += this.velocity.y;
 
 		// Ensuring he does not go past bottom of screen
-		//  	y position 			 190								y = 1 
 		if (this.position.y + SORCERER_HEIGHT + this.velocity.y < 576) {
 			this.velocity.y += GRAVITY;
 		} else {
@@ -182,7 +177,14 @@ export default class Sorcerer {
 	// Velocity 
 	moveRight() {
 		this.resetCastingCounters()
-		this.velocity.x += 1
+		if (this.position.x >= 600) {
+			this.velocity.x = 0;
+			this.rightMovementStopped = true; 
+		} else {
+			this.rightMovementStopped = false; 
+			this.velocity.x += 1
+		}
+
 		if (this.status === "jumping") {
 			this.status = "jumping";
 			this.direction = "right";
@@ -197,7 +199,14 @@ export default class Sorcerer {
 
 	moveLeft() {
 		this.resetCastingCounters()
-		this.velocity.x -= 1
+		if (this.position.x < 0) {
+			this.velocity.x = 0
+			this.leftMovementStopped = true; 
+		} else {
+			this.leftMovementStopped = false;
+			this.velocity.x += 1
+		}
+
 		if (this.status === "jumping") {
 			this.status = "jumping";
 			this.direction = "left";
@@ -242,10 +251,10 @@ export default class Sorcerer {
 	}
 
 	death(ctx, image) {
-		let finalDeathImage = ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
+		//let finalDeathImage = ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
 
 		if (deathAnimationCount > 0) {
-			finalDeathImage
+			ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
 			return;
 		}
 
@@ -256,7 +265,7 @@ export default class Sorcerer {
 			oneLoopFrame++;
 		} else {
 			deathAnimationCount += 1
-			finalDeathImage
+			ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
 		}
 	}
 
@@ -297,11 +306,10 @@ export default class Sorcerer {
 			ctx.drawImage(image, frame * (image.width / 16), 0, image.width / 14, image.height, 680, 200, 400, 300)
 			explosionLoopCounter++
 		} else {
-				animationCount += 1;
-				frame = 0;
-				explosionLoopCounter = 0;
-			}
+			animationCount += 1;
+			frame = 0;
+			explosionLoopCounter = 0;
+		}
 	}
-
 }
 

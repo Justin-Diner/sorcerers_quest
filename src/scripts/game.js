@@ -106,7 +106,7 @@ export default class Game {
 		if (this.isGameOver(ctx)) {
 			return true;
 		}
-
+		console.log(this.sorcerer.position.x)
 		// Background (scaled to bottom left)
 		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
 		backgroundImage.draw(ctx);
@@ -127,9 +127,9 @@ export default class Game {
 		// Initial Socerer Velocity  
 		this.sorcerer.velocity.x = 0;
 		// Increase velocity based on what's pressed
-		if (acceptableKeys.d.pressed) {
+		if (acceptableKeys.d.pressed && !this.sorcerer.rightMovementStopped) {
 			this.sorcerer.velocity.x = 5;
-		} else if (acceptableKeys.a.pressed) {
+		} else if (acceptableKeys.a.pressed && !this.sorcerer.leftMovementStopped) {
 			this.sorcerer.velocity.x = -5
 		}
 
@@ -165,7 +165,7 @@ export default class Game {
 
 	drawCastleSorcererAndHealthBars(ctx) {
 		// Drawing Socerer, Castle, and Healthbars
-		// Sorcerer must be drawn 2nd for fireball animation to be in front of castle. 
+		// Sorcerer must be drawn 2nd for spell animation to be in front of castle. 
 		this.castle.draw(ctx);
 		this.castle.healthbar.draw(ctx);
 		this.sorcerer.draw(ctx);
@@ -419,14 +419,30 @@ export default class Game {
 			this.playerDied = true;
 			this.gameStarted = false;
 			this.levelStarted = false;
+			this.cLocked = true; 
 
 			const ending = setTimeout(() => {
-				this.unlockC();
 				losingModal.style.display = "flex";
 				this.endGame = true;
 				clearTimeout(ending)
 			}, 1000)
-		} 
+		}
+	}
+
+	isVictory() {
+		if (this.endGame) {
+			return true; 
+		}
+
+		if (this.currentLevelNumber === 3 && this.castle.health < 1) {
+			let winningModal = document.getElementById("winning-modal")
+			const wonGame = setTimeout(() => {
+			winningModal.style.display = "flex";
+			this.endGame = true; 
+			this.cLocked = true; 
+			clearTimeout(wonGame);
+			}, 500)
+		}
 	}
 
 	beatLevel() {
@@ -482,19 +498,6 @@ export default class Game {
 		this.inGameArrows = [this.level.levelArrows[0][0], this.level.levelArrows[1][0]]
 		this.castle = this.level.castle;
 		this.levelStarted = true; 
-	}
-
-	isVictory() {
-		if (this.currentLevelNumber === 3 && this.castle.health < 1) {
-			let winningModal = document.getElementById("winning-modal")
-			let winning_button = document.getElementById("winning_button")
-			winning_button.addEventListener("click", () => {
-				winningModal.style.display = "none";
-			})
-			setTimeout(() => {
-			winningModal.style.display = "flex";
-			return true; 
-		}, 500)}
 	}
 
 	lockC() {

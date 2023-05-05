@@ -6,11 +6,11 @@ export class LevelOne {
 	constructor() {
 		this.level = 1;
 		this.levelArrows = [];
-		this.castle = new Castle({health: 30})
+		this.castle = new Castle({health: 10})
 	}
 
 	generateArrows() {
-		for (let i = 6; i > 5; i--) {
+		for (let i = 2; i > 1; i--) {
 			this.levelArrows.push(
 				new FireArrow({
 					position: {x: rightPositions[i].x, y: rightPositions[i].y},
