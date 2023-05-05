@@ -33,7 +33,6 @@ export const leftPositions = {
 
 
 export default class FireArrow {
-
 	constructor(options) {
 		this.image = new Image();
 		this.image.src = './assets/fire_arrow/fire.png'

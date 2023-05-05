@@ -246,6 +246,10 @@ export default class Game {
 			this.inGameArrows.splice(6)
 		}
 
+		if (this.newlyGeneratedArrows.length > 6) {
+			this.newlyGeneratedArrows.splice(6);
+		}
+
 		if (!this.inGameArrows.length) {
 			this.inGameArrows.push(allPossibleArrows[0][0]);
 			this.inGameArrows.push(allPossibleArrows[1][0]);

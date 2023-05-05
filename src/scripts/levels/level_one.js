@@ -6,7 +6,7 @@ export class LevelOne {
 	constructor() {
 		this.level = 1;
 		this.levelArrows = [];
-		this.castle = new Castle({health: 10})
+		this.castle = new Castle({health: 20})
 	}
 
 	generateArrows() {

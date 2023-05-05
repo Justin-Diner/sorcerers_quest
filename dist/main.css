@@ -56,7 +56,8 @@ table {
 }
 
 body {
-  background-color: gray;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(96, 96, 107) 61%, rgb(70, 70, 70) 90%);
 }
 
 #main-container {
@@ -469,11 +470,11 @@ body {
   filter: drop-shadow(5px 5px 5px #222);
 }
 
-#bottom {
+#bottom-area {
   position: relative;
   padding-bottom: 2px;
   height: 320px;
-  background-color: gray;
+  background-color: green;
   border-top: 3px solid black;
   bottom: 10px;
 }
@@ -505,15 +506,10 @@ body {
 }
 
 #dirt {
-  height: 20px;
+  position: relative;
+  bottom: 10px;
+  height: 36px;
   background-color: #654321;
-  background-image: url(../../assets/stonesteps/stonesteps.jpg);
-  background-size: 100px;
-}
-
-#dark_cement {
-  height: 14px;
-  background-color: DimGray;
   background-image: url(../../assets/stonesteps/stonesteps.jpg);
   background-size: 100px;
 }
@@ -565,10 +561,10 @@ body {
 }
 
 #walkway {
-  border-bottom: 200px solid black;
+  border-bottom: 201px solid black;
   border-left: 49px solid transparent;
-  border-right: 50px solid transparent;
-  height: 0;
+  border-right: 49px solid transparent;
+  height: 0px;
   width: 700px;
 }
 
@@ -592,9 +588,21 @@ body {
   margin-bottom: 10px;
 }
 
+#instructions-list {
+  position: relative;
+  left: 130px;
+}
+
 #instructions-list li {
   font-size: 15px;
   color: white;
   font-family: "Cinzel Decorative", cursive;
   line-height: 180%;
+}
+
+.stone_steps {
+  height: 125px;
+  width: 100%;
+  background-image: url(../../assets/stonesteps/stonesteps.jpg);
+  background-size: 100px;
 }
