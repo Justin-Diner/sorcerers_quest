@@ -54,24 +54,6 @@ body {
 	top: 7px;
 }
 
-#sun_wrapper {
-	height: 200px;
-	width: 200px;
-	display: flex;
-	align-items: flex-end;
-	flex-direction: row;
-	z-index: -1;
-}
-
-#sun_image {
-		background-image: url("../assets/sun/sun.png");
-		background-size: 120%;
-		position: relative;
-		height: 220%;
-		width: 200%;
-
-}
-
 #main-content {
 	display: flex;
 	justify-content: center;
