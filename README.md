@@ -1,13 +1,12 @@
 # Sorcerer's Quest
-Ready to Accept Your Quest? 
-
-https://justin-diner.github.io/sorcerers_quest/
-
 ![Screenshot](./strategy/screenshot.png)
 
 ## Description
 
 Sorcerer's Quest is a vanilla JavaScript fantasy adventure game. You are a Sorcerer whose quest is seems simple- save the town and defeat the King hiding in Castlevania. The quest is not as simple as it sounds! The King's archers will be defending the Castle with fire arrows. Three shots and you lose! Be sure to dodge!
+
+Ready to Accept Your Quest? 
+https://justin-diner.github.io/sorcerers_quest/  
 
 ![Introduction](./strategy/introduction.png)
 
