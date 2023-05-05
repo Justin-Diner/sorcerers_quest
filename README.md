@@ -28,7 +28,7 @@ The project is written in vanilla JavaScript, HTML, and CSS. The game utilizes t
 
 ```javascript		
 	window.addEventListener("keydown", (e) => {
-		if (e.key === "d") {
+    if (e.key === "d") {
 			acceptableKeys.d.pressed = true; 
 			sorcerer.moveRight();
 		} else if (e.key === "a") {
