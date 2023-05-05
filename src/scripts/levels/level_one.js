@@ -10,7 +10,7 @@ export class LevelOne {
 	}
 
 	generateArrows() {
-		for (let i = 2; i > 1; i--) {
+		for (let i = 6; i > 5; i--) {
 			this.levelArrows.push(
 				new FireArrow({
 					position: {x: rightPositions[i].x, y: rightPositions[i].y},
