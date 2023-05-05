@@ -27,44 +27,44 @@ The project is written in vanilla JavaScript, HTML, and CSS. The game utilizes t
 1. The sorcerer's controls are tracked on each keydown and keyup event. When a key is down, it triggers certain class attributes boolean values. These values are checked each time the user presses a button.   
 
 ```javascript		
-	window.addEventListener("keydown", (e) => {
-    if (e.key === "d") {
-			acceptableKeys.d.pressed = true; 
-			sorcerer.moveRight();
-		} else if (e.key === "a") {
-			acceptableKeys.a.pressed = true; 
-			sorcerer.moveLeft();
-		} else if (e.key === " ") {
-			acceptableKeys.space.pressed = true; 
-			sorcerer.jump();
-		} else if (e.key === "c" && !this.cLocked) {
-			acceptableKeys.c.pressed = true;
-			this.lockC();
-			sorcerer.cast();
-			this.castle.health -=10
-			this.castle.healthbar.decrease();
-		}
-	})
+window.addEventListener("keydown", (e) => {
+  if (e.key === "d") {
+    acceptableKeys.d.pressed = true; 
+    sorcerer.moveRight();
+  } else if (e.key === "a") {
+    acceptableKeys.a.pressed = true; 
+    sorcerer.moveLeft();
+  } else if (e.key === " ") {
+    acceptableKeys.space.pressed = true; 
+    sorcerer.jump();
+  } else if (e.key === "c" && !this.cLocked) {
+    acceptableKeys.c.pressed = true;
+    this.lockC();
+    sorcerer.cast();
+    this.castle.health -=10
+    this.castle.healthbar.decrease();
+  }
+})
 	
-	window.addEventListener("keyup", (e) => {
-		if (e.key === "d") {
-			acceptableKeys.d.pressed = false; 
-			this.sorcerer.velocity.x = 0
-			if (this.sorcerer.velocity.x === 0 && this.sorcerer.status != "jumping") {
-				this.sorcerer.status = "idle";
-			}
-		} else if (e.key === "a") {
-			acceptableKeys.a.pressed = false; 
-			this.sorcerer.velocity.x = 0
-			if (this.sorcerer.velocity.x === 0 && this.sorcerer.status != "jumping") {
-				this.sorcerer.status = "idle";
-			}
-		} else if (e.key === " ") {
-			acceptableKeys.space.pressed = false; 
-		} else if (e.key === "c" && !this.cLocked) {
-			acceptableKeys.c.pressed = false;
-		}
-	})
+window.addEventListener("keyup", (e) => {
+  if (e.key === "d") {
+    acceptableKeys.d.pressed = false; 
+    this.sorcerer.velocity.x = 0
+    if (this.sorcerer.velocity.x === 0 && this.sorcerer.status != "jumping") {
+      this.sorcerer.status = "idle";
+    }
+  } else if (e.key === "a") {
+    acceptableKeys.a.pressed = false; 
+    this.sorcerer.velocity.x = 0
+    if (this.sorcerer.velocity.x === 0 && this.sorcerer.status != "jumping") {
+      this.sorcerer.status = "idle";
+    }
+  } else if (e.key === " ") {
+    acceptableKeys.space.pressed = false; 
+  } else if (e.key === "c" && !this.cLocked) {
+    acceptableKeys.c.pressed = false;
+  }
+})
 ```
 ### Hit Detection
 Hit Detection was completed by the checking whether each arrow's hitbox is within the sorcerer's hitbox pixel boundaries. This boolean check is completed on each loop of the animation loop. If an arrow is detected, the arrow is timed out from doing damage for 1 second. The stopping function is critical because it prohibits arrows from damaging the sorcerer multiple times.  
