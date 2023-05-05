@@ -1,5 +1,6 @@
 # Sorcerer's Quest
-![Screenshot](./strategy/screenshot.png)
+
+![Screenshot](./strategy/sorcerersquest.JPG)
 
 ## Description
 
@@ -8,7 +9,7 @@ Sorcerer's Quest is a vanilla JavaScript fantasy adventure game. You are a Sorce
 Ready to Accept Your Quest? 
 https://justin-diner.github.io/sorcerers_quest/  
 
-![Introduction](./strategy/introduction.png)
+![Introduction](./strategy/intro.JPG)
 
 ## Technologies 
 
