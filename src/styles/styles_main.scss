@@ -427,11 +427,11 @@ body {
   filter: drop-shadow(5px 5px 5px #222);
 }
 
-#bottom {
+#bottom-area {
 	position: relative;
 	padding-bottom: 2px;
 	height: 320px;
-	background-color: gray;
+	background-color: green;
 	border-top: 3px solid black;
 	bottom: 10px;
 }
@@ -464,19 +464,16 @@ body {
 
 
 #dirt {
-	height: 20px;
+	position: relative;
+	bottom: 10px;
+	height: 36px;
 	background-color: #654321;
 	background-image: url(../../assets/stonesteps/stonesteps.jpg);
 	background-size: 100px;
 }
 
 
-#dark_cement {
-	height: 14px;
-	background-color: DimGray;
-	background-image: url(../../assets/stonesteps/stonesteps.jpg);
-	background-size: 100px;
-}
+
 
 #moss {
 	height: 4px;
@@ -555,7 +552,7 @@ body {
 
 #instructions-list {
 	position: relative;
-	left: 1px;
+	left: 130px;
 }
 
 
