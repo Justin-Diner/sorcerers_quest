@@ -70,58 +70,57 @@ window.addEventListener("keyup", (e) => {
 Hit Detection was completed by the checking whether each arrow's hitbox is within the sorcerer's hitbox pixel boundaries. This boolean check is completed on each loop of the animation loop. If an arrow is detected, the arrow is timed out from doing damage for 1 second. The stopping function is critical because it prohibits arrows from damaging the sorcerer multiple times.  
  
 ```javascript 
-	isCollided() {
-		if (this.deathCheck()) {
-			return true; 
-		}
+isCollided() {
+  if (this.deathCheck()) {
+    return true; 
+  }
 
-		const sorcererHitBox = this.sorcerer.hitboxDims();
-		const topLeft = sorcererHitBox.topLeft;
-		const topRight = sorcererHitBox.topRight;
-		const bottomRight = sorcererHitBox.bottomRight;
-
-		for (let i = 0; i < this.inGameArrows.length; i++) { 
-			if (!this.inGameArrows[i].recentlyHit && this.inGameArrows[i].moving) {
-				const arrowPosX = this.inGameArrows[i].hitbox.position.x;
-				const arrowPosY = this.inGameArrows[i].hitbox.position.y
-
-				if (
-					(arrowPosX > topLeft[0] && 
-					arrowPosX < topRight[0]) &&
-					(arrowPosY < bottomRight[1] && 
-						arrowPosY > topRight[1])
-				) {
-						this.stopArrowInGameArrowDamage(i);
-						this.inGameArrows[i].ifHit();
-						this.sorcerer.health -= 10;
-						this.sorcerer.healthBar.decrease();
-						this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
-				}
-			}
-		}
-
-		if (this.newlyGeneratedArrows.length) {
-			for (let i = 0; i < this.newlyGeneratedArrows.length; i++) { 
-				if (!this.newlyGeneratedArrows[i].recentlyHit && this.newlyGeneratedArrows[i].moving) {
-					const arrowPosX = this.newlyGeneratedArrows[i].hitbox.position.x;
-					const arrowPosY = this.newlyGeneratedArrows[i].hitbox.position.y
-	
-					if (
-						(arrowPosX > topLeft[0] && 
-						arrowPosX < topRight[0]) &&
-						(arrowPosY < bottomRight[1] && 
-							arrowPosY > topRight[1])
-					) {
-							this.stopNewlyGeneratedArrowDamage(i) ;
-							this.newlyGeneratedArrows[i].ifHit();
-							this.sorcerer.health -= 10;
-							this.sorcerer.healthBar.decrease();
-							this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
-					}
-				}
-			}
-		}
-	}
+  const sorcererHitBox = this.sorcerer.hitboxDims();
+  const topLeft = sorcererHitBox.topLeft;
+  const topRight = sorcererHitBox.topRight;
+  const bottomRight = sorcererHitBox.bottomRight;
+  
+  for (let i = 0; i < this.inGameArrows.length; i++) { 
+    if (!this.inGameArrows[i].recentlyHit && this.inGameArrows[i].moving) {
+      const arrowPosX = this.inGameArrows[i].hitbox.position.x;
+      const arrowPosY = this.inGameArrows[i].hitbox.position.y
+      
+        if (
+          (arrowPosX > topLeft[0] && 
+          arrowPosX < topRight[0]) &&
+          (arrowPosY < bottomRight[1] && 
+          arrowPosY > topRight[1])
+        ) {
+          this.stopArrowInGameArrowDamage(i);
+          this.inGameArrows[i].ifHit();
+          this.sorcerer.health -= 10;
+          this.sorcerer.healthBar.decrease();
+          this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
+        }
+      }
+    }
+    
+    if (this.newlyGeneratedArrows.length) {
+      for (let i = 0; i < this.newlyGeneratedArrows.length; i++) { 
+        if (!this.newlyGeneratedArrows[i].recentlyHit && this.newlyGeneratedArrows[i].moving) {
+          const arrowPosX = this.newlyGeneratedArrows[i].hitbox.position.x;
+          const arrowPosY = this.newlyGeneratedArrows[i].hitbox.position.y
+          if (
+            (arrowPosX > topLeft[0] && 
+            arrowPosX < topRight[0]) &&
+            (arrowPosY < bottomRight[1] && 
+            arrowPosY > topRight[1])
+          ) {
+            this.stopNewlyGeneratedArrowDamage(i) ;
+            this.newlyGeneratedArrows[i].ifHit();
+            this.sorcerer.health -= 10;
+            this.sorcerer.healthBar.decrease();
+            this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
+          }
+        }
+      }
+    }
+  }
 ```
 
 ## Features in Development
