@@ -234,7 +234,7 @@ body {
   background-color: gray;
   border-style: solid;
   box-shadow: 8px 3px 11px black;
-  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-image: url("./../assets/stonewall/stonewall.jpg");
   background-size: 100px;
 }
 
@@ -246,7 +246,7 @@ body {
   width: 8px;
   background-color: dimgray;
   box-shadow: -5px -2px 8px 0px black;
-  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-image: url("./../assets/stonewall/stonewall.jpg");
   background-size: 100px;
 }
 
@@ -257,7 +257,7 @@ body {
   height: 548px;
   width: 8px;
   background-color: dimgray;
-  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-image: url("./../assets/stonewall/stonewall.jpg");
   background-size: 100px;
 }
 
@@ -494,14 +494,14 @@ body {
 #topgrass {
   height: 4px;
   background-color: darkgreen;
-  background-image: url(./../assets/stonewall/stonewall.jpg);
+  background-image: url("./../assets/stonewall/stonewall.jpg");
   background-size: 100px;
 }
 
 #grass {
   height: 40px;
   background-color: green;
-  background-image: url(./../assets/stonesteps/stonesteps.jpg);
+  background-image: url("./../assets/stonesteps/stonesteps.jpg");
   background-size: 300px;
 }
 
@@ -510,7 +510,7 @@ body {
   bottom: 10px;
   height: 36px;
   background-color: #654321;
-  background-image: url(./../assets/stonesteps/stonesteps.jpg);
+  background-image: url("./../assets/stonesteps/stonesteps.jpg");
   background-size: 100px;
 }
 
@@ -548,7 +548,7 @@ body {
   top: 25px;
   height: 240px;
   background-color: grey;
-  background-image: url(./../assets/stonesteps/stonesteps.jpg);
+  background-image: url("./../assets/stonesteps/stonesteps.jpg");
   background-size: 100px;
 }
 
@@ -603,6 +603,6 @@ body {
 .stone_steps {
   height: 125px;
   width: 100%;
-  background-image: url(./../assets/stonesteps/stonesteps.jpg);
+  background-image: url("./../assets/stonesteps/stonesteps.jpg");
   background-size: 100px;
 }
