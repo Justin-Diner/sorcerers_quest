@@ -56,7 +56,8 @@ table {
 }
 
 body {
-  background-color: gray;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(96, 96, 107) 61%, rgb(70, 70, 70) 90%);
 }
 
 #main-container {
@@ -565,10 +566,10 @@ body {
 }
 
 #walkway {
-  border-bottom: 200px solid black;
+  border-bottom: 201px solid black;
   border-left: 49px solid transparent;
-  border-right: 50px solid transparent;
-  height: 0;
+  border-right: 49px solid transparent;
+  height: 0px;
   width: 700px;
 }
 
@@ -592,9 +593,21 @@ body {
   margin-bottom: 10px;
 }
 
+#instructions-list {
+  position: relative;
+  left: 1px;
+}
+
 #instructions-list li {
   font-size: 15px;
   color: white;
   font-family: "Cinzel Decorative", cursive;
   line-height: 180%;
+}
+
+.stone_steps {
+  height: 125px;
+  width: 100%;
+  background-image: url(../../assets/stonesteps/stonesteps.jpg);
+  background-size: 100px;
 }
