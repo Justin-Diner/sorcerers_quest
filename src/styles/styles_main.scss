@@ -119,7 +119,15 @@ body {
 
 #winning-modal {
 	position: fixed; 
-	display: none; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#replay_button {
+	position: relative;
+	right: 32px;
 }
 
 #blood_splat {
