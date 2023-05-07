@@ -137,9 +137,6 @@ export default class Sorcerer {
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
-
-		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		if (gameFrame > 99) {
 			gameFrame = 0;
 		}
@@ -156,6 +153,10 @@ export default class Sorcerer {
 			this.velocity.y += GRAVITY;
 		} else {
 			this.velocity.y = 0;
+		}
+
+		if (this.position.y + this.velocity.y < 0) {
+			this.velocity.y += GRAVITY;
 		}
 	}
 
@@ -178,7 +179,6 @@ export default class Sorcerer {
 	moveRight() {
 		this.resetCastingCounters()
 		if (this.position.x >= 600) {
-			this.velocity.x = 0;
 			this.rightMovementStopped = true; 
 		} else {
 			this.rightMovementStopped = false; 
@@ -199,7 +199,7 @@ export default class Sorcerer {
 
 	moveLeft() {
 		this.resetCastingCounters()
-		if (this.position.x < 0) {
+		if (this.position.x < -98) {
 			this.velocity.x = 0
 			this.leftMovementStopped = true; 
 		} else {
@@ -225,7 +225,11 @@ export default class Sorcerer {
 		} else {
 			this.status = "jumping"
 		}
-		this.velocity.y = -10
+		if (this.position.y < 10) {
+			this.velocity.y = 0;
+		} else {
+			this.velocity.y = -10
+		}
 
 		let idleCheck = setInterval(() => {
 			if (this.status === "dead") {
@@ -251,8 +255,6 @@ export default class Sorcerer {
 	}
 
 	death(ctx, image) {
-		//let finalDeathImage = ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
-
 		if (deathAnimationCount > 0) {
 			ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
 			return;
