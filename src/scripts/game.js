@@ -594,6 +594,7 @@ export default class Game {
 			this.newlyGeneratedArrows = [];
 			this.lastFiredLeftArrowIndex = 0;
 			this.lastFiredRightArrowIndex = 0;
+			this.sorcerer.manaBar.recharging = "false";
 		}
 	}
 
