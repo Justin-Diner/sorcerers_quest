@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	})
 	
 	// Display Initial Start Modal On Game Start
-	startingModal.style.display = "flex";
+	//startingModal.style.display = "flex";
 
 	// Helper Functions
 	function closeAllModals(modals) {
@@ -52,6 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			modals[i].style.display = "none";
 		}
 	}
+
+	restartGame();
 
 	function restartGame() {
 		levelOne = new LevelOne();

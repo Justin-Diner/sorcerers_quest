@@ -1,5 +1,6 @@
 import HealthBar from "./health_bar";
 import { sorcererRightIdle, sorcererLeftIdle, sorcererRunRight, sorcererRunLeft, sorcererJump, leftSorcererJump, sorcererCast, explosionOne, sorcererDeath } from "../animations/animations";
+import ManaBar from "./mana_bar";
 
 const SORCERER_WIDTH = 231
 const SORCERER_HEIGHT = 164
@@ -48,6 +49,12 @@ export default class Sorcerer {
 			position: { x: 54, y: 14},
 			value: this.health,
 			textPosition: 160
+		})
+		this.spellReady = true; 
+		this.manaBar = new ManaBar({
+			text: "Spell Ready",
+			position: { x: 54, y: 42},
+			textPosition: 148
 		})
 	}
 
@@ -137,9 +144,6 @@ export default class Sorcerer {
 		// Gravity 
 		this.update(); 
 		this.updateHitBox();
-
-		//ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-		//ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
 		if (gameFrame > 99) {
 			gameFrame = 0;
 		}
@@ -156,6 +160,10 @@ export default class Sorcerer {
 			this.velocity.y += GRAVITY;
 		} else {
 			this.velocity.y = 0;
+		}
+
+		if (this.position.y + this.velocity.y < 0) {
+			this.velocity.y += GRAVITY;
 		}
 	}
 
@@ -178,7 +186,6 @@ export default class Sorcerer {
 	moveRight() {
 		this.resetCastingCounters()
 		if (this.position.x >= 600) {
-			this.velocity.x = 0;
 			this.rightMovementStopped = true; 
 		} else {
 			this.rightMovementStopped = false; 
@@ -199,7 +206,7 @@ export default class Sorcerer {
 
 	moveLeft() {
 		this.resetCastingCounters()
-		if (this.position.x < 0) {
+		if (this.position.x < -98) {
 			this.velocity.x = 0
 			this.leftMovementStopped = true; 
 		} else {
@@ -225,7 +232,11 @@ export default class Sorcerer {
 		} else {
 			this.status = "jumping"
 		}
-		this.velocity.y = -10
+		if (this.position.y < 10) {
+			this.velocity.y = 0;
+		} else {
+			this.velocity.y = -10
+		}
 
 		let idleCheck = setInterval(() => {
 			if (this.status === "dead") {
@@ -247,12 +258,12 @@ export default class Sorcerer {
 	cast() {
 		this.status = "casting";
 		this.direction = "right";
+		this.spellReady = false
 		this.velocity.x = 0;
+		this.manaBar.recharge();
 	}
 
 	death(ctx, image) {
-		//let finalDeathImage = ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
-
 		if (deathAnimationCount > 0) {
 			ctx.drawImage(image, 6 * SORCERER_WIDTH, 0, SORCERER_WIDTH, SORCERER_HEIGHT, this.position.x, this.position.y - 64, 240, 190);
 			return;

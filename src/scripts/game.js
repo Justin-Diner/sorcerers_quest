@@ -7,7 +7,6 @@ import LevelIndicator from './level_indicator';
 import LevelOne from './levels/level_one';
 import LevelTwo from './levels/level_two';
 import LevelThree from './levels/level_three';
-import Castle from './castle';
 
 const losingModal = document.getElementById("losing-modal");
 const backgroundImage = new StillObject({
@@ -78,6 +77,7 @@ export default class Game {
 			} else if (e.key === "c" && !this.cLocked) {
 				acceptableKeys.c.pressed = true;
 				this.lockC();
+				this.sorcerer.spellReady = true; 
 				sorcerer.cast();
 				this.castle.health -=10
 				this.castle.healthbar.decrease();
@@ -120,6 +120,7 @@ export default class Game {
 		backgroundImage.draw(ctx);
 		ctx.restore();
 
+		this.checkSorcererPosition();
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
 
@@ -175,6 +176,7 @@ export default class Game {
 		this.castle.healthbar.draw(ctx);
 		this.sorcerer.draw(ctx);
 		this.sorcerer.healthBar.draw(ctx);
+		this.sorcerer.manaBar.draw(ctx);
 	}
 
 	beginCurrentLevel(ctx) {
@@ -214,7 +216,6 @@ export default class Game {
 	}
 
 	playLevelTwo(ctx) {
-
 		const leftDiag = new FireArrow({
 			position: {x: 20, y: 60},
 			velocity: {
@@ -408,7 +409,7 @@ export default class Game {
 			}
 		}
 
-		// Below Code is for Added Difficulty with Diagonal Arrows
+		// Below Code is Completed Added Difficulty with Alternating Diagonal Arrows
 		//if (!this.levelThreeFinalWaveSpawned) {
 		//	this.levelThreeFinalWaveSpawned = true;
 		//	const newArrows3 = setTimeout(() => {
@@ -426,7 +427,7 @@ export default class Game {
 		//			this.inGameArrows[6].position.y = 60;
 		//			this.inGameArrows[6].moving = true;
 		//			this.inGameArrows[6].outSideCanvas = false;
-		//			this.inGameArrows[6].velocity = {x: 6, y: 4};
+		//			this.inGameArrows[6].velocity = {x: 5, y: 2};
 		//			this.inGameArrows[6].draw(ctx);
 		//		} else if (this.inGameArrows[6].currentDirection === "left") {
 		//			this.inGameArrows[6].currentDirection = "right";
@@ -434,7 +435,7 @@ export default class Game {
 		//			this.inGameArrows[6].position.y = 60;
 		//			this.inGameArrows[6].moving = true;
 		//			this.inGameArrows[6].outSideCanvas = false;
-		//			this.inGameArrows[6].velocity = {x: -6, y: 4};
+		//			this.inGameArrows[6].velocity = {x: -5, y: 2};
 		//			this.inGameArrows[6].draw(ctx);
 		//		}
 		//	}
@@ -617,6 +618,8 @@ export default class Game {
 	lockC() {
 		if (!this.cLocked) {
 			this.cLocked = true; 
+			this.sorcerer.spellReady = false; 
+			this.sorcerer.manaBar.recharging = true;
 			const cLock = setTimeout(() => {
 				this.unlockC();
 				clearInterval(cLock);
@@ -626,6 +629,9 @@ export default class Game {
 
 	unlockC() {
 		this.cLocked = false;
+		this.sorcerer.spellReady = true; 
+		this.sorcerer.manaBar.recharging = false;
+		this.sorcerer.manaBar.recharge();
 	}
 
 	checkIdleStatus() {
@@ -642,6 +648,14 @@ export default class Game {
 	deathCheck() {
 		if (this.sorcerer.status === "dead") {
 			return true
+		}
+	}
+
+	checkSorcererPosition() {
+		if (this.sorcerer.position.x < -100) {
+			this.sorcerer.position.x = -100; 
+		} else if (this.sorcerer.position.x > 600) {
+			this.sorcerer.position.x = 600;
 		}
 	}
 }
