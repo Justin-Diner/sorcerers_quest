@@ -13,24 +13,22 @@ let animationFrame = 0;
 let slowDownAnimationRate = 5;
 
 export const rightPositions = {
-	1: {x: 900, y: 60},
-	2: {x: 900, y: (60 + ARROW_HEIGHT) },
-	3: {x: 900, y: (60 + (2 * ARROW_HEIGHT)) }, 
-	4: {x: 900, y: (60 + (3 * ARROW_HEIGHT)) },
-	5: {x: 900, y: (60 + (4 * ARROW_HEIGHT)) },
-	6: {x: 900, y: (60 + (5 * ARROW_HEIGHT)) }
+	"1": {x: 900, y: 60},
+	"2": {x: 900, y: (60 + ARROW_HEIGHT) },
+	"3": {x: 900, y: (60 + (2 * ARROW_HEIGHT)) }, 
+	"4": {x: 900, y: (60 + (3 * ARROW_HEIGHT)) },
+	"5": {x: 900, y: (60 + (4 * ARROW_HEIGHT)) },
+	"6": {x: 900, y: (60 + (5 * ARROW_HEIGHT)) }
 }
-
 
 export const leftPositions = {
-	1: {x: 20, y: 60 },
-	2: {x: 20, y: (60 + ARROW_HEIGHT) },
-	3: {x: 20, y: (60 + (2 * ARROW_HEIGHT)) },
-	4: {x: 20, y: (60 + (3 * ARROW_HEIGHT)) },
-	5: {x: 20, y: (60 + (4 * ARROW_HEIGHT)) },
-	6: {x: 20, y: (60 + (5 * ARROW_HEIGHT)) },
+	"1": {x: 20, y: 60 },
+	"2": {x: 20, y: (60 + ARROW_HEIGHT) },
+	"3": {x: 20, y: (60 + (2 * ARROW_HEIGHT)) },
+	"4": {x: 20, y: (60 + (3 * ARROW_HEIGHT)) },
+	"5": {x: 20, y: (60 + (4 * ARROW_HEIGHT)) },
+	"6": {x: 20, y: (60 + (5 * ARROW_HEIGHT)) },
 }
-
 
 export default class FireArrow {
 	constructor(options) {
@@ -181,18 +179,24 @@ export default class FireArrow {
 	}
 
 	outsideCanvasCheck() {
-		if (this.currentDirection === "right" && this.moving) {
+		if (this.currentDirection === "right") {
 			if (this.position.x < (0 -(RIGHT_ARROW_X_OFFSET + ARROW_WIDTH))) {
 				this.outsideCanvas = true; 
 				this.velocity.x = 0;
 				this.moving = false; 
+			} else {
+				this.moving = true; 
+				this.outsideCanvas = false; 
 			}
 		} 
-			if (this.currentDirection === "left" && this.moving) {
+			if (this.currentDirection === "left") {
 				if (this.position.x > CANVAS_WIDTH + LEFT_ARROW_X_OFFSET) {
 					this.outsideCanvas = true;
 					this.velocity.x = 0;
 					this.moving = false; 
+				} else {
+					this.moving = true; 
+					this.outsideCanvas = false; 
 				}
 			}
 		if (this.position.y > (CANVAS_HEIGHT + 1)) {

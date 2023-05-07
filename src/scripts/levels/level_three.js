@@ -11,6 +11,8 @@ export class LevelThree {
 	}
 
 	generateArrows() {
+		this.levelArrows = [[], []];
+		
 		for (let i = 6; i > 0; i--) {
 			this.levelArrows[0].push(
 				new FireArrow({
