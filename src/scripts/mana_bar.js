@@ -36,16 +36,23 @@ export default class ManaBar {
 			this.text = "Recharging..";
 			this.innerSize = 0;
 			const recharge = setInterval(() => {
-				if (this.innerSize < 254) {
-					this.innerSize += .8
-				}
 				if (this.innerSize >= 254) {
 					clearInterval(recharge);
+					return
+				}
+				if (this.innerSize < 254) {
+					this.innerSize += .8
 				}
 			}, 9);
 		} else {
 			this.text = "Spell Ready";
 			this.innerSize = 254;
 		}
+	}
+
+	reset() {
+		this.innerSize = 254;
+		this.recharging = false;
+		this.text = "Spell Ready"
 	}
 }
