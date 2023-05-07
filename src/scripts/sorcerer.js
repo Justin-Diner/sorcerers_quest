@@ -1,5 +1,6 @@
 import HealthBar from "./health_bar";
 import { sorcererRightIdle, sorcererLeftIdle, sorcererRunRight, sorcererRunLeft, sorcererJump, leftSorcererJump, sorcererCast, explosionOne, sorcererDeath } from "../animations/animations";
+import ManaBar from "./mana_bar";
 
 const SORCERER_WIDTH = 231
 const SORCERER_HEIGHT = 164
@@ -48,6 +49,12 @@ export default class Sorcerer {
 			position: { x: 54, y: 14},
 			value: this.health,
 			textPosition: 160
+		})
+		this.spellReady = true; 
+		this.manaBar = new ManaBar({
+			text: "Spell Ready",
+			position: { x: 54, y: 42},
+			textPosition: 148
 		})
 	}
 
@@ -251,7 +258,9 @@ export default class Sorcerer {
 	cast() {
 		this.status = "casting";
 		this.direction = "right";
+		this.spellReady = false
 		this.velocity.x = 0;
+		this.manaBar.recharge();
 	}
 
 	death(ctx, image) {

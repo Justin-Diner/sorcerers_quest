@@ -7,7 +7,6 @@ import LevelIndicator from './level_indicator';
 import LevelOne from './levels/level_one';
 import LevelTwo from './levels/level_two';
 import LevelThree from './levels/level_three';
-import Castle from './castle';
 
 const losingModal = document.getElementById("losing-modal");
 const backgroundImage = new StillObject({
@@ -78,6 +77,7 @@ export default class Game {
 			} else if (e.key === "c" && !this.cLocked) {
 				acceptableKeys.c.pressed = true;
 				this.lockC();
+				this.sorcerer.spellReady = true; 
 				sorcerer.cast();
 				this.castle.health -=10
 				this.castle.healthbar.decrease();
@@ -176,6 +176,7 @@ export default class Game {
 		this.castle.healthbar.draw(ctx);
 		this.sorcerer.draw(ctx);
 		this.sorcerer.healthBar.draw(ctx);
+		this.sorcerer.manaBar.draw(ctx);
 	}
 
 	beginCurrentLevel(ctx) {
@@ -617,6 +618,8 @@ export default class Game {
 	lockC() {
 		if (!this.cLocked) {
 			this.cLocked = true; 
+			this.sorcerer.spellReady = false; 
+			this.sorcerer.manaBar.recharging = true;
 			const cLock = setTimeout(() => {
 				this.unlockC();
 				clearInterval(cLock);
@@ -626,6 +629,9 @@ export default class Game {
 
 	unlockC() {
 		this.cLocked = false;
+		this.sorcerer.spellReady = true; 
+		this.sorcerer.manaBar.recharging = false;
+		this.sorcerer.manaBar.recharge();
 	}
 
 	checkIdleStatus() {

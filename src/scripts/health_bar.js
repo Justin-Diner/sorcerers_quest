@@ -14,18 +14,18 @@ export default class HealthBar {
 		ctx.fillStyle = "red";
 		ctx.strokeStyle = "black";
 		ctx.stroke();
-		ctx.fill()
+		ctx.fill();
 	
 		// Inner Rect 
 		ctx.beginPath();
 		ctx.rect(this.position.x, this.position.y, this.innerSize, 24);
 		ctx.strokeStyle = "transparent";
 		ctx.fillStyle = this.backgroundColor;
-		ctx.fill()
+		ctx.fill();
 	
 		// Text
 		ctx.fillStyle = "white";
-		ctx.font = "14px serif"
+		ctx.font = "14px serif";
 		ctx.fillText(`${this.value} / ${this.maxHealth}`, this.textPosition, 30)
 		ctx.stroke();
 	}
@@ -36,5 +36,4 @@ export default class HealthBar {
 		this.innerSize -= 254 / (this.maxHealth / 10);
 		}
 	}
-
 }
