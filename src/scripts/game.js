@@ -1,5 +1,6 @@
 import StillObject from './still_object'
 import FireArrow from './fire_arrow';
+import { rightPositions, leftPositions } from './fire_arrow';
 import Camera from './camera'
 import utilities from './dist';
 import LevelIndicator from './level_indicator';
@@ -23,20 +24,30 @@ const acceptableKeys = {
 
 export default class Game {
 	constructor(sorcerer, castle) {
+		this.gameStarted = true;
 		this.sorcerer = sorcerer;
 		this.castle = castle;
-		this.gameStarted = true;
-		this.levelStarted = false;
+
 		this.inGameArrows = [];
+		this.newlyGeneratedArrows = [];
 		this.lastFiredRightArrowIndex = 0;
 		this.lastFiredLeftArrowIndex = 0;
-		this.currentLevelNumber = 1;
+
 		this.level;
-		this.newlyGeneratedArrows = [];
+		this.currentLevelNumber = 1;
+		this.levelIndicator = new LevelIndicator(1);
+		this.levelStarted = false;
+
+		// Level Two Boolean
+		this.levelTwoStarted = false; 
+
+		// Level Three Waves
+		this.levelThreeStarted = false; 
+		this.levelThreeSecondWaveSpawned = false;
+		this.levelThreeThirdWaveSpawned = false;
+		this.levelThreeFinalWaveSpawned = false; 
 
 		this.endGame = false;
-		this.levelThreeSecondWaveSpawned = false;
-		this.levelTreeThirdWaveSpawned = false;
 		this.cLocked = false;
 		this.playerDied = false; 
 
@@ -47,8 +58,6 @@ export default class Game {
 			}}
 		);
 	
-		this.levelIndicator = new LevelIndicator(1);
-
 		if (this.currentLevelNumber === 1) {
 			this.level = new LevelOne();
 			this.level.generateArrows();
@@ -106,13 +115,14 @@ export default class Game {
 		if (this.isGameOver(ctx)) {
 			return true;
 		}
-		// Background (scaled to bottom left)
-		ctx.save(); // Saving context. Pushes current stack onto state. image is 688 x 432
+
+		ctx.save(); // Saving context. Pushes current stack onto state. 
 		backgroundImage.draw(ctx);
 		ctx.restore();
 
 		this.drawLevelIndicator(ctx);
 		this.drawCastleSorcererAndHealthBars(ctx);
+
 		if (this.levelStarted === true) {
 			this.beginCurrentLevel(ctx)
 		}
@@ -123,8 +133,6 @@ export default class Game {
 		// Collision Detection
 		this.isCollided(ctx);
 
-		// Initial Socerer Velocity  
-		this.sorcerer.velocity.x = 0;
 		// Increase velocity based on what's pressed
 		if (acceptableKeys.d.pressed && !this.sorcerer.rightMovementStopped) {
 			this.sorcerer.velocity.x = 5;
@@ -139,7 +147,6 @@ export default class Game {
 
 		if (this.currentLevelNumber === 3 && !this.levelStarted) {
 			this.levelStarted = true;
-			this.level.generateArrows();
 		}
 
 		if (this.currentLevelNumber === 3) {
@@ -161,7 +168,6 @@ export default class Game {
 		}
 	}
 	
-
 	drawCastleSorcererAndHealthBars(ctx) {
 		// Drawing Socerer, Castle, and Healthbars
 		// Sorcerer must be drawn 2nd for spell animation to be in front of castle. 
@@ -183,6 +189,12 @@ export default class Game {
 			this.playLevelTwo(ctx);
 		}
 
+		if (this.currentLevelNumber === 3 && this.levelThreeStarted === false) {
+			this.levelThreeStarted = true; 
+			this.inGameArrows = [];
+			this.newlyGeneratedArrows = [];
+		}
+
 		if (this.currentLevelNumber === 3) {
 			this.playLevelThree(ctx);
 		}
@@ -202,60 +214,40 @@ export default class Game {
 	}
 
 	playLevelTwo(ctx) {
-		let allPossibleArrows = this.level.levelArrows;
 
-		if (!this.inGameArrows.length) {
-			this.inGameArrows.push(allPossibleArrows[0][this.lastFiredRightArrowIndex]);
-			this.inGameArrows.push(allPossibleArrows[1][this.lastFiredLeftArrowIndex]);
-		}
-
-		for (let i = 0; i < this.inGameArrows.length; i++) {
-			this.inGameArrows[i].draw(ctx);
-		}
-
-		if (!this.inGameArrows[0].moving) {
-			this.lastFiredRightArrowIndex++;
-			if (this.lastFiredRightArrowIndex >= allPossibleArrows[0].length) {
-				this.level.clearLevelArrows();
-				this.level.generateArrows();
-				allPossibleArrows = this.level.levelArrows
-				this.lastFiredRightArrowIndex = 0;
-			}	
-			this.inGameArrows.push(allPossibleArrows[0][this.lastFiredRightArrowIndex])
-			this.inGameArrows.shift();
-		}
-
-		if (!this.inGameArrows[1].moving) {
-			this.lastFiredLeftArrowIndex++;
-			if (this.lastFiredLeftArrowIndex >= allPossibleArrows[1].length) {
-				this.level.clearLevelArrows();
-				this.level.generateArrows();
-				allPossibleArrows = this.level.levelArrows
-				this.lastFiredLeftArrowIndex = 0;
-			}
-			this.inGameArrows.push(allPossibleArrows[1][this.lastFiredLeftArrowIndex])
-			this.inGameArrows.shift();
-		}	
-	}
-
-	playLevelThree(ctx) {
-		const allPossibleArrows = this.level.levelArrows;
+		const leftDiag = new FireArrow({
+			position: {x: 20, y: 60},
+			velocity: {
+				x: 6,
+				y: 4
+			},
+			currentDirection: "left"
+		});
 		
-		if (this.inGameArrows.length > 6) {
-			this.inGameArrows.splice(6)
-		}
-
-		if (this.newlyGeneratedArrows.length > 6) {
-			this.newlyGeneratedArrows.splice(6);
-		}
+		const rightDiag = new FireArrow({
+			position: {x: 900, y: 60},
+			velocity: {
+				x: -6,
+				y: 4
+			},
+			currentDirection: "right"
+		});
+		
+		let allPossibleArrows = this.level.levelArrows;
 
 		if (!this.inGameArrows.length) {
 			this.inGameArrows.push(allPossibleArrows[0][0]);
 			this.inGameArrows.push(allPossibleArrows[1][0]);
 		}
 
-		this.inGameArrows[0].draw(ctx);
-		this.inGameArrows[1].draw(ctx);
+		if (this.inGameArrows.length === 2) {
+			this.inGameArrows.push(leftDiag);
+			this.inGameArrows.push(rightDiag);
+		}
+
+		for (let i = 0; i < this.inGameArrows.length; i++) {
+			this.inGameArrows[i].draw(ctx);
+		}
 
 		if (!this.inGameArrows[0].moving) {
 			this.inGameArrows[0].position.x = 900;
@@ -272,12 +264,85 @@ export default class Game {
 			this.inGameArrows[1].velocity.x = 10;
 			this.inGameArrows[1].draw(ctx);
 		}
+		
+		if (!this.inGameArrows[2].moving) {
+			this.inGameArrows[2].position.x = 20;
+			this.inGameArrows[2].position.y = 60;
+			this.inGameArrows[2].moving = true;
+			this.inGameArrows[2].outSideCanvas = false;
+			this.inGameArrows[2].velocity = {x: 6, y: 4};
+			this.inGameArrows[2].draw(ctx);
+		}
 
+		if (!this.inGameArrows[3].moving) {
+			this.inGameArrows[3].position.x = 900;
+			this.inGameArrows[3].position.y = 60;
+			this.inGameArrows[3].moving = true;
+			this.inGameArrows[3].outSideCanvas = false;
+			this.inGameArrows[3].velocity = {x: -6, y: 4};
+			this.inGameArrows[3].draw(ctx);
+		}
+	}
+
+	playLevelThree(ctx) {
+		const leftDiag = new FireArrow({
+			position: {x: 20, y: 60},
+			velocity: {
+				x: 6,
+				y: 4
+			},
+			currentDirection: "left"
+		});
+		
+		const allPossibleArrows = this.level.levelArrows;
+		
+		if (this.inGameArrows.length > 7) {
+			console.log(this.inGameArrows);
+			this.inGameArrows.splice(7)
+		}
+	
+		if (this.newlyGeneratedArrows.length > 5) {
+			this.newlyGeneratedArrows.splice(4);
+		}
+
+		if (!this.inGameArrows.length) {
+			this.inGameArrows.push(allPossibleArrows[0][0]);
+			this.inGameArrows.push(allPossibleArrows[1][0]);
+		}
+
+		if (this.inGameArrows[0]) {
+			if (!this.inGameArrows[0].moving) {
+				this.inGameArrows[0].position.x = 900;
+				this.inGameArrows[0].moving = true;
+				this.inGameArrows[0].outSideCanvas = false;
+				this.inGameArrows[0].velocity.x = -10;
+				this.inGameArrows[0].draw(ctx);
+			}
+			if (this.inGameArrows[0].moving) {
+				this.inGameArrows[0].draw(ctx);
+			}
+		}
+
+		if (this.inGameArrows[1]) {
+			if (!this.inGameArrows[1].moving) {
+				this.inGameArrows[1].position.x = 20;
+				this.inGameArrows[1].moving = true;
+				this.inGameArrows[1].outSideCanvas = false;
+				this.inGameArrows[1].velocity.x = 10;
+				this.inGameArrows[1].draw(ctx);
+			}
+			if (this.inGameArrows[1].moving) {
+				this.inGameArrows[1].draw(ctx);
+			}
+		}
+
+		// Spawn Second Wave of Arrows
 		if (!this.levelThreeSecondWaveSpawned) {
 			this.levelThreeSecondWaveSpawned = true;
-			setTimeout(() => {
+			const newArrows1 = setTimeout(() => {
 				this.inGameArrows.push(allPossibleArrows[0][5]);
 				this.inGameArrows.push(allPossibleArrows[1][5]);
+				clearTimeout(newArrows1);
 			}, 1000)
 		}
 
@@ -290,25 +355,31 @@ export default class Game {
 				this.inGameArrows[2].draw(ctx);
 			}
 
-			this.inGameArrows[2].draw(ctx);
-		}
-		if (this.inGameArrows[3]) {
-		if (!this.inGameArrows[3].moving) {
-			this.inGameArrows[3].position.x = 20;
-			this.inGameArrows[3].moving = true;
-			this.inGameArrows[3].outSideCanvas = false;
-			this.inGameArrows[3].velocity.x = 10;
-			this.inGameArrows[3].draw(ctx);
-		}
-			this.inGameArrows[3].draw(ctx);
+			if (this.inGameArrows[2].moving) {
+				this.inGameArrows[2].draw(ctx);
+			}
 		}
 
-		if (!this.levelTreeThirdWaveSpawned) {
-			setTimeout(() => {
-				this.levelTreeThirdWaveSpawned = true;
+		if (this.inGameArrows[3]) {
+			if (!this.inGameArrows[3].moving) {
+				this.inGameArrows[3].position.x = 20;
+				this.inGameArrows[3].moving = true;
+				this.inGameArrows[3].outSideCanvas = false;
+				this.inGameArrows[3].velocity.x = 10;
+				this.inGameArrows[3].draw(ctx);
+			}
+			if (this.inGameArrows[3].moving) {
+				this.inGameArrows[3].draw(ctx);
+			}
+		}
+
+		if (!this.levelThreeThirdWaveSpawned) {
+			this.levelThreeThirdWaveSpawned = true;
+			const newArrows2 = setTimeout(() => {
 				this.inGameArrows.push(allPossibleArrows[0][2]);
 				this.inGameArrows.push(allPossibleArrows[1][2]);
-			}, 2500)
+				clearTimeout(newArrows2);
+			}, 3000)
 		}
 
 		if (this.inGameArrows[4]) {
@@ -319,19 +390,58 @@ export default class Game {
 				this.inGameArrows[4].velocity.x = -10;
 				this.inGameArrows[4].draw(ctx);
 			}
+			if (this.inGameArrows[4].moving) {
+				this.inGameArrows[4].draw(ctx);
+			}
+		}
 
-			this.inGameArrows[4].draw(ctx);
-		}
 		if (this.inGameArrows[5]) {
-		if (!this.inGameArrows[5].moving) {
-			this.inGameArrows[5].position.x = 20;
-			this.inGameArrows[5].moving = true;
-			this.inGameArrows[5].outSideCanvas = false;
-			this.inGameArrows[5].velocity.x = 10;
-			this.inGameArrows[5].draw(ctx);
+			if (!this.inGameArrows[5].moving) {
+				this.inGameArrows[5].position.x = 20;
+				this.inGameArrows[5].moving = true;
+				this.inGameArrows[5].outSideCanvas = false;
+				this.inGameArrows[5].velocity.x = 10;
+				this.inGameArrows[5].draw(ctx);
+			}
+			if (this.inGameArrows[5].moving) {
+				this.inGameArrows[5].draw(ctx);
+			}
 		}
-			this.inGameArrows[5].draw(ctx);
-		}
+
+		// Below Code is for Added Difficulty with Diagonal Arrows
+		//if (!this.levelThreeFinalWaveSpawned) {
+		//	this.levelThreeFinalWaveSpawned = true;
+		//	const newArrows3 = setTimeout(() => {
+		//		this.inGameArrows.push(leftDiag);
+		//		clearTimeout(newArrows3);
+		//	}, 6000)
+		//}
+
+		//if (this.inGameArrows[6]) {
+		//	console.log(this.inGameArrows[6].moving)
+		//	if (!this.inGameArrows[6].moving) {
+		//		if (this.inGameArrows[6].currentDirection === "right") {
+		//			this.inGameArrows[6].currentDirection = "left";
+		//			this.inGameArrows[6].position.x = 20;
+		//			this.inGameArrows[6].position.y = 60;
+		//			this.inGameArrows[6].moving = true;
+		//			this.inGameArrows[6].outSideCanvas = false;
+		//			this.inGameArrows[6].velocity = {x: 6, y: 4};
+		//			this.inGameArrows[6].draw(ctx);
+		//		} else if (this.inGameArrows[6].currentDirection === "left") {
+		//			this.inGameArrows[6].currentDirection = "right";
+		//			this.inGameArrows[6].position.x = 900;
+		//			this.inGameArrows[6].position.y = 60;
+		//			this.inGameArrows[6].moving = true;
+		//			this.inGameArrows[6].outSideCanvas = false;
+		//			this.inGameArrows[6].velocity = {x: -6, y: 4};
+		//			this.inGameArrows[6].draw(ctx);
+		//		}
+		//	}
+		//	if (this.inGameArrows[6].moving) { 
+		//		this.inGameArrows[6].draw(ctx);
+		//	}
+		//}
 
 		if (this.newlyGeneratedArrows.length) {
 			for (let i = 0; i < this.newlyGeneratedArrows.length; i++){
@@ -365,7 +475,7 @@ export default class Game {
 						this.inGameArrows[i].ifHit();
 						this.sorcerer.health -= 10;
 						this.sorcerer.healthBar.decrease();
-						this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
+						this.newlyGeneratedArrows.push(utilities.randomDiagArrow());
 				}
 			}
 		}
@@ -375,7 +485,6 @@ export default class Game {
 				if (!this.newlyGeneratedArrows[i].recentlyHit && this.newlyGeneratedArrows[i].moving) {
 					const arrowPosX = this.newlyGeneratedArrows[i].hitbox.position.x;
 					const arrowPosY = this.newlyGeneratedArrows[i].hitbox.position.y
-	
 					if (
 						(arrowPosX > topLeft[0] && 
 						arrowPosX < topRight[0]) &&
@@ -386,7 +495,7 @@ export default class Game {
 							this.newlyGeneratedArrows[i].ifHit();
 							this.sorcerer.health -= 10;
 							this.sorcerer.healthBar.decrease();
-							this.newlyGeneratedArrows.push(utilities.randomShootingPosition());
+							this.newlyGeneratedArrows.push(utilities.randomDiagArrow());
 					}
 				}
 			}
@@ -452,7 +561,6 @@ export default class Game {
 		if (this.castle.health < 1) {
 			this.levelStarted = false;
 			if (this.currentLevelNumber === 1) {
-				this.castle = new Castle({health: 10})
 				this.resetForNewLevel();
 				const levelTwoModal = document.getElementById("level_two_start_modal");
 				const levelTwoStartButton = document.getElementById("level_two_start_button");
@@ -464,7 +572,6 @@ export default class Game {
 			}
 
 			if (this.currentLevelNumber === 2) {
-				this.castle = new Castle({health: 100});
 				this.resetForNewLevel();
 				const levelThreeModal = document.getElementById("level_three_start_modal")
 				const levelThreeStartButton = document.getElementById("level_three_start_button");
@@ -475,11 +582,15 @@ export default class Game {
 				levelThreeModal.style.display = "flex";
 			}
 		}
+		if (this.currentLevelNumber === 3) {
+			this.resetForNewLevel();
+		}
 	}
 
 	resetForNewLevel() {
 		if (this.levelStarted === false) {
 			this.inGameArrows = [];
+			this.newlyGeneratedArrows = [];
 			this.lastFiredLeftArrowIndex = 0;
 			this.lastFiredRightArrowIndex = 0;
 		}

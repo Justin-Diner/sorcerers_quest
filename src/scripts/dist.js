@@ -1,19 +1,18 @@
 import FireArrow from "./fire_arrow";
-import { rightPositions, leftPositions } from "./fire_arrow";
 
 export const utilities = {
-	randomShootingPosition() {
+	randomDiagArrow() {
 		const choices = ["right", "left"]
 		let arrowDirection = choices[Math.floor(Math.random() * choices.length)]; 
 		let xPosition;
 		let yPosition;
 
 		if (arrowDirection === "right") {
-			xPosition = rightPositions[1].x;
-			yPosition = rightPositions[1].y;
+			xPosition = 900;
+			yPosition = 60;
 		} else {
-			xPosition = leftPositions[1].x
-			yPosition = leftPositions[1].y
+			xPosition = 20
+			yPosition = 60
 		}
 
 		let velocity = {
@@ -33,7 +32,7 @@ export const utilities = {
 			velocity: {
 				x: velocity.x, 
 				y: velocity.y
-			}
+			},
 		})
 	},
 	  // Normalize the length of the vector to 1, maintaining direction.
