@@ -123,7 +123,7 @@ isCollided() {
   }
 ```
 
-At this point, the game has three levels with increasing difficulty. More levels may be added later. Core concepts stressed through the creation of the game were utilizing the CanvasAPI, hitbox detection, sprite animation, event listeners, DOM manipulation, helper function creation to track moving variables, and working with loops within the main animation loop.  
+Currently, the game has three levels with increasing difficulty. More levels may be added later. Core concepts stressed through the creation of the game were utilizing the CanvasAPI, hitbox detection, sprite animation, event listeners, DOM manipulation, helper function creation to track moving variables, and working with loops within the main animation loop.  
 
 ## Features in Development
 * Additional levels. 
