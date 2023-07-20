@@ -74,7 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		}
 		// Repeats the method inside it 60 times per second. 
-		requestAnimationFrame(animate);
+        setTimeout(() => {
+            requestAnimationFrame(animate);
+        }, 1000/120)
+		
 	}
 })
 
